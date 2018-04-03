@@ -1,0 +1,2 @@
+user_id,category_id,name,text,publish_at,expire_at,status
+32,18,csv 1,Should kids watch horror movies?,2018-01-23 04:38:00,2018-01-23 04:38:00,publish

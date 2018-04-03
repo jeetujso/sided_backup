@@ -1,0 +1,74 @@
+Sided Application
+Sided is Debate Base app where user can select there interested categories. On the categories base questions and debates will shown on the user dashboard. debate is only Between two users and other user will give there vote and comment. 
+
+How User can Authentication? 
+User Can access the application by Register Email verifation or OAuth With Different popular Sever Eg. facebook, google, twitter etc. After login user can see the multiple categories user will select there interesting topic. After choose there topic user will visit to there dashboard section.
+
+There are 3 types of user
+1 Any user :- the user without login. 
+2 Login User :- Register login user. 
+3 Pro User :- professional user that handls the Application.
+
+Player Profile 
+The player profile displays the following information: 
+Avatar A player upload his avatar.
+Follow/Unfollow who follow or unfollow that player.
+Stats A player stats Win-loss, points and categories.
+Live Debate on which the player is participating.
+Past Debate History of debate on which the player participated.
+
+Dashboard contains three Categories.
+1 Profile details 
+2 Debate 
+3 Activity details 
+
+Profile details we can check the avtar, win/loss and points of the user.
+Debate you can see your all currenly active debate and debate category. 
+Activity details Show all the Activity like Win debate, Respons by oppnent and agree or comment by other users. 
+
+Debate Screen Contains the Question on which two participate are playing. Other user will not participate on that debate.They just post there comment and vote. Participate user also see there comments. Debate will shows following details.
+
+Debate time start and end time of debate.
+Category of the depate eg. sports, politics etc
+Players Only two playars will participate the debate. Any user will start the debate and not find candidate we will help the user to any interested candidate.
+Debate Voting and Commenting Not participate user will give there vote and comments.
+
+New debate User can start new debate from the navigation bar. Choose the different options like category post your debate questions.
+
+What debate questions can contains?
+Denate questions can contains Questions Text, Author, Category etc.
+
+Questions Different status 
+1 Currenlty Live Debate Questions 
+2 Scheduled Debate Questions 
+3 Expire Debate Questions 
+
+Live Debate Questions In live dedate they are active debate they conatins  
+Impression:- how many user view the devate 
+Click:- how many can click the debate 
+Engagement:- how many can voted and comment on debate. 
+Adclick :- they are advertisement partners programs. 
+
+Scheduled Debate Questions They are upcoming Question that shown but not yet live. In schedule debate publish time, author, category etc.
+
+Expire Debate Questions After the debate time over. in this Category, Engagement, 
+author, start and expire time shows.
+
+Question details
+It will show all the details of a particular question.
+
+Stat Totals It shows all the stat and details of the questions. 
+They are as follows.
+Impressions how many users are view questions.
+Clicks how many user click the questions.
+User Engagement how many are comment and vote on the questions.
+Ad clicks is promotions.
+
+Data Breakdown is graphic representation of all the stat on daliy base and every partcular deltails. 
+
+Recent Activity This will display the activity the Response of debate while participated user Questioning with each one.
+
+Promotion Dashboard promotions a partner on input into the system. Promotions status check as follow: 
+ 
+Impressions: How many times an authenticated user has viewed a promotions and question. 
+Ad Clicks: How many times an authenticated user has click on promotion.
