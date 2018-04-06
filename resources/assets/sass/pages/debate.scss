@@ -160,6 +160,7 @@ h4.debate-preview__player-name{
     font-size: 14px;
     display: inline-block;
     width: auto;
+	font-weight:400;
 }
 
 .debate-comment__form{
@@ -1215,6 +1216,17 @@ aside.profile-content {
 	border-radius: 5px 5px 0 0;
 	font-weight: 500;
 	margin-top: 1.5rem;
+}
+.debate-single .game-header{
+    background: #fff;
+    padding: 0.625rem;
+    font-size: 13px;
+    font-weight: 400;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    color: #828282;
+    padding-top: 40px;
+	text-align:left;
 }
 .profile-image {
 	padding-top: 60px;
@@ -3999,4 +4011,14 @@ a.follow-user-back {
     width: auto;
     font-size: 14px;
     font-weight: 600;
+}
+input.resp-text-box {
+    border-radius: 40px;
+    color: #000;
+    display: block;
+    font-size: 15px !important;
+    padding: 12px 23px 12px 23px;
+    width: 100%;
+    position: relative;
+    line-height: normal;
 }

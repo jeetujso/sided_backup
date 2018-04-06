@@ -155,6 +155,7 @@ h4.debate-preview__player-name{
     font-size: 14px;
     display: inline-block;
     width: auto;
+	font-weight: 400;
 }
 .debate-comment__form{
 	background-color: #F6F6F6;

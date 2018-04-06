@@ -11,6 +11,13 @@
 						<debate-argument :initialArgument="argument" :initialFirstUser="firstUser.id"></debate-argument>
 					</div>
 				</div>
+				<div v-if="checkAds == 1" class="debate-ads">
+				<div id="argument-ads" class="debate-ads__stream">
+					<a href="#" target="_blank">
+						<img data-original="#" class="debate-preview__player-avatar lazy" :src="'/img-dist/ads/'+debate.question.ads.image_url">
+					</a>
+				</div>
+			</div>
 				<aside class="game-sidebar game-sidebar__right">
 					<div class="game-header" v-text="commentCount"></div>
 				</aside>
@@ -22,8 +29,6 @@
 					<debate-comments :data="debate.comments" @created="add"></debate-comments>
 				</div>
 			</div>
-			{{checkAds}}
-			
 			
 	   	</div>
 	</main>
@@ -56,7 +61,11 @@
 				});
             },
 			checkAds(){
-				console.log('jkkj',this.debate.question);
+				if(this.debate.question.ads == null){
+					return 0;
+				}else{
+					return 1;
+				}
 			}
 		},
 		methods: {

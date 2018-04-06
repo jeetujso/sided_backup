@@ -374,9 +374,7 @@ td,th{
 .dashboard-chart {
   overflow: hidden;
 }
-.game-main.debate-single.update-profile .form-group {
-  padding-bottom: 40px;
-}
+
 .game-main.debate-single.update-profile .form-group .debate-btn{
 margin-top:20px;
 }
@@ -794,4 +792,92 @@ a.u-link-red {
 }
 .wrapper {
   margin-top: 20px;
+}
+.profile-content .game-header {
+    background: #323232;
+    color: #ffffff;
+    font-size: 1rem;
+    padding: 0.5rem;
+    font-weight: 500;
+    text-align: center;
+    /* transform: skew(-14deg); */
+}
+.profile-content .profile-image {
+    margin-top: 20px;
+}
+.profile-content-inner {
+    text-align: center;
+}
+.game-main.debate-single.update-profile form {
+    padding: 15px 0;
+    overflow: hidden;
+    margin: 0;
+}
+.game-main.debate-single.update-profile {
+    background: #fff none repeat scroll 0 0;
+    display: block;
+    flex: 0 0 0 0;
+    float: left;
+    overflow: hidden;
+    padding: 0;
+    text-align: center;
+    width: 50%;
+    margin: 0 0 0 20px;
+}
+.game-main.debate-single.update-profile form {
+    padding: 15px 0;
+    overflow: hidden;
+    margin: 0;
+}
+.update-profile .form-group {
+    margin-bottom: 13px;
+    width: 100%;
+    float: left;
+}
+aside.game-sidebar.game-sidebar__right.profile-content {
+    background: #fff none repeat scroll 0 0;
+    display: block;
+    flex: 0 0 0 0;
+    float: left;
+    margin-bottom: 0;
+    overflow: hidden;
+    padding: 0;
+    text-align: center;
+    width: 50%;
+}
+.game-wrapper {
+    padding: 6.25rem 1.25rem 2rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    max-width: 75rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+.update-profile .game-header {
+    background: #323232;
+    color: #ffffff;
+    font-size: 1rem;
+    padding: 0.5rem;
+    font-weight: 500;
+    text-align: center;
+}
+.game-main.debate-single.update-profile form {
+    padding: 15px 0;
+    overflow: hidden;
+    margin: 0;
+}
+.update-profile .form-group {
+    margin-bottom: 13px;
+    width: 100%;
+    float: left;
+}
+.game-main.debate-single.update-profile.profile-main {
+    width: 100%;
+    margin: 0;
+    background: none;
+    padding: 0 5px;
+}
+.debate-closed {
+  color: #c5172c;
 }
