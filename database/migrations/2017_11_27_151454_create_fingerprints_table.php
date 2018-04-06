@@ -18,8 +18,7 @@ class CreateFingerprintsTable extends Migration
         Schema::create('fingerprints', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
-            //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('fingerprint_string');
+            $table->string('fingerprint_string')->nullable();;
             $table->timestamps();
 
             //$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
