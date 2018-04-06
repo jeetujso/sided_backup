@@ -4,6 +4,7 @@
 @section('content')
 <div class="marg-top seperate-page-voter">
 <?php $now = \Carbon\Carbon::now(); ?>
+@if(!empty($debate))
 @if ($now<=$debate->ends_at)
   @if($debate->status == 'needs_opponent')
     <?php $debate_user = (new \App\Helpers\DebateUsers)->get_user($debate->id); ?>
@@ -12,7 +13,7 @@
         <input type="hidden" name="debate_id" value="{{ $debate->id }}">
         <input type="hidden" id="dbt-arguments" name="debate_argument" value="">
         @if($debate_user->user_id == auth()->user()->id)
-          <button type="button" data-toggle="modal" data-target="#mychallengeModal">Challenge</button>
+          <button id="challengeRefreshPopup" type="button" data-toggle="modal" data-target="#mychallengeModal">Challenge</button>
         @else
           <button type="button" data-toggle="modal" data-target="#popupJoinDebate">Join Debate</button>
           <!-- <input type="submit" style="display: none;"> -->
@@ -23,7 +24,7 @@
     </div>
   @endif
  @endif
-
+ @endif
   @if (Session::has('message'))
     <div class="flash-msg">{{ Session::get('message') }}</div>
   @endif
@@ -32,7 +33,7 @@
   <div class="flash-msg" style="display: none;">
     <h4>You voted successfully</h4>
   </div>
-
+   
   <div class="marginb game-wrapper">
 
 
@@ -244,16 +245,20 @@
                           @endif
                         @endforeach
                         @if($hasFollowers == 0)
-                        <p>No one added in my sided network.</p>
+                        <p>No one is added in your sided network.</p>
                         <button type="button" data-toggle="modal" data-target="#popupFollowUsers" data-backdrop="static" data-keyboard="false" id="show-followers-popup" data-dismiss="modal">Follow Users</button>
                         @endif
                       </div>
                     </div>
                   </div>
                   <div class="modal-footer">
+                  @if($hasFollowers > 0)
                     <input type="hidden" name="debate_id" value="{{ $debate->id }}">
                     <input type="submit" class="green-btn" value="Confirm">
                     <div><p data-dismiss="modal" class="inner-cancel">or Cancel</p></div>
+                  @else
+                     <div><p data-dismiss="modal" class="inner-cancel">Cancel</p></div>
+                  @endif
                   </div>
                 </form>
               </div>
@@ -292,7 +297,7 @@
 
 
 
-    <div class="modal fade" id="popupJoinDebate" role="dialog">  
+    <div class="modal fade new-popup" id="popupJoinDebate" role="dialog">  
       <div class="modal-dialog">   
 
         <div class="modal-content">
@@ -302,13 +307,13 @@
             </div>
             
             <div class="modal-body">
-              <h4 class="modal-title"></h4>
-              <p>You are about to join debate, please confirm.</p>
-              <textarea name="join_debate_argument" id="join-debate-argument"></textarea>
+              <h4 class="modal-title">Join Debate</h4>
+              <p>You are about to join this debate.please submit your argument.</p>
+              <textarea rows="8" name="join_debate_argument" id="join-debate-argument" placeholder="What do you think?"></textarea>
             </div>
             <div class="modal-footer">
-              <button type="button" class="join-submit-btn" disabled>Yes</button>
-              <p data-dismiss="modal">No</p>
+              <button type="button" class="join-submit-btn" disabled>Join</button>
+              <p data-dismiss="modal">Cancel</p>
             </div>
 
 
@@ -510,11 +515,11 @@
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close closed-follow-popup" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Follow Users</h4>
-      </div>
+    <div class="modal-header"><button type="button" data-dismiss="modal" class="btn-default closed-follow-popup"><i aria-hidden="true" class="fa fa-times"></i></button></div>
       <div class="modal-body">
+        <h4 class="modal-title">Follow Users</h4>
+      <div class="user-count" style="display:none;">{{ count($followUsers) }}</div>
+      <div class="no-user-let-for-follow"></div>
       @foreach($followUsers as $user)
         <div class="debate-preview__players follow-players">
           <div class="debate-follow-img">
@@ -527,9 +532,46 @@
           <div class="debate-follow-btn"><button value="{{ $user->id }}" class="follow-btn">Follow</button></div>
         </div>
       @endforeach
+      
+      </div>
+      <div class="modal-footer">
+        <div><a class="follow-user-back" href="/debates/{{ $debate->id }}?r=t">Back</a></div>
       </div>
     </div>
 
+  </div>
+</div>
+
+  <!-- Modal -->
+  <button style="display:none;" id="voteForUsersPopupId" type="button" data-toggle="modal" data-target="#voteForUsersPopup"></button>
+  
+  <div id="voteForUsersPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <form method="post" action="{{ route('voteBythirdUsers') }}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Please select an option before you leave the page.</p>
+          <input id="vote_debate_id" type="hidden" name="debate_id" value="">
+          <input id="vote_voter_id" type="hidden" name="voter_id" value="">
+          <input id="vote_fingerprint_string" type="hidden" name="fingerprint_string" value="">
+          <input id="vote_redirect_url" type="hidden" name="redirect_url" value="">
+          <div class="radio-vote-section">
+            <ul>
+              <li><input id="vote_user_id_left" type="radio" name="user_id" value="" required><label class="vote_user_name_left"></label></li>
+              <li><input id="vote_user_id_right" type="radio" name="user_id" value="" required><label class="vote_user_name_right"></label></li>
+              <li><input type="radio" name="user_id" value="none" required><label>I dont want to vote right now.</label></li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="submit" class="green-btn" value="Submit">
+        </div>
+      </div>
+    </form>
   </div>
 </div>
   

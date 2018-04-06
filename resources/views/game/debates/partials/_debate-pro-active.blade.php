@@ -1,7 +1,4 @@
 <?php
-echo "<pre>";
-print_r($user);
-exit;
 if (Auth::check()) {
     $login_user_id  = auth()->user()->id;
 } else {

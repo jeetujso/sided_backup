@@ -23,7 +23,6 @@
 @import 'components/alerts';
 @import 'components/buttons';
 @import 'components/forms';
-@import 'components/scaffolding';
 @import 'components/type';
 @import 'components/utilities';
 @import 'components/icons';
@@ -45,4 +44,4 @@
 // Vendors
 // --------------------------------------------------
 @import 'vendor/flatpicker';
-@import 'base/responsive';
+@import 'components/admin/responsive';

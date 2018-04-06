@@ -7,7 +7,7 @@ use App\Debate;
 use App\DebateUser;
 use App\UserPoint;
 use App\Fingerprint;
-
+use DB;
 
 use App\Mail\Challenge;
 
@@ -40,15 +40,27 @@ class ChallengeController extends Controller
             foreach($challenges_ids as $challenge){
                 $user = User::findOrFail($challenge);
                 $take_a_dare_name = $request->input('take_a_dare_name_'.$challenge);
-                if($user){
-                    Mail::to($user->email)->send(new Challenge($take_a_dare_name , Auth::user())); 
-                    $points = new Points;
-                    $points->add_points(4, Auth::user()->id); // arg 1 for type of point; arg 2 who get these points   
+                if($user)
+				{
+					$notoficationStatus = DB::table('users')->where('email',$user->email)->first();
+					if(!empty($notoficationStatus))
+					{
+						if($notoficationStatus->go_online!="false")
+						{
+							Mail::to($user->email)->send(new Challenge($take_a_dare_name , Auth::user())); 
+						}
+					}
+					else
+					{
+						Mail::to($user->email)->send(new Challenge($take_a_dare_name , Auth::user())); 
+					}						
+					$points = new Points;
+					$points->add_points(4, Auth::user()->id); // arg 1 for type of point; arg 2 who get these points   
                 }
             }
         }
         //return redirect()->back()->withErrors(['Challenge Email Sent to selected user(s)']);
-        Session::flash('message', "Challenge Email Sent to selected user(s)");
+        Session::flash('message', "Selected users have been challenged for this debate.");
 
         return redirect()->back();
         //return redirect('feed');
@@ -62,7 +74,8 @@ class ChallengeController extends Controller
 if(!empty(auth()->user()->id))
 {   
         $debate_id  = Crypt::decryptString($request->input('debate_id'));
-        $debate     = Debate::findOrFail($debate_id);
+        //$debate     = Debate::findOrFail($debate_id);
+        $debate     = Debate::with('question')->where('id',$debate_id)->first();
        //echo  $debate; exit;
        //$debate_arguments = "Testing Jk jkjkjk Arguments";
         //$response   = "Challenge Email Sent to selected user(s)";
@@ -100,7 +113,14 @@ function saveChallengeWithArg(Request $request){
     $debateId = $request->input('debate_id');
     $debate_arguments = $request->input('join_debate_argument');
    if($this->join_debate_extension($debateId, $debate_arguments)){
-        Mail::to(auth()->user()->email)->send(new DebateJoined());
+	   $notoficationStatus = DB::table('users')->where('email',auth()->user()->email)->first();
+					if(!empty($notoficationStatus))
+					{
+						if($notoficationStatus->go_online!="false")
+						{
+							Mail::to(auth()->user()->email)->send(new DebateJoined());
+						}
+					}
         $response = "You joined this debate. Add your opinion and find out who sides with you.";
     }else{
         $response = "Problem in joing debate! Please try later.";
@@ -141,8 +161,14 @@ function saveChallengeWithArg(Request $request){
                 $point_insert['fingerprint_id'] = $data->id;
             }
             UserPoint::insert($point_insert);
-
-            Mail::to(auth()->user()->email)->send(new DebateJoined()); // mail send to own email on joining
+			$notoficationStatus = DB::table('users')->where('email',auth()->user()->email)->first();
+					if(!empty($notoficationStatus))
+					{
+						if($notoficationStatus->go_online!="false")
+						{
+							Mail::to(auth()->user()->email)->send(new DebateJoined()); // mail send to own email on joining
+						}
+					}
 
 
             return redirect('debates/'.$debate_id);

@@ -194,9 +194,12 @@ class DebateOnboardingController extends Controller
 
     function pick_your_side(Request $request){
 
-        $question = Question::with('category')
+        $question = Question::with('category','getquestionAuther')
                         ->where('id',$request->input('question_id'))
                         ->first();
+                       /* echo "<pre>";
+        print_r($question->getquestionAuther->name);
+        exit;*/
         if($question->count() > 0){
             return view('game.debates.pickaside', compact('question'));    
         }

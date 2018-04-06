@@ -59633,6 +59633,10 @@ Vue.filter('timeago', function (value) {
   return moment.utc(value).fromNow();
 });
 
+Vue.filter('dateAgo', function (value) {
+  return moment.utc(value).fromNow();
+});
+
 var app = new Vue({
   el: '#app'
 });
@@ -59744,6 +59748,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -59774,6 +59781,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				}
 				return false;
 			});
+		},
+		checkAds: function checkAds() {
+			console.log('jkkj', this.debate.question);
 		}
 	},
 	methods: {
@@ -59795,7 +59805,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
 //
 //
 //
@@ -59983,14 +59992,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['data'],
 	data: function data() {
 		return {
 			debate: this.data,
-			vote_side: 0
+			debate_status: ""
 		};
+	},
+
+	computed: {
+		voteForDebate: function voteForDebate() {
+			if (this.debate.status == 'active') {
+				return this.debate_status = "vote_for_debate";
+			} else {
+				return this.debate_status = "";
+			}
+		}
 	}
 });
 
@@ -60000,8 +60038,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
 //
 //
 //
@@ -60593,7 +60629,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.body),
       expression: "body"
     }],
-    staticClass: "form-control",
+    staticClass: "form-control resp-text-box",
     attrs: {
       "type": "text",
       "name": "comment",
@@ -60611,7 +60647,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-green btn-block",
+    staticClass: "hide",
     attrs: {
       "type": "submit"
     },
@@ -60668,7 +60704,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.body),
       expression: "body"
     }],
-    staticClass: "form-control",
+    staticClass: "form-control resp-text-box",
     attrs: {
       "name": "comment",
       "placeholder": "What do you think?",
@@ -60685,7 +60721,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-green btn-block",
+    staticClass: "hide",
     attrs: {
       "type": "submit"
     },
@@ -60718,7 +60754,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.body),
       expression: "body"
     }],
-    staticClass: "form-control",
+    staticClass: "form-control resp-text-box",
     attrs: {
       "type": "text",
       "name": "comment",
@@ -60736,7 +60772,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-default",
+    staticClass: "hide",
     attrs: {
       "type": "submit"
     },
@@ -60806,7 +60842,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "debate-preview__category"
   }, [_vm._v("\n\t\t\t\t\tSubmitted In "), _c('strong', {
     staticClass: "u-text-black"
-  }, [_vm._v(_vm._s(_vm.debate.question_category))]), _vm._v(" "), (Date.now() < new Date(_vm.debate.question.expire_at)) ? _c('span', [_vm._v(_vm._s(_vm._f("timeago")(_vm.debate.question.publish_at)))]) : _c('span', [_vm._v("Closed")])]), _vm._v(" "), _c('h4', {
+  }, [_vm._v(_vm._s(_vm.debate.question_category))]), _vm._v(" "), (Date.now() < new Date(_vm.debate.question.expire_at)) ? _c('span', [_vm._v(_vm._s(_vm._f("timeago")(_vm.debate.question.publish_at)))]) : _c('span', [_vm._v("This debate is closed.")])]), _vm._v(" "), _c('h4', {
     staticClass: "debate-preview__category"
   }, [_vm._v("\n\t\t\t\t\tSubmitted By "), _c('strong', {
     staticClass: "u-text-black"
@@ -60870,7 +60906,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("\n                            " + _vm._s(user.handle) + "\n                        ")])]), _vm._v(" "), _c('small', [_vm._v("\n                        " + _vm._s(user.rank) + "\n                    ")])]), _vm._v(" "), (user.pivot.votes > 0) ? _c('ul', {
       class: 'voter-sec full-dark vote-count-' + user.pivot.votes + '-my-debate my-debate'
-    }, [(_vm.debate.users[0].id == user.id) ? _c('li', [_c('span', [_vm._v(_vm._s(user.pivot.votes))]), _vm._v(" "), (_vm.debate.users.id == user.id) ? _c('a', {
+    }, [(_vm.debate.users[0].id == user.id) ? _c('li', [(user.pivot.votes > 0) ? _c('span', [_vm._v(_vm._s(user.pivot.votes))]) : _vm._e(), _vm._v(" "), (_vm.debate.users.id == user.id) ? _c('a', {
       class: 'my-debate-' + user.pivot.side.toLowerCase() + '-1',
       style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
       attrs: {
@@ -60878,7 +60914,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "data-debate-id": _vm.debate.id,
         "data-user-id": user.id,
         "data-debate-status": _vm.debate.status,
-        "id": _vm.debate.status == 'active' ? 'vote_for_debate' : '',
+        "id": _vm.voteForDebate,
         "title": 'Click to Vote for ' + user.name
       }
     }, [_c('img', {
@@ -60894,7 +60930,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "data-debate-id": _vm.debate.id,
         "data-user-id": user.id,
         "data-debate-status": _vm.debate.status,
-        "id": _vm.debate.status == 'active' ? 'vote_for_debate' : '',
+        "id": _vm.voteForDebate,
         "title": 'Click to Vote for ' + user.name
       }
     }, [_c('img', {
@@ -60910,7 +60946,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "data-debate-id": _vm.debate.id,
         "data-user-id": user.id,
         "data-debate-status": _vm.debate.status,
-        "id": _vm.debate.status == 'active' ? 'vote_for_debate' : '',
+        "id": _vm.voteForDebate,
         "title": 'Click to Vote for ' + user.name
       }
     }, [_c('img', {
@@ -60926,7 +60962,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "data-debate-id": _vm.debate.id,
         "data-user-id": user.id,
         "data-debate-status": _vm.debate.status,
-        "id": _vm.debate.status == 'active' ? 'vote_for_debate' : '',
+        "id": _vm.voteForDebate,
         "title": 'Click to Vote for ' + user.name
       }
     }, [_c('img', {
@@ -60934,9 +60970,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "src": "/img/left-vote-btn.svg",
         "alt": "Jitendra"
       }
-    })]), _vm._v(" "), _c('span', [_vm._v(_vm._s(user.pivot.votes))])])]) : _c('ul', {
+    })]), _vm._v(" "), (user.pivot.votes > 0) ? _c('span', [_vm._v(_vm._s(user.pivot.votes))]) : _vm._e()])]) : _c('ul', {
       class: 'voter-sec full-dark vote-count-' + user.pivot.votes + '-my-debate-disabled my-debate-disabled'
-    }, [(_vm.debate.users[0].id == user.id) ? _c('li', [_c('span', [_vm._v(_vm._s(user.pivot.votes))]), _vm._v(" "), (_vm.debate.users.id == user.id) ? _c('a', {
+    }, [(_vm.debate.users[0].id == user.id) ? _c('li', [(user.pivot.votes > 0) ? _c('span', [_vm._v(_vm._s(user.pivot.votes))]) : _vm._e(), _vm._v(" "), (_vm.debate.users.id == user.id) ? _c('a', {
       class: 'my-debate-' + user.pivot.side.toLowerCase() + '-1',
       style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
       attrs: {
@@ -60944,7 +60980,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "data-debate-id": _vm.debate.id,
         "data-user-id": user.id,
         "data-debate-status": _vm.debate.status,
-        "id": _vm.debate.status == 'active' ? 'vote_for_debate' : '',
+        "id": _vm.voteForDebate,
         "title": 'Click to Vote for ' + user.name
       }
     }, [_c('img', {
@@ -60953,14 +60989,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "alt": "Jitendra"
       }
     })]) : _c('a', {
-      class: 'not-my-debate-' + user.pivot.side.toLowerCase() + '-1',
+      class: 'not-mine-' + user.pivot.side.toLowerCase() + '-1',
       style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
       attrs: {
         "href": "javascript:void(0)",
         "data-debate-id": _vm.debate.id,
         "data-user-id": user.id,
         "data-debate-status": _vm.debate.status,
-        "id": _vm.debate.status == 'active' ? 'vote_for_debate' : '',
+        "id": _vm.voteForDebate,
         "title": 'Click to Vote for ' + user.name
       }
     }, [_c('img', {
@@ -60976,7 +61012,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "data-debate-id": _vm.debate.id,
         "data-user-id": user.id,
         "data-debate-status": _vm.debate.status,
-        "id": _vm.debate.status == 'active' ? 'vote_for_debate' : '',
+        "id": _vm.voteForDebate,
         "title": 'Click to Vote for ' + user.name
       }
     }, [_c('img', {
@@ -60985,14 +61021,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "alt": "Jitendra"
       }
     })]) : _c('a', {
-      class: 'not-my-debate-' + user.pivot.side.toLowerCase() + '-2',
+      class: 'not-mine-' + user.pivot.side.toLowerCase() + '-2',
       style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
       attrs: {
         "href": "javascript:void(0)",
         "data-debate-id": _vm.debate.id,
         "data-user-id": user.id,
         "data-debate-status": _vm.debate.status,
-        "id": _vm.debate.status == 'active' ? 'vote_for_debate' : '',
+        "id": _vm.voteForDebate,
         "title": 'Click to Vote for ' + user.name
       }
     }, [_c('img', {
@@ -61000,10 +61036,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "src": "/img/left-vote-btn.svg",
         "alt": "Jitendra"
       }
-    })]), _vm._v(" "), _c('span', [_vm._v(_vm._s(user.pivot.votes))])])])])
+    })]), _vm._v(" "), (user.pivot.votes > 0) ? _c('span', [_vm._v(_vm._s(user.pivot.votes))]) : _vm._e()])])])
   }), _vm._v(" "), (_vm.debate.status == 'needs_opponent') ? _c('div', {
-    staticClass: "debate-preview__player u-flex-center "
-  }, [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._m(2)]) : _vm._e()], 2)])
+    staticClass: "debate-preview__player u-flex-center"
+  }, [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2)]) : _vm._e()], 2)])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "debate-preview__player-img disagree"
@@ -61017,7 +61053,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('img', {
     staticClass: "debate-preview__player-avatar",
     attrs: {
-      "src": "http://localhost/images/user_icon.png"
+      "src": "/images/user_icon.png"
     }
   })])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -61036,9 +61072,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "debate-preview__player-name"
   }, [_c('span', {
     staticClass: "u-link-black non-active"
-  }, [_vm._v("\nWaiting for\n")])]), _vm._v(" "), _c('span', {
+  }, [_vm._v("Waiting for")])]), _vm._v(" "), _c('span', {
     staticClass: "u-link-black non-active"
-  }, [_vm._v("\nOpponent\n")])])
+  }, [_vm._v("Opponent")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('ul', {
     staticClass: "voter-sec"
@@ -61047,7 +61083,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('img', {
     staticClass: "debate-preview__player-avatar",
     attrs: {
-      "src": "http://localhost/img/right-vote-btn.svg"
+      "src": "/img/right-vote-btn.svg"
     }
   })])])])
 }]}
@@ -61088,31 +61124,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "initialFirstUser": _vm.firstUser.id
       }
     })], 1)
-  })), _vm._v(" "), (_vm.canArgue) ? _c('div', {
-    staticClass: "debate-arguments__form"
-  }, [_c('new-debate-argument', {
-    on: {
-      "argument": _vm.addArgument
-    }
-  })], 1) : _c('div', [_c('vote', {
-    attrs: {
-      "data": _vm.debate
-    }
-  })], 1)])], 1), _vm._v(" "), _c('aside', {
+  })), _vm._v(" "), _c('aside', {
     staticClass: "game-sidebar game-sidebar__right"
   }, [_c('div', {
     staticClass: "game-header",
     domProps: {
       "textContent": _vm._s(_vm.commentCount)
     }
-  }), _vm._v(" "), _c('debate-comments', {
+  })]), _vm._v(" "), (_vm.canArgue) ? _c('div', {
+    staticClass: "debate-arguments__form"
+  }, [_c('new-debate-argument', {
+    on: {
+      "argument": _vm.addArgument
+    }
+  })], 1) : _c('div', [_c('debate-comments', {
     attrs: {
       "data": _vm.debate.comments
     },
     on: {
       "created": _vm.add
     }
-  })], 1)])
+  })], 1)]), _vm._v("\n\t\t\t" + _vm._s(_vm.checkAds) + "\n\t\t\t\n\t\t\t\n\t   \t")], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -77,12 +77,11 @@ class Debate extends Model
 
         return $this->belongsTo(\App\Question::class, 'question_id');
     }
-    /*
     public function debate_user()
     {
-        return $this->belongsTo(\App\DebateUser::class, 'debate_id');
+        return $this->hasMany(\App\DebateUser::class, 'debate_id');
     }
-    */ 
+    
 
     /**
      * A debate has many users
@@ -90,7 +89,26 @@ class Debate extends Model
      */
     public function arguments()
     {
+        return $this->hasMany(\App\DebateArgument::class)->with('user')->where('status','active');
+    }
+
+    /**
+     * A debate has many users
+     * @return \Illuminiate\Database\Eloquent\Relations\hasMany
+     */
+    public function argumentPro()
+    {
         return $this->hasMany(\App\DebateArgument::class)->with('user');
+    }
+
+    /**
+     * A debate has many comments
+     * @return \Illuminiate\Database\Eloquent\Relations\hasMany
+     */
+    public function commentPro()
+    {
+        //return $this->hasMany(\App\DebateComment::class)->with('user')->orderBy('created_at', 'desc');
+        return $this->hasMany(\App\DebateComment::class)->with('user')->orderBy('created_at', 'asc');
     }
 
     /**
@@ -100,7 +118,7 @@ class Debate extends Model
     public function comments()
     {
         //return $this->hasMany(\App\DebateComment::class)->with('user')->orderBy('created_at', 'desc');
-        return $this->hasMany(\App\DebateComment::class)->with('user')->orderBy('created_at', 'asc');
+        return $this->hasMany(\App\DebateComment::class)->with('user')->where('status','active')->orderBy('created_at', 'asc');
     }
 
 

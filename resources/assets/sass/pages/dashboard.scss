@@ -16,7 +16,7 @@ body {
     overflow:auto;
 	background:#F6F6F6 !important;
 }
-html,body{ -webkit-overflow-scrolling : touch !important; overflow: auto !important; height: 100% !important; }
+html,body{ -webkit-overflow-scrolling : touch !important; height: 100% !important; }
 article, aside, details, figcaption, figure, footer, header, main, menu, nav, section, summary {
     display: block;
 }
@@ -246,6 +246,8 @@ input, input[type="text"], input[type="tel"], input[type="number"], input[type="
     padding: 0.75rem 0.9375rem;
     transition: border-color 0.15s linear 0s;
     width: 100%;
+	height:49px;
+	font-weight: 400;
 }
 input::-moz-placeholder, input[type="text"]::-moz-placeholder, input[type="tel"]::-moz-placeholder, input[type="number"]::-moz-placeholder, input[type="password"]::-moz-placeholder, input[type="email"] select::-moz-placeholder, textarea::-moz-placeholder {
     color: #828282;
@@ -408,7 +410,7 @@ a.primary-nav__link {
     top: 3.5rem;
     width: 19rem;
     margin: 0;
-    z-index: 9999;
+    z-index: 999999;
     padding: 6px 0 0 0;
     border-radius: 5px;
 	 animation: fadein 0.5s;

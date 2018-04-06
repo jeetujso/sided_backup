@@ -203,17 +203,5 @@
 
 </div>
 
-<script type="text/javascript">
-    $(function () {
-        var url = $("#add-change").find("option:selected").attr('img-path');
-        var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        $("#add-change").change(function () {
-            var url = $(this).find("option:selected").attr('img-path');
-            var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        });
-    });
-</script>
 
 @endsection

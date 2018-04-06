@@ -99,7 +99,8 @@ $votes          = $debate->votes()->select('voter_id','user_id')->where('voter_i
                         @else
 
                             @if($i==1)
-                                @if(count($votes)>0)
+                               
+                                @if(isset($votes))
                                     @if($votes->user_id == $user->id)
                                         <span  class="{{$side}}-{{$i}}">{{ $user->pivot->votes }}</span>
                                         <img src="/img/{{$side}}-{{$i}}-vote-btn.svg">
@@ -118,7 +119,8 @@ $votes          = $debate->votes()->select('voter_id','user_id')->where('voter_i
                                 <!-- <img src="/img/right-vote-btn.svg">
                                 <span>{{ $user->pivot->votes }}</span> -->
 
-                                @if(count($votes)>0)
+                                
+                                @if(isset($votes))
                                     @if($votes->user_id == $user->id)
                                         <img src="/img/{{$side}}-{{$i}}-vote-btn.svg">
                                         <span class="{{$side}}-{{$i}}">{{ $user->pivot->votes }}</span>

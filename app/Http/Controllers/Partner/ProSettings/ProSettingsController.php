@@ -102,7 +102,7 @@ class ProSettingsController extends Controller
         }
         else
         {
-            $message = "On Air mode deactivared";
+            $message = "On Air mode deactivated";
         }
         return response()->json(['response'=>$message, 'status'=>'success','_code'=>'1']);
     }

@@ -330,12 +330,19 @@ Route::group(['namespace' => 'Game'], function () {
             'as' => 'publicContestClick', 'uses' => 'PlayerController@contestClick'
         ]);
 
+        Route::get('/eventClick/{eventId}', [
+            'as' => 'publicEventClick', 'uses' => 'PlayerController@eventClick'
+        ]);
+
         
         Route::get('/{handle}', [
             'as' => 'publicPlayerShow', 'uses' => 'PlayerController@show'
         ]);
         Route::get('/contestImpression/{contestId}', [
             'as' => 'publicContestImpression', 'uses' => 'PlayerController@contestImpression'
+        ]);
+        Route::get('/eventImpression/{eventId}', [
+            'as' => 'publicEventImpression', 'uses' => 'PlayerController@eventImpression'
         ]);
         
     });

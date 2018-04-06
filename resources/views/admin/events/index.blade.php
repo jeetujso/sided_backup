@@ -120,19 +120,7 @@
 
 
             </div>
-            
-                <div class="dropdown-main2">
-                    @if($view=="live")
-                        <input type="text" name="search_text" placeholder="Search..." id="search_text">
-                        <input type="hidden" name="search_days" value="<?=isset($_GET['filter_days'])?$_GET['filter_days']:'7'?>" id="search_days">
-                        <a href="{{ url('/partners/events/') }}" id="search-filter-ads">Search</a>
 
-                        <?php $url=strtok($_SERVER["REQUEST_URI"],'?'); ?>
-                        <a href="{{ $url }}"> Reset</a>
-                    
-                    @endif
-                </div>           
-            
         </div>
         <div class="table-main-scroll"><table class="admin-content__table ad-table3 ad-table2"><thead><tr>
             <th></th>

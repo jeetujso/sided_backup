@@ -125,7 +125,10 @@
                                     Change Password
                                 </a>
   
-                                <a href="#" class="primary-nav__dropdown-link u-link-black" id="signout">
+                                 <a href="{{ url('/logout') }}"
+                                    onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();"
+                                     class="primary-nav__dropdown-link u-link-black">
                                     Sign Out
                                 </a>
                                 <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">

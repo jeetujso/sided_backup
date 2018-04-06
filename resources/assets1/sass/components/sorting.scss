@@ -1,0 +1,22 @@
+//
+// sorting
+// --------------------------------------------------
+
+.sorting {
+    background-image: url(http://202.164.49.133:9000/img-dist/sort_both.png);
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: left;
+}
+.sorting_desc {
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: -2px center;
+    background-image: url(http://202.164.49.133:9000/img-dist/sort_desc.png);
+}
+.sorting_asc {
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: left;
+    background-image: url(http://202.164.49.133:9000/img-dist/sort_asc.png);
+}

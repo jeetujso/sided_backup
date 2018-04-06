@@ -7,7 +7,8 @@ use App\Mail\InviteInner;
 use Exception;
 use Session;
 use App\UserPoint;
-
+use App\User;
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -54,7 +55,18 @@ class InviteInnerController extends Controller
             }
 
             foreach($emails as $email){
-                Mail::to($email)->send(new InviteInner($user));
+				$notoficationStatus = DB::table('users')->where('email',$email)->first();
+				if(!empty($notoficationStatus))
+				{
+					if($notoficationStatus->go_online!="false")
+					{
+						Mail::to($email)->send(new InviteInner($user));
+					}
+				}
+				else
+				{
+					Mail::to($email)->send(new InviteInner($user));
+				}
             }
             Session::flash('message', "Invitation for debate successfully sent.");
 
@@ -91,9 +103,8 @@ class InviteInnerController extends Controller
 
 
         }catch(Exception $e){
-            Session::flash('message', "Invitation for debate successfully sent.");
-            //return redirect('debates/'.$request->input('debate_id'));
-            return redirect('feed');
+           echo $e->getMessage();
+			die();
         }
     }
 

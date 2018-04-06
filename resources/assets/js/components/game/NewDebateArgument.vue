@@ -1,10 +1,8 @@
 <template>
 	<div>
 		<div class="debate-argument__form">
-			<textarea class="form-control" name="comment" placeholder="What do you think?" required autofocus v-model="body"></textarea>
-			<button type="submit"
-				class="btn btn-green btn-block"
-				@click="addArgument">Post Argument</button>
+			<textarea class="form-control resp-text-box" name="comment" placeholder="What do you think?" required autofocus v-model="body"></textarea>
+			<button type="submit" class="hide" @click="addArgument">Post Argument</button>
 		</div>
 	</div>
 </template>

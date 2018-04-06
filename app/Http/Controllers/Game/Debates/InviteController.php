@@ -7,7 +7,8 @@ use App\Mail\Invite;
 use Exception;
 use Session;
 use App\UserPoint;
-
+use App\User;
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -55,7 +56,18 @@ class InviteController extends Controller
             }
 
             foreach($emails as $email){
-                Mail::to($email)->send(new Invite($user));
+                $notoficationStatus = DB::table('users')->where('email',$email)->first();
+				if(!empty($notoficationStatus))
+				{
+					if($notoficationStatus->go_online!="false")
+					{
+						Mail::to($email)->send(new InviteInner($user));
+					}
+				}
+				else
+				{
+					Mail::to($email)->send(new InviteInner($user));
+				}
             }
             Session::flash('message', "Invite friends successfully sent.");
 

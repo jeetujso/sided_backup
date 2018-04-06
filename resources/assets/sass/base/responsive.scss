@@ -126,6 +126,9 @@ table#category-table {
 .admin-content__section-header.sche-header div {
   width: auto;
 }
+input:checked + .slider {
+  background-color: #2fbe1b;
+}
 }
 @media screen and (max-width: 980px) {
 .admin-content__table tr th::before {display:none;}
@@ -329,6 +332,7 @@ div#DataTables_Table_1_wrapper label{top:0;}
 }
 @media screen and (max-width: 639px) {
 .col-md-10 { width: 100%;}
+.table-main-scroll label {position: static;}
 .admin-content-new { padding:0 0 10px;}
 .col-md-2.admin-content-button { width: 100%; text-align: left;padding:0;}
 .col-md-2.admin-content-button form { width: 50%;  display: inline-block; float: left;text-align: center;}

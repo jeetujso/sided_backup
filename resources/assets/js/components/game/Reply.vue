@@ -3,9 +3,9 @@
 		<div v-for="reply in items">
 			{{ reply.comment }}
 		</div>
-	<input type="text" class="form-control" name="comment" placeholder="Enter response here" required autofocus v-model="body">
+	<input type="text" class="form-control resp-text-box" name="comment" placeholder="Enter response here" required autofocus v-model="body">
 		<button type="submit"
-			class="btn btn-default"
+			class="hide"
 			@click="addComment"
 			@created="add">Post</button>
 	</div>

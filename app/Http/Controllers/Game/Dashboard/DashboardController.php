@@ -52,6 +52,9 @@ class DashboardController extends Controller
             $catAssociatedQuestionId = Question::whereIn('category_id', $myCategories)->pluck('id')->toArray();
         
             $debates = Debate::whereIn('question_id', $catAssociatedQuestionId)->where('starts_at', '<=', Carbon::now())->where([['ends_at', '>=', Carbon::now()], ['status', '!=', 'completed'],])->orderby('created_at', 'desc')->get();
+           /* echo "<pre>";
+            print_r($debates);
+            exit;*/
            
             $usedQuesIds = Debate::groupBy('question_id')->pluck('question_id')->all();
             $questions = Question::with('category')->whereIn('category_id', $myCategories)->publicLive()->whereNotIn('id', $usedQuesIds)->take('10')->get();
@@ -60,7 +63,7 @@ class DashboardController extends Controller
             $obj_user = new User();
             $follow_suggestions = $obj_user->follow_suggestion(auth()->user()->id);
             $prousers = $obj_user->where('is_admin', 1)->get();
-            $active_users = $obj_user->where('is_admin', '1')->where('id', '!=', auth()->user()->id)->take(6)->get();
+            $active_users = $obj_user->where('is_admin', '1')->where('id', '!=', auth()->user()->id)->take(6)->orderBy('go_online', 'true')->get();
             
             $obj_category = new DebateCategory();
             $categories = $obj_category->where('status','live')->get();

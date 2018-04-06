@@ -3,9 +3,9 @@
 	<div class="debate-preview__header">
 			<h4 class="debate-preview__category">Active Now <strong class="u-text-black">({{ count($active_users) }})</strong></h4>
 			<div class="active-main">
-			<ul class="active-list">
+			<ul class="active-list ">
 	  			@foreach($active_users as $active)
-	          	<li>
+	          	<li @if($active->go_online=="true") class="pro_online" @else class="pro_offline" @endif>
 	          		<a href="{{ route('publicPlayerShow', $active->handle ) }}">
 	          			<img src="{{ asset('images') }}/{{ $active->avatar_url }}" alt="">
 	          			<p>{{ $active->name }}</p>

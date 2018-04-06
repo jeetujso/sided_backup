@@ -11,9 +11,9 @@
 			</div>
 		</div><!-- /debate-comment__stream -->
 		<div class="debate-comment__form">
-			<input type="text" class="form-control" name="comment" placeholder="What do you think?" required autofocus v-model="body">
+			<input type="text" class="form-control resp-text-box" name="comment" placeholder="What do you think?" required autofocus v-model="body">
 			<button type="submit"
-				class="btn btn-green btn-block"
+				class="hide"
 				@click="addComment">Post Comment</button>
 		</div>
 	</div>

@@ -17,9 +17,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Sided') }}</title>
-
+   
     <!-- Scripts -->
     <script>
+    
         function myFunction() {
             var x = document.getElementById("myTopnav");
             if (x.className === "topnav") {
@@ -32,14 +33,15 @@
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
             'user' => Auth::user(),
-            'is_debate_user' => App\DebateUser::where('user_id', Auth::user()->id)->count(),
+            'is_debate_user' => App\DebateUser::where('user_id', Auth::user()->id)->where('debate_id', Request::segment(2))->count(),
             'debate_users_count' => App\DebateUser::where('debate_id', Request::segment(2))->count(),
             'debate_users' => App\DebateUser::with('users')->where('debate_id', Request::segment(2))->get(),
             'signedIn' => Auth::check(),
-            'is_voted' => App\Vote::where('voter_id', Auth::user()->id)->count(),
+            'is_voted' => App\Vote::where('voter_id', Auth::user()->id)->where('debate_id', Request::segment(2))->count(),
             'voted'=>'0',
             'voterSide'=>'0',
         ]) !!};
+        //console.log('jk',window.Laravel);
     </script>
 
 
@@ -61,7 +63,6 @@
 
     <button id="restictUser" type="button" data-toggle="modal" data-target="#restictionModel" style="display:none"></button>
     <!-- /.loader -->
-
     <!-- #app -->
     <div id="app">
         <!-- primary-nav -->
@@ -73,7 +74,7 @@
                     </a>
                     <div class="topnav" id="myTopnav">
                     @if(!empty(auth()->user()->name))
-                        <a href="{{ route('publicDashboardIndex') }}" class="primary-nav__dropdown-link u-link-black">
+                        <a  href="{{ route('publicDashboardIndex') }}" class="primary-nav__dropdown-link u-link-black">
                           Feed
                       </a>
                       <a href="{{  route('publicDebateCreate')  }}" class="primary-nav__dropdown-link u-link-black">
@@ -130,7 +131,10 @@
                                 </a>
                                 
   
-                                <a href="#" class="primary-nav__dropdown-link u-link-black" id="signout">
+                                 <a href="{{ url('/logout') }}"
+                                    onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();"
+                                     class="primary-nav__dropdown-link u-link-black">
                                     Sign Out
                                 </a>
                                 <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
@@ -247,9 +251,8 @@
         <!-- end model #inviteFriends -->
 
     </div>
-    
-
-    <!-- Scripts -->
+  
+   <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
@@ -260,6 +263,11 @@
     <script>
         $(document).ready(function(){
             
+            var query =  window.location.search.substring(1);
+            if(query == "r=t"){
+                $("#challengeRefreshPopup").trigger( "click" );
+            }
+
             if($("#home .follow-player-sec").children().length < 1){
                 $("#home .follow-player-sec").html("<h3>No one is in my favorite list </h3>");
             }
@@ -364,6 +372,7 @@
 
 
              $('a#vote_for_debate').click(function(){
+               // console.log('jk2',window.Laravel);
                 var fingerprint_string = fp.get();
                 var debate_id = $(this).attr('data-debate-id');
                 var user_id = $(this).attr('data-user-id');
@@ -413,7 +422,7 @@
         
 
         $(document).on('click', '.topnav > a, .primary-nav__logo, .u-display-block > a , .u-link-black', function(e) {
-
+           
             var is_modal = $(this).attr('data-toggle');
             if(is_modal=='modal'){
                 return true;
@@ -426,75 +435,90 @@
                 href = $("#logout-form").attr('action');
             }
             //alert(href);
-            console.log(window.Laravel);
+            //console.log(window.Laravel);
+           
             var fingerprint_string = fp.get();
+            console.log('jk3',window.Laravel.is_debate_user, window.Laravel.debate_users_count,window.Laravel.is_voted);
+          //alert('kjkjkjk');
             var voteForA = window.Laravel.debate_users[0].users.handle;
             var voteForB = window.Laravel.debate_users[1].users.handle;
-            //console.log(voteForA, voteForB);
+            
             if(window.Laravel.is_debate_user == 0 && window.Laravel.debate_users_count == 2 && window.Laravel.is_voted == 0){
-                $.confirm({
-                    title: 'You have not taken a side! Press ok to take a side.',
-                    content: ' ',
-                    buttons: {
-                        // Ok: function () {
-                        //     e.preventDefault();
-                        // }
+                e.preventDefault();
+                var voteDebateId= {{ Request::segment(2) }};
+                $("#vote_debate_id").val(voteDebateId);
+                $("#vote_voter_id").val(window.Laravel.user.id);
+                $("#vote_user_id_left").val(window.Laravel.debate_users[0].users.id);
+                $(".vote_user_name_left").text('Vote For '+voteForA);
+                $("#vote_user_id_right").val(window.Laravel.debate_users[1].users.id);
+                $(".vote_user_name_right").text('Vote For '+voteForB);
+                $("#vote_fingerprint_string").val(fingerprint_string);
+                $("#vote_redirect_url").val(href);
+                $("#voteForUsersPopupId").trigger( "click" );
 
-                        VoteForA: {
-                            text: 'Vote for '+voteForA,
-                            btnClass: 'btn-green',
-                            action: function(){
-                                $.ajax({
-                                    'type': 'POST',
-                                    'url': "{{ route('voteBythirdUsers') }}",
-                                    'data': {'debate_id': {{ Request::segment(2) }}, 'voter_id': window.Laravel.user.id, 'user_id': window.Laravel.debate_users[0].users.id, 'fingerprint_string': fingerprint_string },
-                                    success: function(res){
-                                        if(res.status == 'success'){
-                                            location.href = href;
-                                        }else{
-                                            alert('Error!');
-                                        }
-                                    }
-                                });
-                            }
-                        },
-                        VoteForB: {
-                            text: 'Vote for '+voteForB,
-                            btnClass: 'btn-blue',
-                            action: function(){
-                                $.ajax({
-                                    'type': 'POST',
-                                    'url': "{{ route('voteBythirdUsers') }}",
-                                    'data': {'debate_id': {{ Request::segment(2) }}, 'voter_id': window.Laravel.user.id, 'user_id': window.Laravel.debate_users[1].users.id, 'fingerprint_string': fingerprint_string },
-                                    success: function(res){
-                                        if(res.status == 'success'){
-                                            location.href = href;
-                                        }else{
-                                            alert('Error!');
-                                        }
-                                    }
-                                });
-                            }
-                        },
-                        VoteForNone: {
-                            text: 'Vote For None',
-                            btnClass: 'btn-red',
-                            action: function(){
-                                location.href = href;
-                            }
-                        }
+                // $.confirm({
+                //     title: 'You have not taken a side! Press ok to take a side.',
+                //     content: ' ',
+                //     buttons: {
+                //         // Ok: function () {
+                //         //     e.preventDefault();
+                //         // }
 
-                        /*,
-                        Later: function () {
-                            // return true;
-                            // $.alert(href);
-                            window.location = href;
-                            //$.alert('I will Give later !');
-                        }
-                        */
-                    }
-                });
-                return false;
+                //         VoteForA: {
+                //             text: 'Vote for '+voteForA,
+                //             btnClass: 'btn-green',
+                //             action: function(){
+                //                 $.ajax({
+                //                     'type': 'POST',
+                //                     'url': "{{ route('voteBythirdUsers') }}",
+                //                     'data': {'debate_id': {{ Request::segment(2) }}, 'voter_id': window.Laravel.user.id, 'user_id': window.Laravel.debate_users[0].users.id, 'fingerprint_string': fingerprint_string },
+                //                     success: function(res){
+                //                         if(res.status == 'success'){
+                //                             location.href = href;
+                //                         }else{
+                //                             alert('Error!');
+                //                         }
+                //                     }
+                //                 });
+                //             }
+                //         },
+                //         VoteForB: {
+                //             text: 'Vote for '+voteForB,
+                //             btnClass: 'btn-blue',
+                //             action: function(){
+                //                 $.ajax({
+                //                     'type': 'POST',
+                //                     'url': "{{ route('voteBythirdUsers') }}",
+                //                     'data': {'debate_id': {{ Request::segment(2) }}, 'voter_id': window.Laravel.user.id, 'user_id': window.Laravel.debate_users[1].users.id, 'fingerprint_string': fingerprint_string },
+                //                     success: function(res){
+                //                         if(res.status == 'success'){
+                //                             location.href = href;
+                //                         }else{
+                //                             alert('Error!');
+                //                         }
+                //                     }
+                //                 });
+                //             }
+                //         },
+                //         VoteForNone: {
+                //             text: 'Vote For None',
+                //             btnClass: 'btn-red',
+                //             action: function(){
+                //                 location.href = href;
+                //             }
+                //         }
+
+                //         /*,
+                //         Later: function () {
+                //             // return true;
+                //             // $.alert(href);
+                //             window.location = href;
+                //             //$.alert('I will Give later !');
+                //         }
+                //         */
+                //     }
+                // });
+                // return false;
 
             }else{
                 if($(this).attr('id') =='signout'){
@@ -574,6 +598,7 @@
             // ajax follow request from dashboard
             $('body').on('click', '.debate-follow-btn > .follow-btn', function() {
                 var ele = $(this);
+                var usersCount = $('.user-count').text();
                 var ele_count = $(this).parent().parent().parent().children().length;
                 var user_id = $(this).val();
                 $.ajax({
@@ -583,7 +608,12 @@
                         "user_id": user_id
                     },
                     success: function(msg) {
+                        usersCount = usersCount-1;
+                        $('.user-count').text(usersCount);
                         ele.parent().parent().remove('div');
+                        if(usersCount == 0){
+                            $('.no-user-let-for-follow').text('There are no more users to follow.');
+                        }
                     },
                     error: function(msg) {
                         console.log('error');

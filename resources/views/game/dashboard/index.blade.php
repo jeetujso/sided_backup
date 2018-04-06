@@ -42,9 +42,11 @@
 			<?php $num_debates = $debates->count(); ?>
 			@if($debates->count() > 0)
 		
-				<?php $i=0; ?>
+				<?php $i=0; 
+
+				?>
+				@if(!empty($debates))
 				@foreach ($debates as $debate)
-					
 
 					@if($debate->status == 'needs_opponent' || $debate->status == 'active')
 				    <div class="dashboard-item user-detial-bottom" data-debate="{{$debate->id}}">
@@ -73,6 +75,7 @@
 
 				    <?php $i++; ?>
 				@endforeach
+			@endif
 			@endif
 		</div>
 

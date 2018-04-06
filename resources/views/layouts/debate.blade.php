@@ -110,7 +110,7 @@ function myFunction() {
                                     Change Password
                                 </a>
   
-                                <a href="{{ url('/logout') }}"
+                                 <a href="{{ url('/logout') }}"
                                     onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();"
                                      class="primary-nav__dropdown-link u-link-black">

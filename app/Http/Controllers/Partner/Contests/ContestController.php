@@ -36,6 +36,7 @@ class ContestController extends Controller
         //echo "<pre>";
         //print_r(json_decode(json_encode($contests)));
         //die;
+        
 
         return view('admin.contests.index', compact('contests', 'title','view'));
 

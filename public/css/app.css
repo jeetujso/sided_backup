@@ -434,7 +434,7 @@ select {
   -moz-appearance: none;
   -ms-appearance: none;
   vertical-align: baseline;
-  height: auto !important;
+  height: 49px;
 }
 
 /* David Ensinger's Rem Mixin, which translates any pixel, percentage, or "auto" value into rems with a px fallback for lt IE9: http://davidensinger.com/2013/03/using-rems-with-sass/
@@ -642,6 +642,15 @@ button i.fa.fa-caret-right {
   border-color: #828282;
 }
 
+.agree-btn {
+  border: 1px solid #d8d8d8;
+  border-radius: 5px;
+  color: #d8d8d8;
+  line-height: normal;
+  padding: 5px;
+  text-transform: uppercase;
+}
+
 input,
 input[type="text"],
 input[type="tel"],
@@ -814,6 +823,7 @@ input[type="search"] {
   padding: 22px;
   border: 1px solid #cccccc;
   margin-top: 25px;
+  overflow: hidden;
 }
 
 .field.field__left input, .field.field__right input {
@@ -823,7 +833,15 @@ input[type="search"] {
   background-image: url(../img/pick-dwn.png);
   background-position: 98% center;
   background-repeat: no-repeat;
-  height: 40px;
+  height: 49px;
+}
+
+.category-ads {
+  text-align: right;
+}
+
+.admin-content__stat.stat-ad-banner.cat-ban {
+  max-width: 100%;
 }
 
 .field.field__left select, .field.field__right select {
@@ -841,7 +859,7 @@ input[type="search"] {
   padding-left: 15px;
   color: #828282;
   font-weight: 400;
-  height: 40px;
+  height: 49px;
 }
 
 .field img#img-preview {
@@ -1002,65 +1020,191 @@ a.primary-nav__dropdown-link {
   padding: 15px;
 }
 
-.profile-image {
-  margin-top: 20px;
-}
-
-.profile-image img {
-  border-radius: 5px;
-  box-shadow: 0 0 0 1px #cccccc;
-  width: 100px;
-  height: 100px;
-}
-
-.profile-name {
-  color: #000;
-  display: inline-block;
-  font-weight: 500;
-  margin: 0;
-  text-transform: capitalize;
-  font-size: 22px;
-  margin-top: 20px;
-  width: 100%;
-  padding: 0 15px;
-}
-
-.profile-email {
-  color: #828282;
-  display: inline-block;
-  font-size: 20px;
-  max-width: 300px;
-  text-align: center;
-  word-wrap: break-word;
-}
-
-input#avatar_url {
+.switch2 {
   position: relative;
-  overflow: hidden;
-  color: transparent;
-  height: 42px;
+  display: inline-block;
+  width: 54px;
+  height: 16px;
+  margin: 3px 0;
+  vertical-align: text-bottom;
 }
 
-input#avatar_url::before {
-  content: "Upload File";
-  text-align: center;
+.wrapper p {
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 12%;
+  font-size: 14px;
+}
+
+.switch2 input {
+  display: none;
+}
+
+.slider {
   position: absolute;
-  background: #60dd50;
-  border-radius: 0;
-  width: 120px;
-  height: 49px;
-  border: 3px solid #60dd50;
-  color: #fff;
-  padding: 7px 0 0;
+  cursor: pointer;
   top: 0;
   left: 0;
-  cursor: pointer;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
 }
 
-.profile-main-inner img {
-  max-width: 490px;
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 19px;
+  width: 19px;
+  left: 4px;
+  bottom: -1px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #61dd50;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(35px);
+}
+
+input:checked + .slider::after {
+  content: "on";
+  color: #fff;
+  left: 8px;
+  position: absolute;
+  top: 3px;
+}
+
+.slider::after {
+  content: "off";
+  color: #000;
+  position: absolute;
+  right: 8px;
+  top: 3px;
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+  box-shadow: 0 0 3px #000;
+  left: 0;
+}
+
+.on_air {
+  background: #61dd50 none repeat scroll 0 0;
+  color: #fff;
+  left: 0;
+  padding: 0 0.3125rem;
+  position: fixed;
+  text-align: center;
+  top: 54px;
   width: 100%;
-  height: 138px;
+  z-index: 9;
+}
+
+.modal-title {
+  text-align: center;
+}
+
+.modal-body .debate-preview__players.follow-players {
+  padding: 1.25rem;
+}
+
+#popupFollowUsers .modal-body {
+  padding: 20px 0;
+}
+
+#popupJoinDebate.modal .modal-body {
+  text-align: left;
+}
+
+textarea#join-debate-argument {
+  height: auto;
+}
+
+.no-user-let-for-follow {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+#popupJoinDebate.modal.new-popup .modal-body {
+  padding-top: 0;
+  text-align: left;
+}
+
+#popupJoinDebate.modal.new-popup .modal-body p {
+  max-width: 100%;
+  padding-top: 15px;
+}
+
+.modal-header {
+  text-align: right;
+  border-bottom: none !important;
+}
+
+.modal-footer {
+  border-top: none !important;
+}
+
+.marg-top.seperate-page-voter.challenge-debate-arg.email-modal {
+  left: 0;
+  padding-top: 30px;
+  position: fixed;
+  right: 0;
+  z-index: 999999;
+  height: 100%;
+}
+
+.radio-vote-section {
+  text-align: center;
+  display: block;
+}
+
+.radio-vote-section ul {
+  list-style: none;
+  width: 63%;
+  margin: 19px auto 0;
+  padding: 0;
+  display: inline-block;
+  text-align: center;
+}
+
+.radio-vote-section ul li {
+  width: auto;
+  text-align: left;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.radio-vote-section ul li input {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+  margin: 0;
+  height: auto;
+}
+
+.radio-vote-section ul li label {
+  display: inline-block;
+  max-width: none;
+  vertical-align: baseline;
+  position: relative;
+  top: 0;
+  padding-left: 5px;
+  font-size: 13px;
+  margin: 0;
+  text-transform: capitalize;
 }
 
 ::-moz-selection {
@@ -1408,7 +1552,7 @@ ul.pagination li a:hover {
 }
 
 thead {
-  background-color: #F2F2F2;
+  background-color: #ffffff;
   border-top: 1px solid #d2d2d2;
   border-bottom: 1px solid #d2d2d2;
 }
@@ -1423,6 +1567,7 @@ th {
 }
 
 td, th {
+  font-weight: 500;
   display: table-cell;
   vertical-align: inherit;
   padding: 0.625rem;
@@ -1436,6 +1581,14 @@ tr.clickable-row:nth-child(2n) {
 
 tr.clickable-row:nth-child(2n):hover {
   background-color: #d2d2d2;
+}
+
+th {
+  background-color: #fff;
+}
+
+.admin-content__table.ad-promo-table th:last-child {
+  background-image: none;
 }
 
 .login {
@@ -1544,6 +1697,60 @@ p.login-form-desc {
   display: none;
 }
 
+.player-profile-bg {
+  position: relative;
+  padding-top: 35px;
+  padding-bottom: 25px;
+  z-index: 1;
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.player-profile-bg::before {
+  content: "";
+  background: rgba(0, 0, 0, 0.75);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.player-profile-bg .following-btn {
+  color: #fff;
+  right: 10px;
+  border-color: #fff;
+  position: relative;
+}
+
+.player-profile-bg h2.player-profile__header-name {
+  color: #fff;
+}
+
+.player-profile-bg .title-caption {
+  color: #fff;
+}
+
+.player-profile-bg .header-stat__number {
+  color: #fff;
+}
+
+.player-profile-bg .header-stat__label {
+  color: #fff;
+}
+
+.flash-msg img {
+  width: 25px;
+}
+
+.pro-ads img {
+  width: 100%;
+  height: 100px;
+}
+
 .dashboard-item {
   margin: 0 0 0.625rem;
 }
@@ -1564,7 +1771,6 @@ body {
 
 html, body {
   -webkit-overflow-scrolling: touch !important;
-  overflow: auto !important;
   height: 100% !important;
 }
 
@@ -1855,6 +2061,8 @@ input, input[type="text"], input[type="tel"], input[type="number"], input[type="
   padding: 0.75rem 0.9375rem;
   transition: border-color 0.15s linear 0s;
   width: 100%;
+  height: 49px;
+  font-weight: 400;
 }
 
 input::-moz-placeholder, input[type="text"]::-moz-placeholder, input[type="tel"]::-moz-placeholder, input[type="number"]::-moz-placeholder, input[type="password"]::-moz-placeholder, input[type="email"] select::-moz-placeholder, textarea::-moz-placeholder {
@@ -2058,7 +2266,7 @@ a.primary-nav__link {
   top: 3.5rem;
   width: 19rem;
   margin: 0;
-  z-index: 9999;
+  z-index: 999999;
   padding: 6px 0 0 0;
   border-radius: 5px;
   animation: fadein 0.5s;
@@ -2815,10 +3023,10 @@ p.debate-preview__question-text {
 
 .debate-preview__player-avatar,
 .debate-preview__player-avatar--placeholder {
-  width: 3.75rem;
-  height: 3.75rem;
   display: block;
-  max-width: 100%;
+  height: 5rem;
+  width: 5rem;
+  float: right;
 }
 
 .debate-preview__player-avatar--placeholder {
@@ -2842,9 +3050,10 @@ h4.debate-preview__player-name {
 }
 
 .debate-argument__author {
-  font-size: 0.75rem;
+  font-size: 14px;
   margin-bottom: 0.125rem;
-  padding: 0 1.25rem;
+  padding: 0 2rem;
+  font-weight: 400;
 }
 
 .debate-argument {
@@ -2854,13 +3063,14 @@ h4.debate-preview__player-name {
 }
 
 .debate-argument__content {
+  font-size: 1.3rem;
+  font-weight: 400;
   padding: 0.9375rem 0.9375rem 1.25rem;
-  font-size: 0.8125rem;
 }
 
 .debate-argument__first::before {
   left: 0.625rem;
-  top: 0.125rem;
+  top: 0.670rem;
   content: url("../img-dist/argument_left.svg");
   position: absolute;
   z-index: 9;
@@ -2877,7 +3087,7 @@ h4.debate-preview__player-name {
 
 .debate-argument__second::before {
   right: 0.625rem;
-  top: 0.125rem;
+  top: 0.670rem;
   content: url("../img-dist/argument_right.svg");
   position: absolute;
 }
@@ -2909,8 +3119,10 @@ h4.debate-preview__player-name {
 }
 
 .debate-comment__author {
-  color: #8E8E93;
-  font-size: 0.75rem;
+  color: #8e8e93;
+  font-size: 14px;
+  display: inline-block;
+  width: auto;
 }
 
 .debate-comment__form {
@@ -3012,7 +3224,7 @@ ul.active-list li img {
   overflow-y: auto;
 }
 
-.active-list li a::before {
+li.pro_online a::before {
   background: #60dd50 none repeat scroll 0 0;
   border: 3px solid #fff;
   border-radius: 100%;
@@ -3027,6 +3239,19 @@ ul.active-list li img {
   vertical-align: middle;
   width: 20px;
   content: "";
+}
+
+li.pro_offline a::before {
+  background: rgba(255, 255, 255, 0.75);
+  height: 100%;
+  position: absolute;
+  left: 0;
+  text-align: center;
+  top: 0;
+  vertical-align: middle;
+  width: 100%;
+  content: "";
+  z-index: 1;
 }
 
 .debate-haeder-top {
@@ -3051,7 +3276,7 @@ ul.active-list li img {
   list-style: outside none none;
   margin: 0;
   padding: 0;
-  width: 664px;
+  width: auto;
   text-align: center;
 }
 
@@ -3060,7 +3285,7 @@ ul.active-list li img {
   overflow: hidden;
   padding: 6px;
   vertical-align: middle;
-  width: 25%;
+  width: 100px;
   height: auto;
 }
 
@@ -3075,6 +3300,8 @@ ul.active-list li img {
   text-align: center;
   top: 43%;
   width: 100%;
+  padding: 0 10px;
+  display: block;
 }
 
 .category-list ul li a {
@@ -4179,6 +4406,8 @@ input#avatar_url::before {
   border: 3px solid #60dd50;
   color: #fff;
   padding: 0;
+  top: auto;
+  left: auto;
 }
 
 input#avatar_url {
@@ -4195,7 +4424,7 @@ h2.player-profile__header-name {
 }
 
 .dropdown.profile-name {
-  width: auto;
+  width: 100%;
   margin-top: 10px;
 }
 
@@ -4233,6 +4462,28 @@ h2.player-profile__header-name {
 .modal-content .follow-player-sec {
   height: 210px;
   overflow: auto;
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding-top: 13%;
+}
+
+button#show-followers-popup {
+  background: #60dd50 none repeat scroll 0 0;
+  border: 3px solid #aceda1;
+  border-radius: 5px;
+  color: #fff;
+  display: inline-block;
+  font-size: 18px;
+  line-height: 0;
+  padding: 17px 28px 16px;
+  position: relative;
+  vertical-align: middle;
+  width: auto;
+}
+
+.modal-content .follow-player-sec p {
+  font-size: 1.5rem;
 }
 
 div#mychallengeModal .modal-header {
@@ -4675,8 +4926,8 @@ h3.earn-title::before {
   color: #000;
 }
 
-#tab4 .point-sec ul li span:first-child {
-  text-align: center;
+.point-sec ul li span:first-child {
+  text-align: center !important;
   font-weight: 700;
   color: #000;
 }
@@ -4909,7 +5160,7 @@ small.debate-preview__question-source i {
   text-align: center;
   top: 53px;
   width: 100%;
-  z-index: 99;
+  z-index: 9999;
   animation: fadein 2s;
   -moz-animation: fadein 2s;
   -webkit-animation: fadein 2s;
@@ -5065,12 +5316,15 @@ h4.u-white-text {
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-size: 23px;
+  font-size: 18px;
   font-weight: 400;
-  line-height: 23px;
-  max-width: 391px;
-  padding: 17px 0;
-  width: 100%;
+  line-height: 18px;
+  width: 176px;
+  padding: 17px 20px 16px;
+}
+
+div#mychallengeModal .modal-content .follow-player-sec {
+  padding-top: 0;
 }
 
 .modal-footer button:hover {
@@ -5435,6 +5689,7 @@ ul.select-agree-btn li:last-child input[type=radio]:checked ~ .check::before {
 .select-agree-box textarea {
   width: 100%;
   max-width: 495px;
+  height: auto;
 }
 
 .tab-section .nav-tabs > li > a {
@@ -6003,6 +6258,34 @@ div#mychallengeModal .modal-body {
   display: inline-block;
   width: 85%;
   vertical-align: middle;
+}
+
+::-webkit-input-placeholder {
+  font-size: !important;
+}
+
+:-ms-input-placeholder {
+  font-size: !important;
+}
+
+::placeholder {
+  font-size: !important;
+}
+
+::-webkit-input-placeholder {
+  font-size: 15px !important;
+}
+
+::-moz-placeholder {
+  font-size: 15px !important;
+}
+
+::-ms-input-placeholder {
+  font-size: 15px !important;
+}
+
+::-moz-placeholder {
+  font-size: 15px !important;
 }
 
 .debate-comments.u-background-white {
@@ -6800,7 +7083,7 @@ span.help-block {
   max-width: 490px;
 }
 
-#tab4 .point-sec ul li span {
+.point-sec ul li span {
   display: block;
   float: left;
   margin-bottom: 10px;
@@ -6809,7 +7092,7 @@ span.help-block {
   overflow: hidden;
 }
 
-#tab4 .point-sec ul li span:nth-child(3) {
+.point-sec ul li span:nth-child(3) {
   text-align: left;
 }
 
@@ -7206,9 +7489,52 @@ h5.debate-preview__category {
   z-index: 999999;
 }
 
+.voter-img .debate-preview__players.follow-players:last-child {
+  border-bottom: none;
+}
+
+.debate-preview__player-info {
+  line-height: 1;
+  max-width: 84px;
+  width: 100%;
+  overflow: hidden;
+}
+
+a.follow-user-back {
+  color: #000;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.marg-top.seperate-page-voter.challenge-debate-arg .modal-footer {
+  text-align: center;
+}
+
+.modal-footer > a.challenge-cancel {
+  background: transparent none repeat scroll 0 0;
+  border: medium none;
+  color: #000;
+  font-size: 18px;
+}
+
+.debate-comment__message {
+  display: inline-block;
+  width: auto;
+  font-size: 14px;
+  font-weight: 600;
+}
+
 @media screen and (min-width: 1025px) and (max-width: 1200px) {
   .topnav {
     padding-left: 0;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .marg-top.seperate-page-voter.challenge-debate-arg.email-modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
   }
 }
 
@@ -7386,6 +7712,12 @@ h5.debate-preview__category {
 }
 
 @media screen and (max-width: 640px) {
+  .on_air {
+    top: 52px;
+  }
+  .player-profile-bg .following-btn {
+    right: 3px;
+  }
   .btn-set button {
     max-width: 219px;
   }

@@ -50,7 +50,6 @@ class DebateController extends Controller
     // pick a question
     public function index()
     {
-
         $questions = DB::table('questions')
             ->join('debate_category', 'debate_category.id', '=', 'questions.category_id')
             ->select('questions.*', 'debate_category.name')
@@ -110,7 +109,7 @@ class DebateController extends Controller
             }
         }else{
 
-            $debate = $debate->load(['arguments', 'users', 'arguments.user', 'comments', 'votes']);
+            $debate = $debate->load(['arguments', 'users', 'arguments.user', 'comments', 'votes','getDebatequestion.getquestionAuther']);
             
             return view('game.debates.shownonlogin', compact('debate'));
         }

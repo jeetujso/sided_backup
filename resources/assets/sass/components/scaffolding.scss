@@ -48,59 +48,161 @@
 .game-main form {
     padding: 15px;
 }
-.profile-image{
-margin-top:20px;
-& img{
-    border-radius: 5px;
-    box-shadow: 0 0 0 1px #cccccc;
-    width: 100px;
-    height: 100px;
+ .switch2 {
+  position: relative;
+  display: inline-block;
+  width: 54px;
+  height: 16px;
+  margin: 3px 0;
+  vertical-align: text-bottom;
 }
-}
-.profile-name {
-    color: #000;
+.wrapper p {
     display: inline-block;
-    font-weight: 500;
-    margin: 0;
-    text-transform: capitalize;
-    font-size: 22px;
-    margin-top: 20px;
-    width: 100%;
-    padding: 0 15px;
+    vertical-align: middle;
+	padding-right: 12%;
+	font-size: 14px;
 }
-.profile-email {
-    color: #828282;
-    display: inline-block;
-    font-size: 20px;
-    max-width: 300px;
-    text-align: center;
-    word-wrap: break-word;
+.switch2 input {display:none;}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
-input#avatar_url {
-    position: relative;
-    overflow: hidden;
-    color: rgba(0,0,0,0);
-    height: 42px;
-&::before {
-    content: "Upload File";
-    text-align: center;
-    position: absolute;
-    background: #60dd50;
-    border-radius: 0;
-    width: 120px;
-    height: 49px;
-    border: 3px solid #60dd50;
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 19px;
+  width: 19px;
+  left: 4px;
+  bottom: -1px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #61dd50;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(35px);
+  -ms-transform: translateX(35px);
+  transform: translateX(35px);
+}
+input:checked + .slider::after {
+    content: "on";
     color: #fff;
-    padding: 7px 0 0;
+    left: 8px;
+    position: absolute;
+    top: 3px;
+}
+.slider::after {
+    content: "off";
+    color: #000;
+    position: absolute;
+    right: 8px;
+    top: 3px;
+}
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;  
+}
+
+.slider.round:before {
+  border-radius: 50%;
+  box-shadow: 0 0 3px #000;
+  left: 0;
+}
+.on_air{
+  background: #61dd50 none repeat scroll 0 0;
+  color: #fff;
+  left: 0;
+  padding: 0 0.3125rem;
+  position: fixed;
+  text-align: center;
+  top: 54px;
+  width: 100%;
+  z-index:9;
+}
+.modal-title{text-align:center;}
+.modal-body .debate-preview__players.follow-players {
+    padding: 1.25rem;
+}
+#popupFollowUsers .modal-body {
+  padding: 20px 0;
+}
+#popupJoinDebate.modal .modal-body {
+  text-align: left;
+}
+textarea#join-debate-argument {
+  height: auto;
+}
+.no-user-let-for-follow {
+    font-size: 16px;
+    font-weight: 400;
+}
+#popupJoinDebate.modal.new-popup .modal-body {
+  padding-top: 0;
+  text-align: left;
+}
+#popupJoinDebate.modal.new-popup .modal-body p{
+max-width:100%;
+padding-top:15px;
+}
+.modal-header{text-align:right; border-bottom:none !important;}
+.modal-footer {border-top: none !important;}
+.marg-top.seperate-page-voter.challenge-debate-arg.email-modal {
+  left: 0;
+  padding-top: 30px;
+  position: fixed;
+  right: 0;
+  z-index: 999999;
+  height:100%;
+}
+.radio-vote-section {
+    text-align: center;
+    display: block;
+}
+.radio-vote-section ul {
+    list-style: none;
+    width: 63%;
+    margin: 19px auto 0;
+    padding: 0;
+    display: inline-block;
+    text-align: center;
+}
+.radio-vote-section ul li {
+    width: auto;
+    text-align: left;
+    margin: 0 0 16px;
+    padding: 0;
+}
+
+.radio-vote-section ul li input {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+    margin: 0;
+    height: auto;
+}
+.radio-vote-section ul li label {
+    display: inline-block;
+    max-width: none;
+    vertical-align: baseline;
+    position: relative;
     top: 0;
-    left: 0;
-    cursor: pointer;
-}
-}
-.profile-main-inner {
-& img{
-    max-width: 490px;
-    width: 100%;
-    height: 138px;
-}
+    padding-left: 5px;
+    font-size: 13px;
+    margin: 0;
+	text-transform:capitalize;
 }

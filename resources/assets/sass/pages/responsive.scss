@@ -6,6 +6,13 @@
 	padding-left: 0;
 }
 }
+@media screen and (max-width: 1024px) {
+.marg-top.seperate-page-voter.challenge-debate-arg.email-modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: absolute;
+}
+}
 @media screen and (min-width: 768px) and (max-width:1024px) {
 .login.signup {
 	display: flex;
@@ -176,6 +183,8 @@ input[type="search"] {
 }
 }
 @media screen and (max-width: 640px) {
+.on_air{top:52px;}
+.player-profile-bg .following-btn {right: 3px;}
 .btn-set button {
 	max-width: 219px;
 }

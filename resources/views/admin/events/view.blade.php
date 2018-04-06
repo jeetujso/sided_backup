@@ -75,18 +75,6 @@
                         Explore data of all live events
                     </p>
                     </div>
-<div class="dropdown-main2">
-
-                  <input type="text" name="search_text" placeholder="Search..." id="search_text">
-                    <input type="hidden" name="search_days" value="<?=isset($_GET['filter_days'])?$_GET['filter_days']:'7'?>" id="search_days">
-
-                    <a href="#" id="view-ads-search-filter">Search</a>
-
-                    <?php $url=strtok($_SERVER["REQUEST_URI"],'?'); ?>
-                    <a href="{{ $url }}"> Reset</a>
-
-
-</div>
                   </div>
                   </div> <div class="table-main-scroll"><table class="admin-content__table ad-promo-table"><thead><tr>
                         <th class="">

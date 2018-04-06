@@ -61,7 +61,7 @@ class EventController extends Controller
      */
     public function store(EventStore $request)
     {   
-        
+
         try{    
             $input = $request->all();
             $input['avatar_url']  = isset($input['avatar_url'])?$input['avatar_url']:'';
@@ -215,6 +215,9 @@ class EventController extends Controller
      */
     public function update(EventUpdate $request, $id)
     {
+        /*echo "<pre>";
+        print_r($request->all());
+        exit;*/
         $input = $request->all();
         
         if( $request->hasFile('avatar_url') ) {
@@ -240,7 +243,7 @@ class EventController extends Controller
             'status' => $request->status,
             'publish_at' => $request->publish_at,
             'expire_at' => $request->expire_at,
-            'description' => $request->Event_description]); 
+            'description' => $request->event_description]); 
             Session::flash('message', "Event successfully updated. ");
             return redirect()->route('partnerEventIndex');
     }

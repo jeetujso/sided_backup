@@ -10,6 +10,7 @@ use App\DebateCategoryUser;
 use App\Debate;
 use App\DebateUser;
 use App\DebateArgument;
+use App\DebateComment;
 use App\User;
 use App\UserPoint;
 use App\Impression;
@@ -288,8 +289,8 @@ class QuestionController extends Controller
      */
     public function destroycomment($id)
     {
-        DB::table('debate_comment')->where('id', '=', $id)->delete();
-       return redirect()->route('partnerLiveQuestionIndex');
+       DebateComment::where('id', $id)->update(['status'=>'deactivate']);
+       return redirect()->back();
     }
 
     /**
@@ -316,17 +317,17 @@ class QuestionController extends Controller
             $debate_id = DB::table('debates')->where('question_id', $id)->where('starts_at', '>=', Carbon::now()->subDays($filter))->get();
 
 
-            $questions1 = Question::with('author', 'category', 'debates', 'debates.users', 'debates.arguments','debates.comments', 'debates.votes')->where('questions.id', '=', $id)->get();
+            $questions1 = Question::with('author', 'category', 'debates', 'debates.users', 'debates.argumentPro','debates.commentPro', 'debates.votes')->where('questions.id', '=', $id)->get();
             
 
-            $debates = Debate::with(['users','arguments','comments'])->where('question_id',$id)->where('starts_at', '>=', Carbon::now()->subDays($filter))->get();
+            $debates = Debate::with(['users','argumentPro','commentPro'])->where('question_id',$id)->where('starts_at', '>=', Carbon::now()->subDays($filter))->get();
 
 
 
         }else{
             $debate_id = DB::table('debates')->where('question_id', $id)->get();
-            $questions1 = Question::with('author', 'category', 'debates', 'debates.users', 'debates.arguments','debates.comments', 'debates.votes')->where('questions.id', '=', $id)->get();
-            $debates = Debate::with(['users','arguments','comments'])->where('question_id',$id)->get();
+            $questions1 = Question::with('author', 'category', 'debates', 'debates.users', 'debates.argumentPro','debates.commentPro', 'debates.votes')->where('questions.id', '=', $id)->get();
+            $debates = Debate::with(['users','argumentPro','commentPro'])->where('question_id',$id)->get();
         }
 
 
@@ -368,24 +369,24 @@ class QuestionController extends Controller
         if(!empty($dbt_id))
         {
 
-            $recent_arguments   = Debate::with(['arguments','arguments.user'])->find($dbt_id);
-            $recent_comments    = Debate::with(['comments','comments.user'])->find($dbt_id);
+            $recent_arguments   = Debate::with(['argumentPro','argumentPro.user'])->find($dbt_id);
+            $recent_comments    = Debate::with(['commentPro','commentPro.user'])->find($dbt_id);
             $side               = DB::table('debate_user')->where('debate_id', $debate_id[0]->id)->get();
         }
 
        //$debate_new = new Debate();
 
-            //$debate_users = $debate_new->with('users','arguments','comments','votes')->find($dbt_id);
+            //$debate_users = $debate_new->with('users','argumentPro','commentPro','votes')->find($dbt_id);
 
        /*
-        $agree_users = $debate_new->with('users','arguments','comments')
+        $agree_users = $debate_new->with('users','argumentPro','commentPro')
         ->join('debate_user', 'debate_user.debate_id', '=', 'debates.id')
         ->join('users', 'users.id', '=', 'debate_user.user_id')
         ->select('debates.*', 'debate_user.*', 'users.*')
         ->where('debate_user.side','Agree')
         ->find($dbt_id);
 
-         $disagree_users = $debate_new->with('users','arguments','comments','votes')
+         $disagree_users = $debate_new->with('users','argumentPro','commentPro','votes')
         ->join('debate_user', 'debate_user.debate_id', '=', 'debates.id')
         ->join('users', 'users.id', '=', 'debate_user.user_id')
         ->select('debates.*', 'debate_user.*', 'users.*')

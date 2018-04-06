@@ -33,6 +33,10 @@ Vue.filter('timeago', function(value) {
             return moment.utc(value).fromNow();
         });
 
+Vue.filter('dateAgo', function(value) {
+            return moment.utc(value).fromNow();
+        });
+
 const app = new Vue({
     el: '#app',
 });
@@ -53,10 +57,10 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-
+	
 	// Sortable Table Rows
     $("[data-debate]").click(function() {
         window.location = 'debates/' + $(this).data("debate");
     });
-
+	
 });

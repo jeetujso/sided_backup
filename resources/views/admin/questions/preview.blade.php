@@ -8,20 +8,7 @@
   <p class="field-description">This is what users see when scrolling through the main feed</p>
 
 </div>
-<!--   <a href="{{ '?filter_days=7' }}">Last 7 Days</a>
-  <a href="{{ '?filter_days=30' }}">Last 30 Days</a>
-  <a href="{{ '?filter_days=180' }}">Last 180 Days</a> -->
-<div class="dropdown-main2">
-      <select id="filter_days" name="filter_days" class="dropdown-button">
-            <option value="" <?=(!isset($_GET['filter_days']))?"selected":""?>>All</option>
-          <option value="7" <?=(isset($_GET['filter_days']) && $_GET['filter_days']=='7')?"selected":""?>>Last 7 Days</option>
-          <option value="30" <?=(isset($_GET['filter_days']) && $_GET['filter_days']=='30')?"selected":""?>>Last 30 Days</option>
-          <option value="180" <?=(isset($_GET['filter_days']) && $_GET['filter_days']=='180')?"selected":""?>>Last 180 Days</option>
-      </select>
 
-
-
-</div>
 <div class="admin-content-new">
   <div class="row">
     <div class="col-md-12">
@@ -196,7 +183,7 @@
         <ul class="activity-list">
           <?php $prew = "";?>
              @foreach($recent_arguments as $arguments_user) 
-             @foreach($arguments_user->arguments as $argument_user)
+             @foreach($arguments_user->argumentPro as $argument_user)
              <?php $current = $argument_user->user->handle; ?>
           <h3>{{ \Carbon\Carbon::parse($argument_user->created_at)->format('M d') }}</h3>
           <li>        
@@ -204,21 +191,13 @@
 
             <span>
             <p>    <?php
-             echo $argument_user->created_at->diffForHumans();
-
-              /*
-                 $created = new Carbon\Carbon($argument_user->created_at);
-                $now = Carbon\Carbon::now();
-                $difference = $created->diff($now)->days;
-
-                echo Carbon\Carbon::now()->subDays($difference)->diffForHumans(); 
-               
-
-               */ ?> 
+             echo $argument_user->created_at->diffForHumans(); ?> 
+             @if($argument_user->status=="deactivate") <a href="#" class="u-link-red">Deleted</a> @endif
               </p>
 
-
-            </span></span></li>
+			
+            </span></span> 
+			</li>
             <?php $prew = $current; ?>
             
             @endforeach
@@ -226,22 +205,17 @@
         </ul>
          <ul class="activity-list">
              @foreach($recent_comments as $comments_user)
-             @foreach($comments_user->comments as $comment_user)
+             @foreach($comments_user->commentPro as $comment_user)
           <h3>{{ \Carbon\Carbon::parse($comment_user->created_at)->format('M d') }}</h3>
           <li><span><img src="{{ asset('images/') }}/{{$comment_user->user->avatar_url}}" /></span><span><span><strong>{{$comment_user->user->name}}</strong> added a comment</span><span>
             <p><?php
 
                 echo $comment_user->created_at->diffForHumans();
                  
-                 /*$created = new Carbon\Carbon($comment_user->created_at);
-                $now = Carbon\Carbon::now();
-                $difference = $created->diff($now)->days;
-
-                echo Carbon\Carbon::now()->subDays($difference)->diffForHumans(); 
-                */
                 ?>
-                  
+                  @if($comment_user->status=="deactivate") <a href="#" class="u-link-red">Deleted</a> @endif 
                 </p>
+                 
             </span></span></li>
             @endforeach
             @endforeach
@@ -293,7 +267,7 @@
                       <span>
                         <strong>{{ $user->name }}</strong>
                       </span>
-                      <span><p>{{ $single_debate->arguments->where('user_id', $user->id)->count() }} responses</p></span>
+                      <span><p>{{ $single_debate->argumentPro->where('user_id', $user->id)->count() }} responses</p></span>
                     </span>
                   </li>
                 </ul>
@@ -305,7 +279,7 @@
                 <td class="admin-table__large-cell">N/A</td>
                 <td class="admin-table__large-cell">0</td>
               @endif
-              <td class="admin-table__large-cell">{{ $single_debate->comments->count() }}</td>
+              <td class="admin-table__large-cell">{{ $single_debate->commentPro->count() }}</td>
               <td style="display:none"></td>
             </tr>
           @endforeach
@@ -400,8 +374,7 @@
   </header>
   <div class="modal-body">
     @foreach($recent_arguments as $arguments_user)
-     @foreach($arguments_user->arguments as $argument_user)
-	 @if($argument_user->status=="active")
+     @foreach($arguments_user->argumentPro as $argument_user)
   <div class="debate-main">
    <div class="debate-preview__players follow-players">
    <div class="debate-select-img"><img width="128" height="128" alt="" src="{{ asset('images/') }}/{{$argument_user->user->avatar_url}}"></div> 
@@ -411,10 +384,14 @@
    </h4>
    <small>{{ $argument_user->user->name }}</small>
    </div> 
+   @if($argument_user->status=="active")
    <div class="debate-tick"><form method="POST" action="/partners/questions/destroyargument/{{$argument_user->id}}">
                         <input type="hidden" name="comment_id" value="{{$argument_user->id}}">
                         <button type="submit"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
                     </form></div>
+					@else
+						<a href="#" class="u-link-red">Deleted</a>
+					@endif
   </div>
      <div class="debate-bottom-content">
       @foreach($side as $debate_side)
@@ -425,11 +402,11 @@
    <p>{{$argument_user->argument}}</p>
    </div>
    </div>
-   @endif
+   
    @endforeach
    @endforeach
     @foreach($recent_comments as $recentscomment)
-    @foreach($recentscomment->comments as $recentcomment)
+    @foreach($recentscomment->commentPro as $recentcomment)
   <div class="debate-main">
    <div class="debate-preview__players follow-players">
    <div class="debate-select-img"><img width="128" height="128" alt="" src="{{ asset('images/') }}/{{$recentcomment->user->avatar_url}}"></div> 
@@ -439,11 +416,15 @@
    </h4>
    <small>{{$recentcomment->user->name}}</small>
    </div> 
+   @if($recentcomment->status=="active")
    <div class="debate-tick">
  <form method="POST" action="/partners/questions/destroycomment/{{$recentcomment->id}}">
                         <input type="hidden" name="argument_id" value="{{$recentcomment->id}}">
                         <button type="submit"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
                     </form></div>
+                    @else
+            <a href="#" class="u-link-red">Deleted</a>
+          @endif
   </div>
      <div class="debate-bottom-content">
    <p><a href="#" class="comment-btn">COMMENT</a></p>
@@ -498,17 +479,6 @@
 
 </div>
 
-<script type="text/javascript">
-    $(function () {
-        var url = $("#add-change").find("option:selected").attr('img-path');
-        var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        $("#add-change").change(function () {
-            var url = $(this).find("option:selected").attr('img-path');
-            var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        });
-    });
-</script>
+
 
 @endsection

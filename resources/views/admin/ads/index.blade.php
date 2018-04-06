@@ -139,7 +139,7 @@
                     <td>
                         <form method="POST" action="/partners/ads/deactivate/{{$ad->id}}">
                         <input type="hidden" name="ad_id" value="{{$ad->id}}">
-                        <button type="submit" name="status" value="deactive" class="white-button"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+                        <button type="submit" name="status" value="deactive"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
                     </form>
                 </td>
                     

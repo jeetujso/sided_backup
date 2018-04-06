@@ -1,15 +1,23 @@
 //
 // Primary Navigation
 // --------------------------------------------------
-#app {
-    position: absolute;
-    height: auto;
-    width: 100%;
-    left: 0;
-	top:0;
+html{
+	height: 100%;
+    position: relative;
+}
+body{
+	height: 100%;
+    margin: 0;
+    position: relative;
+}
+div#app {
+  float: left;
+  position: relative;
+  top: 0;
+  width: 100%;
 }
 .admin-nav{
-	@include rem(padding, 35px 0px 50px 30px);
+	padding:2.1875rem 0 50rem 1.875rem;
 	@include rem(width, 260px);
 	background-color: #323232;
 	height: 100%;

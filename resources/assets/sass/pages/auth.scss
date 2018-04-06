@@ -101,3 +101,48 @@ p.login-form-desc{
 .onboarding-category__checkbox{
 	display: none;
 }
+.player-profile-bg {
+    position: relative;
+    padding-top: 35px;
+	padding-bottom:25px;
+	z-index: 1;
+	background-repeat: no-repeat;
+    background-position: top center;
+	background-size: cover;
+	overflow:hidden;
+}
+.player-profile-bg::before {
+    content: "";
+    background: rgba(0,0,0,0.75);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: -1;
+}
+.player-profile-bg .following-btn {
+    color: #fff;
+    right: 10px;
+    border-color: #fff;
+    position: relative;
+}
+.player-profile-bg h2.player-profile__header-name{
+color:#fff;
+}
+.player-profile-bg .title-caption{
+color:#fff;
+}
+.player-profile-bg .header-stat__number{
+color:#fff;
+}
+.player-profile-bg .header-stat__label{
+color:#fff;
+}
+.flash-msg img {
+    width: 25px;
+}
+.pro-ads img {
+    width: 100%;
+    height: 100px;
+}

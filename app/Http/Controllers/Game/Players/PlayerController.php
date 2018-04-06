@@ -10,10 +10,11 @@ use App\DebateCategory;
 use App\UserPoint;
 use App\Fingerprint;
 use App\Contest;
+use App\Event;
 
 use App\DebateCategoryUser;
 use App\ContestStats;
-
+use App\EventStats;
 use DB;
 use File;
 
@@ -91,6 +92,7 @@ class PlayerController extends Controller
             // exit;
 			$contests = Contest::where('publish_at', '<=', Carbon\Carbon::now())->where([['expire_at', '>=', Carbon\Carbon::now()], ['partner_id', '=', $user->id], ['status', '!=', 'draft'],])->where('status', '!=', 'deactive')->get();
 
+            $events = Event::where('publish_at', '<=', Carbon\Carbon::now())->where([['expire_at', '>=', Carbon\Carbon::now()], ['partner_id', '=', $user->id], ['status', '!=', 'draft'],])->where('status', '!=', 'deactive')->get(); 
 
 			$userpoints = DB::select('select year(created_at) as y, month(created_at) as m, sum(points) as p from user_points where visitor_id = "'.$user->id.'" group by year(created_at), month(created_at)');
 
@@ -124,7 +126,10 @@ class PlayerController extends Controller
 			}
 
 			$debates = Debate::whereIn('id',$my_debate_ids)->orderby('id','desc')->get();
-
+            $prodebates = Debate::with('debate_user.users','getDebatequestion.getquestionAuther')->get();
+            /*echo "<pre>";
+            print_r($prodebates);
+            exit;*/
 			if(!empty(Auth::user()->id)){
 				
 				// earn point after visit
@@ -167,10 +172,10 @@ class PlayerController extends Controller
 					$status = "follow";
 
 				}
-				return view('game.players.show', compact('user', 'proUserAds', 'method','action', 'btn_text', 'status','follower_count','debates', 'is_fav_view', 'is_favourite','total_points','categories','prousers','userpoints','contests'));
+				return view('game.players.show', compact('user', 'proUserAds', 'method','action', 'btn_text', 'status','follower_count','debates', 'is_fav_view', 'is_favourite','total_points','categories','prousers','userpoints','contests','prodebates','events'));
 			}else{
 
-				return view('game.players.show', compact('user', 'proUserAds', 'follower_count','debates','total_points','contests'));
+				return view('game.players.show', compact('user', 'proUserAds', 'follower_count','debates','total_points','contests','prodebates','events'));
 
 				// return view('game.players.nonlogin', compact('user','follower_count'));
 				// die('non login user');
@@ -459,6 +464,97 @@ class PlayerController extends Controller
             }
 
             $image = File::get('img-dist/contests/'.$contest_detail->image_url);
+            return response()->make($image, 200, ['content-type' => 'image/*']);
+        
+        }
+    }
+
+    // increment event clicks 
+    // only unique user 
+    // one user / one click / one event / one event type
+    public function eventClick(Request $request,$eventID){
+        $event_detail = Event::findOrFail($eventID);
+        if($event_detail){
+
+            if (Auth::check()) {
+                $eventStats = EventStats::where('event_id', '=', $eventID)
+                                    ->where('visitor_id','=',Auth::user()->id)
+                                    ->where('event_type','=','click')
+                                    ->first();
+                if(!$eventStats){
+                    // insert new click entry 
+                    EventStats::insert(array('visitor_id' => Auth::user()->id,
+                        'event_id'=>$eventID,
+                        'event_type' => 'click',
+                        'created_at' => Carbon\Carbon::now()
+                    ));
+                }
+            }else{
+                $fstring = $request->session()->get('fingerprint_string');
+                $eventStats = EventStats::where('event_id', '=', $eventID)
+                                    ->where('visitor_id','=',NULL)
+                                    ->where('event_type','=','click')
+                                    ->where('f_string','=', $fstring)
+                                    ->first();
+                if(!$eventStats){
+                    // insert new click entry 
+                    EventStats::insert(array('f_string' => $fstring,
+                        'event_id'=>$eventID,
+                        'event_type' => 'click',
+                        'created_at' => Carbon\Carbon::now()
+                    ));
+                }
+            }
+
+            return redirect()->away($event_detail->website_url);
+            //echo "<pre>";
+            //print_r($eventStats);
+            
+        }
+    }
+
+
+    
+
+    //
+    public function eventImpression(Request $request,$eventID){
+
+        $event_detail = Event::findOrFail($eventID);
+        if($event_detail){
+            // The user is logged in...
+            if (Auth::check()) {
+                $eventStats = EventStats::where('event_id', '=', $eventID)
+                                ->where('visitor_id','=',Auth::user()->id)
+                                ->where('event_type','=','impression')
+                                ->first();
+                if(!$eventStats){
+                    // insert new click entry 
+                    EventStats::insert(array('visitor_id' => Auth::user()->id,
+                        'event_id'=>$eventID,
+                        'event_type' => 'impression',
+                        'created_at' => Carbon\Carbon::now()
+                    ));
+                }
+            }else{
+
+                $fstring = $request->session()->get('fingerprint_string');
+                $eventStats = EventStats::where('event_id', '=', $eventID)
+                            ->where('visitor_id','=',NULL)
+                            ->where('event_type','=','impression')
+                            ->where('f_string','=',$fstring)
+                            ->first();
+                if(!$eventStats){
+                    // insert new click entry 
+                    EventStats::insert(array(
+                        'f_string' => $fstring,
+                        'event_id'=>$eventID,
+                        'event_type' => 'impression',
+                        'created_at' => Carbon\Carbon::now()
+                    ));
+                }
+            }
+
+            $image = File::get('img-dist/events/'.$event_detail->image_url);
             return response()->make($image, 200, ['content-type' => 'image/*']);
         
         }

@@ -32,6 +32,7 @@ class DebateComment extends Model
         'debate_id',
         'user_id',
         'comment',
+        'status'
     ];
 
     /**

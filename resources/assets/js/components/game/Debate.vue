@@ -11,18 +11,21 @@
 						<debate-argument :initialArgument="argument" :initialFirstUser="firstUser.id"></debate-argument>
 					</div>
 				</div>
+				<aside class="game-sidebar game-sidebar__right">
+					<div class="game-header" v-text="commentCount"></div>
+				</aside>
+
 				<div class="debate-arguments__form" v-if="canArgue">
 					<new-debate-argument @argument="addArgument"></new-debate-argument>
 				</div>
-				<div v-else="canArgue">
-					<vote :data="debate"></vote>
+				<div v-else>
+					<debate-comments :data="debate.comments" @created="add"></debate-comments>
 				</div>
 			</div>
+			{{checkAds}}
+			
+			
 	   	</div>
-		<aside class="game-sidebar game-sidebar__right">
-			<div class="game-header" v-text="commentCount"></div>
-		    <debate-comments :data="debate.comments" @created="add"></debate-comments>
-		</aside>
 	</main>
 </template>
 
@@ -51,7 +54,10 @@
 				    if (el.id == window.Laravel.user.id) {return true}
 				    return false;
 				});
-            }
+            },
+			checkAds(){
+				console.log('jkkj',this.debate.question);
+			}
 		},
 		methods: {
 			add(reply) {

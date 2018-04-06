@@ -16,63 +16,7 @@
     <link href="{{ mix('css/admin.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <style>
-.switch, .switch2 {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input, .switch2 input {display:none;}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-</style>
+ 
 </head>
 <body>
 
@@ -101,15 +45,6 @@ input:checked + .slider:before {
     <p>On Air</p>
   <label class="switch">
   @if(Auth::user()->go_online == 'false')
-    <input type="checkbox" value="false">
-@else
-<input type="checkbox" value="true" checked>
-@endif
-  <span class="slider round"></span>
-</label>
-<p>Notification Settings</p>
-  <label class="switch2">
-  @if(Auth::user()->notification_settings == 'false')
     <input type="checkbox" value="false">
 @else
 <input type="checkbox" value="true" checked>
@@ -598,6 +533,18 @@ $(function() {
                 });
             }
             $(this).val(jk);
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            var url = $("#add-change").find("option:selected").attr('img-path');
+            var image_url = '/img-dist/ads/'+url;
+                $('.add-img-preview').find('img').attr('src',image_url);
+            $("#add-change").change(function () {
+                var url = $(this).find("option:selected").attr('img-path');
+                var image_url = '/img-dist/ads/'+url;
+                $('.add-img-preview').find('img').attr('src',image_url);
+            });
         });
     </script>
 </body>

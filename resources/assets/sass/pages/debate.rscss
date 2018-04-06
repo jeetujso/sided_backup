@@ -150,11 +150,12 @@ h4.debate-preview__player-name{
 
 }
 
-.debate-comment__author{
-	color: $brand-gray;
-	@include rem(font-size, 12px);
+.debate-comment__author {
+    color: #8e8e93;
+    font-size: 14px;
+    display: inline-block;
+    width: auto;
 }
-
 .debate-comment__form{
 	background-color: #F6F6F6;
 	@include rem(padding, 10px);

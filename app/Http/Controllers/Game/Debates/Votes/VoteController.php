@@ -46,24 +46,23 @@ class VoteController extends Controller
         try{
             if($request->isMethod('post')){
 
-
+                
                 $debate_id  = $request->input('debate_id');
                 $user_id    = $request->input('user_id');
                 $voter_id   = Auth::Id();
 
                 $debateUsers = DebateUser::where('debate_id', $debate_id)
                         ->where('user_id', $voter_id)
-                        ->first();
-
-                if(count($debateUsers) > 0){
+                        ->count();
+               
+                if($debateUsers > 0){
                     throw new Exception("You can't vote on your own debate.","1"); 
                 }else{
                     $checkVote = Vote::where('debate_id', $debate_id )
                         ->where('voter_id', $voter_id)
-                        ->first();
-                    
+                        ->count();
                     // user vote already voted
-                    if(count($checkVote) > 0 ){
+                    if($checkVote > 0 ){
                         if($checkVote['user_id'] != $request->input('user_id')){
                             $this->switch_vote($debate_id, $user_id, $voter_id);
                         }else{
@@ -197,24 +196,31 @@ class VoteController extends Controller
 
     //vote by third user
     public function voteByThirdUser(Request $request){
+       
         $debate_id = $request->input('debate_id');
-        $voter_id    = Auth::Id();
+        $voter_id = Auth::Id();
         $fingerprint_string = $request->input('fingerprint_string');
+        $redirectUrl = $request->input('redirect_url');
 
-        Vote::create([
-            'debate_id' => $debate_id,
-            'user_id' => $request->input('user_id'),
-            'voter_id' => $voter_id,
-            'created_at' => Carbon::now()
-        ]);
+        if($request->has('user_id')){
+            if($request->input('user_id') == 'none'){
+                return redirect($redirectUrl);
+            }else{
+                Vote::create([
+                    'debate_id' => $debate_id,
+                    'user_id' => $request->input('user_id'),
+                    'voter_id' => $voter_id,
+                    'created_at' => Carbon::now()
+                ]);
 
-        // increment votes in Debate user account
-        DebateUser::where('debate_id',$request->input('debate_id'))
-                    ->where('user_id',$request->input('user_id'))
-                    ->increment('votes');
+                DebateUser::where('debate_id',$request->input('debate_id'))
+                ->where('user_id',$request->input('user_id'))
+                ->increment('votes');
 
-        $this->add_point($voter_id,$fingerprint_string, 'give_vote', $debate_id, '10');
-        return response()->json(['response'=>'Voted successfully!!', 'status'=>'success']);
+                $this->add_point($voter_id,$fingerprint_string, 'give_vote', $debate_id, '10');
+            }
+        }
+        return redirect($redirectUrl);
     }
 
 

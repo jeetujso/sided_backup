@@ -20,6 +20,7 @@ h4.admin-content__stat-label{
 	@include rem(font-size, 12px);
 	@include rem(letter-spacing, 1px);
 	margin:0;
+	color:#000 !important;
 }
 
 .admin-content__stat-number{
@@ -36,7 +37,7 @@ h4.admin-content__stat-label{
 }
 .admin-content__stat.stat-ad-banner {
 & img.placeholder_banner{
-    height: 52px;
+    height: 75px;
 }
 }
 .admin-content__stat.stat-ad-banner  {

@@ -13,6 +13,17 @@
                 <p class="profile-name">{{ Auth::user()->name }}</p>
                 <p class="profile-email">{{ Auth::user()->email }}</p>
                 <!-- <p class="profile-id"><span>{{ Auth::user()->id }}</span></p> -->
+                  <div class="wrapper">
+<p>Receive Notifications</p>
+  <label class="switch2">
+  @if(Auth::user()->notification_settings == 'false')
+    <input type="checkbox" value="false">
+@else
+<input type="checkbox" value="true" checked>
+@endif
+  <span class="slider round"></span>
+</label>
+</div>
             </div>
     </aside>
     
