@@ -58296,9 +58296,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       return _c('div', {
       staticClass: "debate-comment"
     }, [_c('div', {
-      staticClass: "debate-comment__message"
-    }, [_vm._v("\n\t\t\t\t" + _vm._s(reply.user.handle) + "\n\t\t\t")]), _vm._v(" "), _c('div', {
       staticClass: "debate-comment__author"
+    }, [_vm._v("\n\t\t\t\t" + _vm._s(reply.user.handle) + "\n\t\t\t")]), _vm._v(" "), _c('div', {
+      staticClass: "debate-comment__message"
     }, [_vm._v(_vm._s(reply.comment) + "\n\t\t\t")])])
   }))
 

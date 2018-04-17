@@ -29,10 +29,14 @@
                 x.className = "topnav";
             }
         }
+        function showAllComment(){
+                    $('.debate-comment').css('display','block')
+            }
         //var debateId = {{ Request::segment(2) }}
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
             'user' => Auth::user(),
+            'debate' => App\Debate::where('id', Request::segment(2))->first(),
             'is_debate_user' => App\DebateUser::where('user_id', Auth::user()->id)->where('debate_id', Request::segment(2))->count(),
             'debate_users_count' => App\DebateUser::where('debate_id', Request::segment(2))->count(),
             'debate_users' => App\DebateUser::with('users')->where('debate_id', Request::segment(2))->get(),
@@ -42,6 +46,8 @@
             'voterSide'=>'0',
         ]) !!};
         //console.log('jk',window.Laravel);
+
+      
     </script>
 
 
@@ -53,9 +59,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-59edd23175103073"></script>
+
 </head>
 
 <body>
+    <?php
+       /* echo "<pre>";
+        print_r($debate->users[0]->id);
+        exit;*/
+    ?>
     <!-- loader -->
     <div class="loader-bg">
         <div class="loader"></div>
@@ -265,7 +277,7 @@
             
             var query =  window.location.search.substring(1);
             if(query == "r=t"){
-                $("#challengeRefreshPopup").trigger( "click" );
+                $("#challengeRefreshPopup").trigger("click");
             }
 
             if($("#home .follow-player-sec").children().length < 1){
@@ -318,14 +330,14 @@
                     $(this).html('');
                 });
             }
-            if( $('.my-debate-disabled').length == '2'  ){
-                $.each( $('.voter-sec').find('a') , function( key, value ) {
-                    $(this).removeClass();
-                    $(this).addClass('gray-in');
-                    $(this).css( 'cursor', 'default' );
-                    $(this).closest( "span" ).css( "color", "red" );
-                });
-            }
+            // if( $('.my-debate-disabled').length == '2'  ){
+            //     $.each( $('.voter-sec').find('a') , function( key, value ) {
+            //         $(this).removeClass();
+            //         $(this).addClass('gray-in');
+            //         $(this).css( 'cursor', 'default' );
+            //         $(this).closest( "span" ).css( "color", "red" );
+            //     });
+            // }
 
             if($('.not-mine-disagree-1').length > 0){
                 $('.not-mine-disagree-1').prev().css('color', '#D8D8D8');
@@ -443,7 +455,7 @@
             var voteForA = window.Laravel.debate_users[0].users.handle;
             var voteForB = window.Laravel.debate_users[1].users.handle;
             
-            if(window.Laravel.is_debate_user == 0 && window.Laravel.debate_users_count == 2 && window.Laravel.is_voted == 0){
+            if(window.Laravel.is_debate_user == 0 && window.Laravel.debate_users_count == 2 && window.Laravel.is_voted == 0 && window.Laravel.debate.status !='closed'){
                 e.preventDefault();
                 var voteDebateId= {{ Request::segment(2) }};
                 $("#vote_debate_id").val(voteDebateId);
@@ -613,6 +625,7 @@
                         ele.parent().parent().remove('div');
                         if(usersCount == 0){
                             $('.no-user-let-for-follow').text('There are no more users to follow.');
+							$('.no-user-let-for-follow').addClass("network-tab-content");
                         }
                     },
                     error: function(msg) {
@@ -620,7 +633,7 @@
                     }
                 });
             });
-            $("body").on('click', '.close.closed-follow-popup', function(){
+            $("body").on('click', '.closed-follow-popup', function(){
                 location.reload();
             });
 
@@ -652,7 +665,32 @@
                 effect: "fadeIn"
             });
 
+  $(document).ready(function(){
+    var currentuser = <?php echo(json_encode($debate->users[0]->id)); ?>;
+    var debateStatus = <?php echo(json_encode($debate->status)); ?>;
 
+if(currentuser == window.Laravel.user.id)
+{
+    $('#hideForFirstUser').css('display','none');
+}
+if(debateStatus=="needs_opponent")
+{
+    $('#commentblock').css('display','none');
+    $('#commentboxsection').css('display','none');
+    $('.debate-comments').css('display','none');
+}
+if(debateStatus=="closed")
+{
+    $('#commentblock').css('display','none');
+    $('#closedargu').css('display','none');
+    $('#commentboxsection').css('display','none');
+    $('.debate-comments').css('display','none');
+    
+       
+}
+//alert(myVariable);
+//console.log('abc',window.Laravel);
+});
     </script>
 
 

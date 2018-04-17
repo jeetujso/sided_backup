@@ -35,7 +35,11 @@ class Question extends Model
         'updated_at',
         'deleted_at',
 		'status',
-        'ads_id'
+        'ads_id',
+        'question_type',
+        'answer_type',
+        'allowed_other_answer',
+        'instant_result'
     ];
 
     /**
@@ -201,6 +205,11 @@ class Question extends Model
     {
 
         return $this->belongsTo(\App\User::class, 'user_id');
+    }
+    public function answer()
+    {
+
+        return $this->hasMany(\App\Answer::class, 'question_id', 'id');
     }
 
 }

@@ -1,10 +1,9 @@
 <?php
 
 namespace App;
-
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 class DebateCategory extends Model
 {
 
@@ -71,6 +70,9 @@ class DebateCategory extends Model
         return $this->hasMany(\App\Question::class, 'category_id');
     }
     public function ads(){
+        return $this->belongsTo(\App\Ad::class, 'ads_id')->where('publish_at', '<=', Carbon::now())->where([['expire_at', '>=', Carbon::now()], ['status', '!=', 'draft'],])->where('status', '!=', 'deactive');
+    }
+    public function pro_ads(){
         return $this->belongsTo(\App\Ad::class, 'ads_id');
     }
 }

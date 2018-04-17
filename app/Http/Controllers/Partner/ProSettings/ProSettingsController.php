@@ -107,19 +107,4 @@ class ProSettingsController extends Controller
         return response()->json(['response'=>$message, 'status'=>'success','_code'=>'1']);
     }
 
-     // Subscription option
-
-    public function notificationSetting($status)
-    {
-        User::where('id', Auth::user()->id)->update(['notification_settings'=>$status]);
-        if($status=='true')
-        {
-            $message = "Notification settings activated.";
-        }
-        else
-        {
-            $message = "Notification settings deactivared";
-        }
-        return response()->json(['response'=>$message, 'status'=>'success','_code'=>'1']);
-    }
 }

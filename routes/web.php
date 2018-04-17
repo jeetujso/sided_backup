@@ -143,6 +143,25 @@ Route::group(['namespace' => 'Game'], function () {
         ]);
     });
 
+    // Servey
+    Route::group(['namespace' => 'Serveys', 'prefix' => 'servey', 'middleware' => ['frontuser']], function () {
+        Route::get('/pickanswer', [
+            'as' => 'pickServeyAnswer', 'uses' => 'ServeyController@index'
+        ]);
+        Route::post('/single-servey-ans', [
+            'as' => 'singleServeyAnswers', 'uses' => 'ServeyController@singleServeyAnswer'
+        ]);
+        Route::post('/multiple-servey-ans', [
+            'as' => 'multipleServeyAnswers', 'uses' => 'ServeyController@multipleServeyAnswer'
+        ]);
+        Route::get('/instant/{id}/result', [
+            'as' => 'serVeyInstantResult', 'uses' => 'ServeyController@getInstantResult'
+        ]);
+        Route::get('/thankyou', [
+            'as' => 'serveyAnsSubmitThankyou', 'uses' => 'ServeyController@thankyou'
+        ]);
+    });
+
     // Debates
     Route::group(['namespace' => 'Debates', 'prefix' => 'debates', 'middleware' => ['frontuser']], function () {
 
@@ -258,7 +277,12 @@ Route::group(['namespace' => 'Game'], function () {
             'middleware' => ['auth']
         ]);
 
-
+        Route::get('notificationSetting/{status}', [
+            'as' => 'publicnotificationSetting', 'uses' => 'PlayerController@notificationSetting'
+        ]);
+        Route::post('notificationSetting/{status}', [
+            'as' => 'publicnotificationSetting', 'uses' => 'PlayerController@notificationSetting'
+        ]);
 
         Route::get('/changePassword', [
                 'as' => 'playerChangePassword', 'uses' => 'PlayerController@showChangePasswordForm',
@@ -367,12 +391,7 @@ Route::group(['namespace' => 'Partner', 'prefix' => 'partners','middleware' => [
         Route::post('goOnline/{status}', [
             'as' => 'publicgoOnline', 'uses' => 'ProSettingsController@goOnline'
         ]);
-        Route::get('notificationSetting/{status}', [
-            'as' => 'publicnotificationSetting', 'uses' => 'ProSettingsController@notificationSetting'
-        ]);
-        Route::post('notificationSetting/{status}', [
-            'as' => 'publicnotificationSetting', 'uses' => 'ProSettingsController@notificationSetting'
-        ]);
+        
     });
 
      // Ads
@@ -559,6 +578,22 @@ Route::group(['namespace' => 'Partner', 'prefix' => 'partners','middleware' => [
         ]);
     });
 
+    //answer of question for pro
+    Route::group(['namespace' => 'Answers', 'prefix' => 'manage-answer'], function () {
+        Route::get('/questions/{id}/answers', [
+            'as' => 'manageAnswers', 'uses' => 'AnswerController@index'
+        ]);
+        Route::post('/answer/store', [
+            'as' => 'manageAnswersStore', 'uses' => 'AnswerController@store'
+        ]);
+        Route::post('/answer/update', [
+            'as' => 'manageAnswersUpdate', 'uses' => 'AnswerController@update'
+        ]);
+        Route::post('/answer/delete', [
+            'as' => 'manageAnswersDelete', 'uses' => 'AnswerController@delete'
+        ]);
+    });
+
     // Categories
     Route::group(['namespace' => 'Categories', 'prefix' => 'categories'], function () {
         Route::get('/', [
@@ -615,6 +650,13 @@ Route::group(['namespace' => 'Partner', 'prefix' => 'partners','middleware' => [
         ]);
         Route::get('view/{id}', [
             'as' => 'partnerQuestionPreview', 'uses' => 'QuestionController@preview'
+        ]);
+        
+        Route::post('multiple-choice-question-setting', [
+            'as' => 'questionSetting', 'uses' => 'QuestionController@multiChoiceSetting'
+        ]);
+        Route::get('/{id}/result', [
+            'as' => 'questionServeyResult', 'uses' => 'QuestionController@serveyResult'
         ]);
 
         Route::post('unattach/{id}', [

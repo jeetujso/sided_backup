@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-
     <main class="game-wrapper">
         <aside class="game-sidebar game-sidebar__right profile-content">
             <div class="game-header">Your Profile</div>

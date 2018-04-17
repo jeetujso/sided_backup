@@ -28,4 +28,9 @@ class DebateCategoryUser extends Model
     {
         return $this->belongsTo(\App\DebateCategory::class, 'category_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(\App\User::class, 'user_id');
+    }
 }

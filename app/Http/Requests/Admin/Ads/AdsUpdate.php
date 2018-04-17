@@ -29,7 +29,7 @@ class AdsUpdate extends FormRequest
                 'avatar_url' => 'required|image|mimes:jpeg,png,jpg',
                 'weburl' => 'required',
                 'advertisement_type' => 'required',
-                'cpm' => 'required',
+                'cpm' => 'required|integer',
                 'publish_at' => 'required',
                 'expire_at' => 'required'
             ];
@@ -38,7 +38,7 @@ class AdsUpdate extends FormRequest
                 'name' => 'required',
                 'weburl' => 'required',
                 'advertisement_type' => 'required',
-                'cpm' => 'required',
+                'cpm' => 'required|integer',
                 'publish_at' => 'required',
                 'expire_at' => 'required'
             ];
@@ -56,6 +56,7 @@ class AdsUpdate extends FormRequest
             'weburl.required' => 'Please enter ad url.',
             'advertisement_type.required' => 'Choose advertisement type.',
             'cpm.required' => 'Please enter ad cpm.',
+            'cpm.integer' => 'Please enter a numeric value.',
             'publish_at.required' => 'Please select publish date.',
             'expire_at.required' => 'Please select expire date.',
         ];

@@ -2,19 +2,21 @@
 	<div class="debate-comments u-background-white">
 		<div class="debate-comment__stream" id="comment-stream">
 			<div class="debate-comment" v-for="reply in items">
+			<div class="debate-comment__author">
+					{{ reply.user.handle }}
+				</div>
 				<div class="debate-comment__message">
 					{{ reply.comment }}
 				</div>
-				<div class="debate-comment__author">
-					Posted by {{ reply.user.handle }} {{ reply.created_at | dateAgo}}
-				</div>
 			</div>
 		</div><!-- /debate-comment__stream -->
-		<div class="debate-comment__form">
-			<input type="text" class="form-control resp-text-box" name="comment" placeholder="What do you think?" required autofocus v-model="body">
+		<div class="debate-comment__form" id="commentboxsection">
+			<!--input type="text" class="form-control resp-text-box" name="comment" placeholder="Enter comment here..." required autofocus v-model="body"-->
+			<textarea rows="4" id="commentblock" cols="50" class="form-control resp-text-box" name="comment" placeholder="Enter comment here..." required autofocus v-model="body"> 
+</textarea>
 			<button type="submit"
-				class="hide"
-				@click="addComment">Post Comment</button>
+				class="text-submit"
+				@click="addComment"><i aria-hidden="true" class="fa fa-paper-plane-o"></i></button>
 		</div>
 	</div>
 </template>

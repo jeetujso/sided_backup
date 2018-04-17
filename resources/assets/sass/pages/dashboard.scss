@@ -1,11 +1,11 @@
 //
 // Dashboard
 // --------------------------------------------------
-
+html,body{ -webkit-overflow-scrolling : touch !important; overflow: auto !important; height: 100% !important; position:relative;z-index:-1;}
 .dashboard-item{
-	@include rem(margin, 0px 0px 10px);
+	@include rem(margin, 0px 0px 10px);	
 	&:hover{
-		cursor: pointer;
+		cursor: default;
 	}
 }
 html {
@@ -16,7 +16,6 @@ body {
     overflow:auto;
 	background:#F6F6F6 !important;
 }
-html,body{ -webkit-overflow-scrolling : touch !important; height: 100% !important; }
 article, aside, details, figcaption, figure, footer, header, main, menu, nav, section, summary {
     display: block;
 }
@@ -249,12 +248,13 @@ input, input[type="text"], input[type="tel"], input[type="number"], input[type="
 	height:49px;
 	font-weight: 400;
 }
-input::-moz-placeholder, input[type="text"]::-moz-placeholder, input[type="tel"]::-moz-placeholder, input[type="number"]::-moz-placeholder, input[type="password"]::-moz-placeholder, input[type="email"] select::-moz-placeholder, textarea::-moz-placeholder {
+input::-moz-placeholder, input[type="text"]::-moz-placeholder, input[type="tel"]::-moz-placeholder, input[type="number"]::-moz-placeholder, input[type="password"]::-moz-placeholder, input[type="email"] select::-moz-placeholder, textarea::-webkit-placeholder {
     color: #828282;
     font-size: 15px;
     font-weight: 400;
 	font-family:roboto;
 }
+
 input:-moz-placeholder, input[type="text"]:-moz-placeholder, input[type="tel"]:-moz-placeholder, input[type="number"]:-moz-placeholder, input[type="password"]:-moz-placeholder, input[type="email"] select:-moz-placeholder, textarea:-moz-placeholder {
    color: #828282;
    font-size: 15px;

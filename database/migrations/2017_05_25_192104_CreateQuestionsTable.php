@@ -28,6 +28,10 @@ class CreateQuestionsTable extends Migration
             $table->datetime('expire_at');
 			$table->string('status')->nullable();
             $table->integer('ads_id')->unsigned()->default('0');
+            $table->integer('question_type')->unsigned()->default('0');
+            $table->integer('answer_type')->unsigned()->default('0');
+            $table->integer('allowed_other_answer')->unsigned()->default('0');
+            $table->integer('instant_result')->unsigned()->default('0');
             $table->timestamps();
             $table->softDeletes();
         });

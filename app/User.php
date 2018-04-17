@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 use App\Follower;
-
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -59,7 +59,8 @@ class User extends Authenticatable
      */
     public function categories()
     {
-        return $this->belongsToMany(\App\DebateCategory::class, 'debate_category_user', 'user_id', 'category_id');
+        //return $this->belongsToMany(\App\DebateCategory::class, 'debate_category_user', 'user_id', 'category_id');
+        return $this->belongsToMany(\App\DebateCategory::class, 'debate_category_user', 'user_id', 'category_id')->where('status', 'live');
     }
 
 
@@ -159,7 +160,9 @@ class User extends Authenticatable
             // when no one follow you 
             // then take random 3 user
 
-        return DB::select( DB::raw("select id, name, handle, avatar_url from users u1 where u1.id!=$user_id AND u1.handle!='' AND not exists (select 1 from followers a where a.followerid=$user_id and a.user_id=u1.id and a.status='follow') order by rand() Limit 3"));
+        //return DB::select( DB::raw("select id, name, handle, avatar_url, is_admin from users u1 where u1.id!=$user_id AND u1.handle!='' AND not exists (select 1 from followers a where a.followerid=$user_id and a.user_id=u1.id and a.status='follow') order by rand() Limit 3"));
+
+        return DB::select( DB::raw("select id, name, handle, avatar_url, is_admin from users u1 where u1.id!=$user_id AND u1.is_admin!=1 AND u1.handle!='' AND not exists (select 1 from followers a where a.followerid=$user_id and a.user_id=u1.id and a.status='follow') order by rand() Limit 3"));
         
     }
 
@@ -175,6 +178,9 @@ class User extends Authenticatable
     }
 
     public function ads(){
+        return $this->belongsTo(\App\Ad::class, 'ads_id')->where('publish_at', '<=', Carbon::now())->where([['expire_at', '>=', Carbon::now()], ['status', '!=', 'draft'],])->where('status', '!=', 'deactive');
+    }
+    public function pro_ads(){
         return $this->belongsTo(\App\Ad::class, 'ads_id');
     }
 }

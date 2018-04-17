@@ -6,7 +6,7 @@
 </div>
 <div class="follow-player-sec">	
 	@foreach($follow_suggestions as $suggestion)
-	@if(!empty($suggestion->handle))	
+	@if(!empty($suggestion->handle) && $suggestion->is_admin==0)	
 	<div class="debate-preview__players follow-players">
 		<div class="debate-follow-img"><img src="{{ asset('images') }}/{{ $suggestion->avatar_url }}" width="128" height="128" alt=""></div>
 			<div class="debate-follow-name">
@@ -20,6 +20,7 @@
 		@endif
 	@endforeach
 	@if(empty($follow_suggestions))
+		<h4 class="text-center">There are no more users to follow.</h4>
 	<div class="debate-preview__players follow-players">
 		<a href="#" class="primary-nav__dropdown-link u-link-black" data-toggle="modal" data-target="#inviteFriends">
                                     Invite Friends

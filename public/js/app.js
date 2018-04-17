@@ -59658,7 +59658,7 @@ jQuery(document).ready(function ($) {
 
   // Sortable Table Rows
   $("[data-debate]").click(function () {
-    window.location = 'debates/' + $(this).data("debate");
+    window.location = '../debates/' + $(this).data("debate");
   });
 });
 
@@ -59751,6 +59751,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -59769,7 +59773,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	computed: {
 		commentCount: function commentCount() {
-			return "Comments (" + _.size(this.item.comments) + ")";
+
+			if (_.size(this.item.comments) == 0) {
+				return "There are no Side comments.";
+			}
+			if (_.size(this.item.comments) <= 5) {
+				return "Showing all " + _.size(this.item.comments) + " comments.";
+			}
+			if (_.size(this.item.comments) >= 6) {
+				return "View all " + _.size(this.item.comments) + " comments.";
+			}
+			//return "Comments (" + _.size(this.item.comments) + ")";
 		},
 		canArgue: function canArgue() {
 			if (!window.Laravel.user) {
@@ -59779,11 +59793,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				if (el.id == window.Laravel.user.id) {
 					return true;
 				}
-				return false;
 			});
 		},
 		checkAds: function checkAds() {
-			console.log('jkkj', this.debate.question);
+			if (this.debate.question.ads_id == 0) {
+				if (this.debate.question.category.ads_id == 0 || this.debate.question.category.ads_id == null) {
+					return {
+						hasAds: 0,
+						ad_img: 'No Image'
+					};
+				} else {
+					if (this.debate.question.category.ads == null) {
+						return {
+							hasAds: 0,
+							ad_img: 'No Image'
+						};
+					} else {
+						return {
+							hasAds: 1,
+							ad_img: this.debate.question.category.ads.image_url
+						};
+					}
+				}
+			} else {
+				if (this.debate.question.ads == null) {
+					return {
+						hasAds: 0,
+						ad_img: 'No Image'
+					};
+				} else {
+					return {
+						hasAds: 1,
+						ad_img: this.debate.question.ads.image_url
+					};
+				}
+			}
 		}
 	},
 	methods: {
@@ -59844,6 +59888,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -60011,6 +60057,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['data'],
@@ -60028,6 +60100,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			} else {
 				return this.debate_status = "";
 			}
+		},
+		getVoteStatus: function getVoteStatus() {
+			console.log('debate', this.debate);
+			if (this.debate.users[0].id == window.Laravel.user.id) {
+				var vote_side = 1;
+			} else {
+				var vote_side = 2;
+			}
+			if (this.debate.votes.length == 0) {
+				var vCount = 0;
+			} else {
+				var vCount = 1;
+			}
+			return {
+				vote_side: vote_side,
+				user: window.Laravel.user,
+				debate_users_count: window.Laravel.debate_users_count,
+				is_debate_user: window.Laravel.is_debate_user,
+				is_voted: window.Laravel.is_voted,
+				vote_count: vCount
+				//console.log('vote_side', vote_side);
+
+				//console.log('user', window.Laravel.user);
+				//if(this.debate.users.length == 2){
+				//	console.log('2');
+				//}else{
+				//	console.log('1');
+				//}
+			};
 		}
 	}
 });
@@ -60616,13 +60717,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('div', {
       staticClass: "debate-comment"
     }, [_c('div', {
-      staticClass: "debate-comment__message"
-    }, [_vm._v("\n\t\t\t\t" + _vm._s(reply.comment) + "\n\t\t\t")]), _vm._v(" "), _c('div', {
       staticClass: "debate-comment__author"
-    }, [_vm._v("\n\t\t\t\tPosted by " + _vm._s(reply.user.handle) + " " + _vm._s(_vm._f("dateAgo")(reply.created_at)) + "\n\t\t\t")])])
+    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(reply.user.handle) + "\n\t\t\t\t")]), _vm._v(" "), _c('div', {
+      staticClass: "debate-comment__message"
+    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(reply.comment) + "\n\t\t\t\t")])])
   })), _vm._v(" "), _c('div', {
-    staticClass: "debate-comment__form"
-  }, [_c('input', {
+    staticClass: "debate-comment__form",
+    attrs: {
+      "id": "commentboxsection"
+    }
+  }, [_c('textarea', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -60631,9 +60735,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control resp-text-box",
     attrs: {
-      "type": "text",
+      "rows": "4",
+      "id": "commentblock",
+      "cols": "50",
       "name": "comment",
-      "placeholder": "What do you think?",
+      "placeholder": "Enter comment here...",
       "required": "",
       "autofocus": ""
     },
@@ -60647,14 +60753,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }), _vm._v(" "), _c('button', {
-    staticClass: "hide",
+    staticClass: "text-submit",
     attrs: {
       "type": "submit"
     },
     on: {
       "click": _vm.addComment
     }
-  }, [_vm._v("Post Comment")])])])
+  }, [_c('i', {
+    staticClass: "fa fa-paper-plane-o",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  })])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -60696,7 +60807,10 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('div', {
-    staticClass: "debate-argument__form"
+    staticClass: "debate-argument__form",
+    attrs: {
+      "id": "closedargu"
+    }
   }, [_c('textarea', {
     directives: [{
       name: "model",
@@ -60721,14 +60835,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }), _vm._v(" "), _c('button', {
-    staticClass: "hide",
+    staticClass: "text-submit",
     attrs: {
       "type": "submit"
     },
     on: {
       "click": _vm.addArgument
     }
-  }, [_vm._v("Post Argument")])])])
+  }, [_c('i', {
+    staticClass: "fa fa-paper-plane-o",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  })])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -60842,14 +60961,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "debate-preview__category"
   }, [_vm._v("\n\t\t\t\t\tSubmitted In "), _c('strong', {
     staticClass: "u-text-black"
-  }, [_vm._v(_vm._s(_vm.debate.question_category))]), _vm._v(" "), (Date.now() < new Date(_vm.debate.question.expire_at)) ? _c('span', [_vm._v(_vm._s(_vm._f("timeago")(_vm.debate.question.publish_at)))]) : _c('span', [_vm._v("This debate is closed.")])]), _vm._v(" "), _c('h4', {
+  }, [_vm._v(_vm._s(_vm.debate.question_category))]), _vm._v(" "), (_vm.debate.status != 'closed') ? _c('span', [_vm._v(_vm._s(_vm._f("timeago")(_vm.debate.starts_at)))]) : _c('span', {
+    staticClass: "debate-closed"
+  }, [_vm._v("Closed")])]), _vm._v(" "), _c('h5', {
     staticClass: "debate-preview__category"
   }, [_vm._v("\n\t\t\t\t\tSubmitted By "), _c('strong', {
     staticClass: "u-text-black"
   }, [_c('a', {
     attrs: {
-      "href": '/players/' + _vm.debate.get_debatequestion.getquestion_auther.handle,
-      "target": "_blank"
+      "href": '/players/' + _vm.debate.get_debatequestion.getquestion_auther.handle
     }
   }, [_vm._v(_vm._s(_vm.debate.get_debatequestion.getquestion_auther.name))])])]), _vm._v(" "), (_vm.debate.status != 'active') ? _c('span', {
     staticClass: "send-debate",
@@ -60877,21 +60997,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "debate-preview__question-source"
   }, [_vm._v("\n\t            " + _vm._s(_vm.debate.question_medium) + " from "), _c('strong', {
     staticClass: "u-text-black"
-  }, [_vm._v(_vm._s(_vm.debate.question_source))])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.debate.question_source))])])]), _vm._v(" "), (_vm.debate.status == 'needs_opponent') ? _c('div', {
+    staticClass: "new-join-debate-button"
+  }, [_c('a', {
+    staticClass: "debate-preview__player-info",
+    staticStyle: {
+      "cursor": "pointer"
+    },
+    attrs: {
+      "href": "#",
+      "data-target": "#mychallengeModal",
+      "data-toggle": "model",
+      "onclick": "openpopup()",
+      "id": "hideForFirstUser"
+    }
+  }, [_vm._v("Join debate\n\t\t")])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "debate-preview__players u-flex"
   }, [_vm._l((_vm.debate.users), function(user) {
     return _c('div', {
-      staticClass: "debate-preview__player u-flex-center"
+      class: 'debate-preview__player u-flex-center ' + user.pivot.side.toLowerCase()
     }, [_c('div', {
       staticClass: "debate-preview__player-img"
     }, [_c('a', {
       attrs: {
-        "href": "/players/"
+        "href": '../players/' + user.handle
       }
     }, [_c('img', {
       staticClass: "debate-preview__player-avatar",
       attrs: {
-        "src": user.avatar_url,
+        "src": '/images/' + user.avatar_url,
         "alt": user.name
       }
     })])]), _vm._v(" "), _c('div', {
@@ -60901,12 +61035,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('a', {
       staticClass: "u-link-black",
       attrs: {
-        "href": '/players/' + _vm.debate.get_debatequestion.getquestion_auther.handle,
+        "href": '/players/' + user.handle,
         "target": "_blank"
       }
     }, [_vm._v("\n                            " + _vm._s(user.handle) + "\n                        ")])]), _vm._v(" "), _c('small', [_vm._v("\n                        " + _vm._s(user.rank) + "\n                    ")])]), _vm._v(" "), (user.pivot.votes > 0) ? _c('ul', {
       class: 'voter-sec full-dark vote-count-' + user.pivot.votes + '-my-debate my-debate'
-    }, [(_vm.debate.users[0].id == user.id) ? _c('li', [(user.pivot.votes > 0) ? _c('span', [_vm._v(_vm._s(user.pivot.votes))]) : _vm._e(), _vm._v(" "), (_vm.debate.users.id == user.id) ? _c('a', {
+    }, [(_vm.debate.users[0].id == user.id) ? _c('li', [(user.pivot.votes > 0) ? _c('span', [_vm._v(_vm._s(user.pivot.votes))]) : _vm._e(), _vm._v(" "), (_vm.getVoteStatus.debate_users_count == 2 && _vm.getVoteStatus.is_debate_user == 0 && _vm.getVoteStatus.is_voted == 0) ? _c('a', {
+      class: 'not-not-given-' + user.pivot.side.toLowerCase() + '-1',
+      style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
+      attrs: {
+        "href": "javascript:void(0)",
+        "data-debate-id": _vm.debate.id,
+        "data-user-id": user.id,
+        "data-debate-status": _vm.debate.status,
+        "id": _vm.voteForDebate,
+        "title": 'Click to Vote for ' + user.name
+      }
+    }, [_c('img', {
+      attrs: {
+        "src": "/img/left-vote-btn.svg",
+        "alt": "Jitendra"
+      }
+    })]) : (_vm.debate.users.id == user.id) ? _c('a', {
       class: 'my-debate-' + user.pivot.side.toLowerCase() + '-1',
       style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
       attrs: {
@@ -60938,7 +61088,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "src": "/img/left-vote-btn.svg",
         "alt": "Jitendra"
       }
-    })])]) : _c('li', [(_vm.debate.users.id == user.id) ? _c('a', {
+    })])]) : _c('li', [(_vm.getVoteStatus.debate_users_count == 2 && _vm.getVoteStatus.is_debate_user == 0 && _vm.getVoteStatus.is_voted == 0) ? _c('a', {
+      class: 'not-not-given-' + user.pivot.side.toLowerCase() + '-2',
+      style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
+      attrs: {
+        "href": "javascript:void(0)",
+        "data-debate-id": _vm.debate.id,
+        "data-user-id": user.id,
+        "data-debate-status": _vm.debate.status,
+        "id": _vm.voteForDebate,
+        "title": 'Click to Vote for ' + user.name
+      }
+    }, [_c('img', {
+      attrs: {
+        "src": "/img/left-vote-btn.svg",
+        "alt": "Jitendra"
+      }
+    })]) : (_vm.debate.users.id == user.id) ? _c('a', {
       class: 'my-debate-' + user.pivot.side.toLowerCase() + '-2',
       style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
       attrs: {
@@ -60972,8 +61138,40 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })]), _vm._v(" "), (user.pivot.votes > 0) ? _c('span', [_vm._v(_vm._s(user.pivot.votes))]) : _vm._e()])]) : _c('ul', {
       class: 'voter-sec full-dark vote-count-' + user.pivot.votes + '-my-debate-disabled my-debate-disabled'
-    }, [(_vm.debate.users[0].id == user.id) ? _c('li', [(user.pivot.votes > 0) ? _c('span', [_vm._v(_vm._s(user.pivot.votes))]) : _vm._e(), _vm._v(" "), (_vm.debate.users.id == user.id) ? _c('a', {
+    }, [(_vm.debate.users[0].id == user.id) ? _c('li', [(user.pivot.votes > 0) ? _c('span', [_vm._v(_vm._s(user.pivot.votes))]) : _vm._e(), _vm._v(" "), (_vm.getVoteStatus.vote_count >= 1 && _vm.getVoteStatus.is_debate_user >= 1) ? _c('span', [_vm._v(_vm._s(user.pivot.votes))]) : _vm._e(), _vm._v(" "), (_vm.getVoteStatus.debate_users_count == 2 && _vm.getVoteStatus.is_debate_user == 0 && _vm.getVoteStatus.is_voted == 0) ? _c('a', {
+      class: 'not-not-given-' + user.pivot.side.toLowerCase() + '-1',
+      style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
+      attrs: {
+        "href": "javascript:void(0)",
+        "data-debate-id": _vm.debate.id,
+        "data-user-id": user.id,
+        "data-debate-status": _vm.debate.status,
+        "id": _vm.voteForDebate,
+        "title": 'Click to Vote for ' + user.name
+      }
+    }, [_c('img', {
+      attrs: {
+        "src": "/img/left-vote-btn.svg",
+        "alt": "Jitendra"
+      }
+    })]) : (_vm.debate.users.id == user.id) ? _c('a', {
       class: 'my-debate-' + user.pivot.side.toLowerCase() + '-1',
+      style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
+      attrs: {
+        "href": "javascript:void(0)",
+        "data-debate-id": _vm.debate.id,
+        "data-user-id": user.id,
+        "data-debate-status": _vm.debate.status,
+        "id": _vm.voteForDebate,
+        "title": 'Click to Vote for ' + user.name
+      }
+    }, [_c('img', {
+      attrs: {
+        "src": "/img/left-vote-btn.svg",
+        "alt": "Jitendra"
+      }
+    })]) : (_vm.getVoteStatus.vote_count >= 1 && _vm.getVoteStatus.is_debate_user) ? _c('a', {
+      class: 'not-my-debate-' + user.pivot.side.toLowerCase() + '-1',
       style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
       attrs: {
         "href": "javascript:void(0)",
@@ -61004,8 +61202,40 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "src": "/img/left-vote-btn.svg",
         "alt": "Jitendra"
       }
-    })])]) : _c('li', [(_vm.debate.users.id == user.id) ? _c('a', {
+    })])]) : _c('li', [(_vm.getVoteStatus.debate_users_count == 2 && _vm.getVoteStatus.is_debate_user == 0 && _vm.getVoteStatus.is_voted == 0) ? _c('a', {
+      class: 'not-not-given-' + user.pivot.side.toLowerCase() + '-2',
+      style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
+      attrs: {
+        "href": "javascript:void(0)",
+        "data-debate-id": _vm.debate.id,
+        "data-user-id": user.id,
+        "data-debate-status": _vm.debate.status,
+        "id": _vm.voteForDebate,
+        "title": 'Click to Vote for ' + user.name
+      }
+    }, [_c('img', {
+      attrs: {
+        "src": "/img/left-vote-btn.svg",
+        "alt": "Jitendra"
+      }
+    })]) : (_vm.debate.users.id == user.id) ? _c('a', {
       class: 'my-debate-' + user.pivot.side.toLowerCase() + '-2',
+      style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
+      attrs: {
+        "href": "javascript:void(0)",
+        "data-debate-id": _vm.debate.id,
+        "data-user-id": user.id,
+        "data-debate-status": _vm.debate.status,
+        "id": _vm.voteForDebate,
+        "title": 'Click to Vote for ' + user.name
+      }
+    }, [_c('img', {
+      attrs: {
+        "src": "/img/left-vote-btn.svg",
+        "alt": "Jitendra"
+      }
+    })]) : (_vm.getVoteStatus.vote_count >= 1 && _vm.getVoteStatus.is_debate_user >= 1) ? _c('a', {
+      class: 'not-my-debate-' + user.pivot.side.toLowerCase() + '-2',
       style: (_vm.debate.status == 'active' ? 'cursor:pointer' : 'cursor:default'),
       attrs: {
         "href": "javascript:void(0)",
@@ -61036,7 +61266,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "src": "/img/left-vote-btn.svg",
         "alt": "Jitendra"
       }
-    })]), _vm._v(" "), (user.pivot.votes > 0) ? _c('span', [_vm._v(_vm._s(user.pivot.votes))]) : _vm._e()])])])
+    })]), _vm._v(" "), (user.pivot.votes > 0) ? _c('span', [_vm._v(_vm._s(user.pivot.votes))]) : _vm._e(), _vm._v(" "), (_vm.getVoteStatus.vote_count >= 1 && _vm.getVoteStatus.is_debate_user >= 1) ? _c('span', [_vm._v(_vm._s(user.pivot.votes))]) : _vm._e()])])])
   }), _vm._v(" "), (_vm.debate.status == 'needs_opponent') ? _c('div', {
     staticClass: "debate-preview__player u-flex-center"
   }, [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2)]) : _vm._e()], 2)])
@@ -61104,9 +61334,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "game-wrapper"
   }, [_c('div', {
     staticClass: "game-main debate-single"
-  }, [_c('div', {
-    staticClass: "game-header"
-  }, [_vm._v("\n\t\t\t\tDebate\n\t\t\t")]), _vm._v(" "), _c('debate-header', {
+  }, [_c('debate-header', {
     attrs: {
       "data": _vm.debate
     }
@@ -61124,16 +61352,41 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "initialFirstUser": _vm.firstUser.id
       }
     })], 1)
-  })), _vm._v(" "), _c('aside', {
+  })), _vm._v(" "), (_vm.checkAds.hasAds == 1) ? _c('div', {
+    staticClass: "debate-ads"
+  }, [_c('div', {
+    staticClass: "debate-ads__stream",
+    attrs: {
+      "id": "argument-ads"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "#",
+      "target": "_blank"
+    }
+  }, [_c('img', {
+    staticClass: "debate-preview__player-avatar lazy",
+    attrs: {
+      "data-original": "#",
+      "src": '/img-dist/ads/' + _vm.checkAds.ad_img
+    }
+  })])])]) : _vm._e(), _vm._v(" "), _c('aside', {
     staticClass: "game-sidebar game-sidebar__right"
   }, [_c('div', {
-    staticClass: "game-header",
+    staticClass: "game-header view-comment",
+    attrs: {
+      "onClick": "showAllComment()"
+    },
     domProps: {
       "textContent": _vm._s(_vm.commentCount)
     }
   })]), _vm._v(" "), (_vm.canArgue) ? _c('div', {
-    staticClass: "debate-arguments__form"
-  }, [_c('new-debate-argument', {
+    staticClass: "debate-arguments__form blockcomment"
+  }, [_c('debate-comments', {
+    attrs: {
+      "data": _vm.debate.comments
+    }
+  }), _vm._v(" "), _c('new-debate-argument', {
     on: {
       "argument": _vm.addArgument
     }
@@ -61144,7 +61397,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "created": _vm.add
     }
-  })], 1)]), _vm._v("\n\t\t\t" + _vm._s(_vm.checkAds) + "\n\t\t\t\n\t\t\t\n\t   \t")], 1)])
+  })], 1)])], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

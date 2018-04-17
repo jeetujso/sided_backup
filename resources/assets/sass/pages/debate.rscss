@@ -145,18 +145,6 @@ h4.debate-preview__player-name{
 	max-height: 40vh;
 	overflow-y: scroll;
 }
-
-.debate-comment__message{
-
-}
-
-.debate-comment__author {
-    color: #8e8e93;
-    font-size: 14px;
-    display: inline-block;
-    width: auto;
-	font-weight: 400;
-}
 .debate-comment__form{
 	background-color: #F6F6F6;
 	@include rem(padding, 10px);
@@ -167,3 +155,4 @@ h4.debate-preview__player-name{
 	@include rem(font-size, 14px);
 	@include rem(margin-bottom, 10px);
 }
+

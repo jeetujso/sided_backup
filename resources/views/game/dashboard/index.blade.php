@@ -36,7 +36,9 @@
 	    	@include('game.dashboard.include.suggested_ques')
 	    @endif
 	    <!-- / suggested questions -->
-
+		@if($serveyQuestions->count() > 0 )
+	    	@include('game.dashboard.include.servey_ques')
+	    @endif
 	    
 	    <div class="game-main debate-single">
 			<?php $num_debates = $debates->count(); ?>
@@ -104,7 +106,7 @@
 
 
 		<div class="dashboard-item">
-		      <div class="debate-preview u-background-white">
+		      <div class="debate-preview u-background-white debate-preview_follow">
 		      	@include('game.dashboard.include.follow-suggestion-box')
 		    </div>
       	</div>

@@ -106,6 +106,7 @@
      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <!-- Scripts -->
+    <script src="{{ asset('js/jquery.smoothState.min.js') }}"></script>
     <script src="{{ mix('js/admin.js') }}"></script>
 
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
@@ -503,37 +504,7 @@ $(function() {
             $(this).val(jk);
         });
 
-        $('.switch2 input').click(function(){
-            //alert($(this).val());
-            if($(this).val() == "true"){
-                var jk = "false";
-                $.ajax({
-                    'type': 'POST',
-                    'url': "{{ route('publicnotificationSetting', 'false') }}",
-                    'data': { 'notification_settings': 'false'},
-                    success: function(res){
-                        $(".prosetting").html('<p>'+res.response+'</p>');
-                        $(".prosetting").css('display','block');
-                        $(".prosetting").delay(15000).fadeOut(500);
-                        console.log('false');
-                    }
-                });
-            }else{
-                var jk = "true";
-                $.ajax({
-                    'type': 'POST',
-                    'url': "{{ route('publicnotificationSetting', 'true') }}",
-                    'data': {'notification_settings': 'true'},
-                    success: function(res){
-                        $(".prosetting").html('<p>'+res.response+'</p>');
-                        $(".prosetting").css('display','block');
-                        $(".prosetting").delay(15000).fadeOut(500);
-                        console.log('true');
-                    }
-                });
-            }
-            $(this).val(jk);
-        });
+
     </script>
     <script type="text/javascript">
         $(function () {
@@ -546,6 +517,23 @@ $(function() {
                 $('.add-img-preview').find('img').attr('src',image_url);
             });
         });
+    </script>
+    <script>
+        function editAns(id, ans) {
+            $("#edit-answer-modal").trigger( "click" );
+           $("#answer-id").val(id);
+           $("#answer-text").val(ans);
+        }
+        function deleteAns(id) {
+            $("#delete-answer-modal").trigger( "click" );
+           $("#answer-id-delete").val(id);
+        }
+        function resultDetail(ansName, answered, percentage) {
+            $("#answer-details-servey-modal").trigger( "click" );
+            $("#ans-name-servey").text(ansName);
+            $("#total-answered-servey").text(answered+' Respondents');
+            $("#total-percentage-servey").text(percentage+'%');
+        }
     </script>
 </body>
 </html>

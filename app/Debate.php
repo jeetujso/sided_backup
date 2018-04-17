@@ -68,7 +68,8 @@ class Debate extends Model
      */
     public function question()
     {
-        return $this->belongsTo(\App\Question::class)->with('ads');
+        //return $this->belongsTo(\App\Question::class)->with('ads');
+        return $this->belongsTo(\App\Question::class);
         
     }
 

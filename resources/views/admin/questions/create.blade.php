@@ -66,6 +66,10 @@
                         @endif
                     </div>
                 </div>
+                <div class="field field-err col-md-12">
+                    <label for="text">Multiple Choice?</label>
+                    <input type="checkbox" name="question_type" value="1">
+                </div>
                 <div class="field-group">
                     <button class="btn btn-green" type="submit" name="status" value="publish">Create a Question</button>
                 </div>

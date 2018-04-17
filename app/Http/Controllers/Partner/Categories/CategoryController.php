@@ -119,10 +119,7 @@ class CategoryController extends Controller
     {
         //echo "kjkjkjk"; exit;
         $title="Edit a Category";
-        $debate_category = DebateCategory::with('ads')->where('id', $id)->first();
-        // echo "<pre>";
-        // print_r($debate_category);
-        // exit;
+        $debate_category = DebateCategory::with('pro_ads')->where('id', $id)->first();
         $ads = Ad::where('partner_id', Auth::user()->id)->where('advertisement_type',2)->get();
         return view('admin.categories.edit', compact('debate_category', 'ads', 'title'));
     }

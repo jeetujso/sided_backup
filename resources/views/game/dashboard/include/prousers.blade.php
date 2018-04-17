@@ -1,7 +1,7 @@
 
 <div class="debate-preview u-background-white">
 	<div class="debate-preview__header">
-			<h4 class="debate-preview__category">Active Now <strong class="u-text-black">({{ count($active_users) }})</strong></h4>
+			<h4 class="debate-preview__category">Active Now <strong class="u-text-black">({{ count($active_users_online) }})</strong></h4>
 			<div class="active-main">
 			<ul class="active-list ">
 	  			@foreach($active_users as $active)

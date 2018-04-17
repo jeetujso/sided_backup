@@ -75,16 +75,16 @@
                 <div class="col-md-6">
                     <p class="category-ads">
                         <a data-modal-id="attachAdsPopUp" href="#" class="js-open-modal white-button">
-                            {{ ($debate_category) ? ($debate_category->ads) ?  'Edit Ad' : 'Attach Ad' : 'Attach Ad'}}
+                            {{ ($debate_category) ? ($debate_category->pro_ads) ?  'Edit Ad' : 'Attach Ad' : 'Attach Ad'}}
                         </a>
-                        @if(isset($debate_category) && isset($debate_category->ads))
+                        @if(isset($debate_category) && isset($debate_category->pro_ads))
                             <a href="{{ route('romoveAdFromCategory', $debate_category->ads_id) }}" class="js-open-modal white-button">Remove Ad</a>
                         @endif
                     </p>
                     <div class="admin-content__stat stat-ad-banner cat-ban" style="background-color:#f5f5f5;"> 
                         <?php
-                            if(!empty($debate_category) && !empty($debate_category->ads)){ ?>
-                                <img width="250" height="100" src="{{ ($debate_category) ? ($debate_category->ads) ? asset('img-dist/ads/'.$debate_category->ads->image_url) : asset('img/ad-banner.jpg') : asset('img/ad-banner.jpg')}}" />
+                            if(!empty($debate_category) && !empty($debate_category->pro_ads)){ ?>
+                                <img width="250" height="100" src="{{ ($debate_category) ? ($debate_category->pro_ads) ? asset('img-dist/ads/'.$debate_category->pro_ads->image_url) : asset('img/ad-banner.jpg') : asset('img/ad-banner.jpg')}}" />
                             <?php }else{ ?>
                                 <h4>There is no ad attached.</h4>
                             <?php }
@@ -98,7 +98,7 @@
 
 	<!-- Attached ads Popup -->
 	<div class="modal-box" id="attachAdsPopUp" role="dialog">
-  <header> <a href="#" class="js-modal-close close">×</a>
+  <header> <a href="#" class="js-modal-close close"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
     <h3>Attach Ad to this Category</h3>
   </header>
 
@@ -137,17 +137,4 @@
 
 
 </div>
-
-<script type="text/javascript">
-    $(function () {
-        var url = $("#add-change").find("option:selected").attr('img-path');
-        var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        $("#add-change").change(function () {
-            var url = $(this).find("option:selected").attr('img-path');
-            var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        });
-    });
-</script>
 @endsection

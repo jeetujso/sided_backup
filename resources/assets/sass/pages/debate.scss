@@ -127,7 +127,7 @@ h4.debate-preview__player-name{
 // Form
 .debate-argument__stream{
 	height: 50vh;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .debate-argument__form{
@@ -148,7 +148,7 @@ h4.debate-preview__player-name{
 
 .debate-comment__stream{
 	max-height: 40vh;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .debate-comment__message{
@@ -156,17 +156,18 @@ h4.debate-preview__player-name{
 }
 
 .debate-comment__author {
-    color: #8e8e93;
+    color: #000000;
     font-size: 14px;
     display: inline-block;
     width: auto;
-	font-weight:400;
+    font-weight: 600;
 }
 
 .debate-comment__form{
 	background-color: #F6F6F6;
 	@include rem(padding, 10px);
 	border-top: 1px solid $brand-border;
+	text-align:center;
 }
 
 .debate-comment__form .form-control{
@@ -285,25 +286,33 @@ li.pro_offline a::before {
 	vertical-align: middle;
 }
 .category-list {
-	height: 140px;
+	height: 130px;
 	width: 100%;
 	display: block;
+	overflow:hidden;
 }
-.category-list > ul {
-	display: table;
-	list-style: outside none none;
-	margin: 0;
-	padding: 0;
-	width: auto;
-	text-align: center;
+.category-list > ul{
+  display: block;
+  list-style: outside none none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  width: 1026px;
 }
 .category-list ul li {
-	display: table-cell;
-	overflow: hidden;
-	padding: 6px;
-	vertical-align: middle;
-	width: 100px;
-	height: auto;
+  display: inline-block;
+  height: auto;
+  max-width: 146px;
+  overflow: hidden;
+  padding: 6px;
+  vertical-align: middle;
+  width: 100%;
+}
+.category-list ul li a {
+  border-radius: 5px;
+  display: block;
+  overflow: hidden;
+  position: relative;
 }
 .category-list ul li a img {
 	height: 113px;
@@ -702,6 +711,21 @@ input.resp-text-box {
 	position: relative;
 	line-height: normal;
 }
+textarea.resp-text-box {
+    border-radius: 40px;
+    color: #000;
+    display: block;
+    font-size: 15px !important;
+    padding: 12px 23px 12px 23px;
+    width: 96%;
+    height: 46px !important;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    line-height: normal;
+    display: inline-block;
+    margin-top: 5px;
+}
 button.fa.fa-paper-plane-o {
 	display: inline-block;
 	font-size: 37px;
@@ -848,13 +872,7 @@ opacity: 1;
 	border-radius: 0;
 	transition: 0.3s all ease-in-out 0s;
 }
-.profile-tab .nav-tabs > li.active > a, .profile-tab .nav-tabs > li.active > a:focus, .profile-tab .nav-tabs > li.active > a:hover {
-	fill: #000;
-	border: none;
-	border-radius: 0;
-	transition: 0.3s all ease-in-out 0s;
-	left: 0;
-}
+
 .profile-tab .nav-tabs > li a::before {
 	background: #60dd54;
 	content: "";
@@ -1068,7 +1086,7 @@ select.dropdown {
 	margin-top: 10px;
 }
 .modal-content {
-	padding-bottom: 50px;
+	padding-bottom: 70px;
 	overflow: hidden;
 }
 input[type="checkbox"] {
@@ -1167,8 +1185,9 @@ input.debate-btn {
 	color: #828282;
 }
 .close-sec span {
-	color: #000;
+	color: #000;	
 }
+.close{opacity:0.8 !important;}
 a#close-btn {
 	float: right;
 	color: #c7c7cc;
@@ -1217,7 +1236,7 @@ aside.profile-content {
 	font-weight: 500;
 	margin-top: 1.5rem;
 }
-.debate-single .game-header{
+/*.debate-single .game-header{
     background: #fff;
     padding: 0.625rem;
     font-size: 13px;
@@ -1227,7 +1246,7 @@ aside.profile-content {
     color: #828282;
     padding-top: 40px;
 	text-align:left;
-}
+}*/
 .profile-image {
 	padding-top: 60px;
 	text-align: center;
@@ -1299,6 +1318,7 @@ p.profile-id {
 	font-size: 1.5rem;
 	font-weight: 500;
 	margin-bottom: 10px;
+	text-transform:capitalize;
 }
 .update-profile .col-md-6 {
 	width: 100%;
@@ -1306,6 +1326,24 @@ p.profile-id {
 	text-align: center;
 }
 input#avatar_url::before {
+	content: "Upload File";
+	text-align: center;
+	position: absolute;
+	background: #60dd50;
+	border-radius: 3px;
+	width: 93px;
+	height: 22px;
+	border: 3px solid #60dd50;
+	color: #fff;
+	padding: 0;
+	top:auto;
+	left:auto;
+}
+input#background_img {
+	position: relative;
+	color: #fff;
+}
+input#background_img::before {
 	content: "Upload File";
 	text-align: center;
 	position: absolute;
@@ -1375,13 +1413,21 @@ transform:perspective(120px) rotateX(-180.1deg) rotateY(0deg)
 transform:perspective(120px) rotateX(-180deg) rotateY(-179.9deg)
 }
 }
-.modal-content .follow-player-sec {
+div#mychallengeModal .modal-content .follow-player-sec.network-tab-content{
     height: 210px;
     overflow: auto;
     display: block;
     width: 100%;
     text-align: center;
-    padding-top: 13%;
+    @include rem(padding-top,80px);
+}
+.network-tab-content{
+    height: 110px;
+    overflow: auto;
+    display: block;
+    width: 100%;
+    text-align: center;
+    @include rem(padding-top,80px);
 }
 button#show-followers-popup {
     background: #60dd50 none repeat scroll 0 0;
@@ -1617,6 +1663,7 @@ to {
 .signup .panel.panel-default label {
 	letter-spacing: 0.8px;
 	margin-bottom: 10px;
+	text-transform:capitalize;
 }
 .btn.btn-primary {
 	background: #60dd50 none repeat scroll 0 0;
@@ -1695,6 +1742,7 @@ form.form-horizontal.form.login-form.u-center-block {
 	display: block;
 	text-align: center;
 	margin-bottom: 10px;
+	text-transform:capitalize;
 }
 .modal-header .btn-default {
 	border-radius: 50%;
@@ -1809,17 +1857,16 @@ h3.earn-title::before {
 }
 .point-sec ul li span {
 	display: table-cell;
+	margin-bottom: 10px;
+	width: auto;
+	overflow: hidden;
 }
 .point-sec ul li span:last-child {
 	text-align: right;
 	font-weight: 400;
 	color: #000;
 }
-.point-sec ul li span:first-child {
-	text-align: center !important;
-	font-weight: 700;
-	color: #000;
-}
+
 .new-cat-tab .point-sec ul li span:first-child {
 	font-weight: 400;
 	text-align: left;
@@ -2006,6 +2053,9 @@ small.debate-preview__question-source i {
 	position: fixed;
 	text-align: center;
 	top: 53px;
+	paading:7px 0;
+	font-size:14px;
+	font-weight:400;
 	width: 100%;
 	z-index: 9999;
 	animation: fadein 2s;
@@ -2145,6 +2195,8 @@ h4.u-white-text {
 
 div#mychallengeModal .modal-content .follow-player-sec {
     padding-top: 0;
+	height:210px;
+	overflow-y:auto;
 }
 .modal-footer button:hover {
 	color: #FFF;
@@ -2172,7 +2224,10 @@ div#mychallengeModal .modal-content .follow-player-sec {
 	text-align: center;
 	background: #f6f6f6;
 	padding: 11px 15px 0;
+	height: 350px;
+    overflow-y: auto;
 }
+#openPopUp .sided-net-content{overflow:visible;}
 .email-address-form .dashboard-item {
 	margin: 0;
 }
@@ -2458,6 +2513,24 @@ ul.select-agree-btn li:last-child input[type=radio]:checked ~ label {
 }
 ul.select-agree-btn li:last-child input[type=radio]:checked ~ .check::before {
 	background: #2dcef6;
+}
+ul.select-agree-btn input[type=checkbox]:checked ~ label{
+	color: #60dd50;
+}
+ul.select-agree-btn li:last-child input[type=checkbox]:checked ~ .check {
+	border: 5px solid #2dcef6;
+}
+ul.select-agree-btn li:last-child input[type=checkbox]:checked ~ label {
+	color: #2dcef6;
+}
+ul.select-agree-btn li:last-child input[type=checkbox]:checked ~ .check::before {
+	background: #2dcef6;
+}
+ul.select-agree-btn input[type=checkbox]:checked ~ .check {
+	border: 5px solid #60dd50;
+}
+ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
+	background: #60dd50;
 }
 .select-agree-box textarea {
 	width: 100%;
@@ -2902,7 +2975,7 @@ ul.select-agree-btn li:last-child input[type=radio]:checked ~ .check::before {
 	background-size: 40px;
 	vertical-align: middle;
 }
-.gray-in:first-child {
+/*.gray-in:first-child {
 	margin-bottom: 0;
 	width: 40px;
 	height: 40px;
@@ -2919,7 +2992,7 @@ ul.select-agree-btn li:last-child input[type=radio]:checked ~ .check::before {
 	background: transparent url(../img/left-vote-btn-dark.svg) center top no-repeat;
 	background-size: 40px;
 	vertical-align: middle;
-}
+}*/
 .mine-disabled > li > span {
 	color: #d8d8d8 !important;
 }
@@ -2953,6 +3026,7 @@ div#mychallengeModal .modal-body {
 	border-right: 1px solid #ccc;
 	color: #828282;
 	padding-top: 40px;
+	text-align:left;
 }
 .dashboard-item.comment-on-section {
 	margin-bottom: 0;
@@ -2966,24 +3040,27 @@ div#mychallengeModal .modal-body {
 	height: 46px;
 	line-height: normal;
 	display: inline-block;
-	width: 85%;
+	width: 96%;
 	vertical-align: middle;
+	overflow:hidden;
 }
+textarea.form-control {overflow:hidden;}
 ::placeholder {
-    font-size:  !important;
+    font-size: 13px !important;
 }
 ::-webkit-input-placeholder { 
-  font-size: 15px !important;
+  font-size: 13px;
 }
 ::-moz-placeholder { 
-  font-size: 15px !important;
+  font-size: 13px ;
 }
 ::-ms-input-placeholder { 
-  font-size: 15px !important;
+  font-size: 13px;
 }
 ::-moz-placeholder { 
-  font-size: 15px !important;
+  font-size: 13px;
 }
+.login.signup .loginform input::placeholder{font-size:13px;}
 .debate-comments.u-background-white {
 	border-bottom: none;
 	border-top: none;
@@ -3095,6 +3172,7 @@ h4.debate-preview__category span::before {
 	font-family: fontawesome;
 	font-size: 6px;
 	margin-left: 5px;
+	margin-right:5px;
 }
 .follow-player-sec h3 {
 	color: #000 !important;
@@ -3627,6 +3705,11 @@ span.send-debate img {
 }
 .login-form .form-group .col-md-6 input {
 	margin-bottom: 20px;
+	height:43px;
+	padding: 6px 12px;
+}
+.login-form .form-group .col-md-6 input[type=file],.login-form .form-group .col-md-6 input[type=email]{
+	height:43px;
 }
 small.debate-preview__question-source {
 	display: none;
@@ -3648,19 +3731,11 @@ span.help-block {
 	text-align: center;
 }
 .js-flash-msg.flash-msg {
-	top: 50px;
+	top: 55px;
 }
 .point-sec img {
 	max-height: 138px;
 	max-width: 490px;
-}
-.point-sec ul li span {
-	display: block;
-	float: left;
-	margin-bottom: 10px;
-	text-align: center;
-	width: 100%;
-	overflow: hidden;
 }
 .point-sec ul li span:nth-child(3) {
 	text-align: left;
@@ -4008,17 +4083,271 @@ a.follow-user-back {
 }
 .debate-comment__message {
     display: inline-block;
-    width: auto;
+    width: 80%;
     font-size: 14px;
+    font-weight: 400;
+	vertical-align:top;
+	color:#8e8e93;
+}
+
+
+.no-user-let-for-follow {
+  font-size: 16px;
+  font-weight: 400;
+}
+.js-flash-msg.flash-msg.flash-msg-on-air{top:85px;}
+.point-sec img {
+    max-height: 138px;
+    max-width: 490px;
+}
+.point-sec ul.contest-tab li span:first-child,.point-sec ul.event-tab li span:first-child {
+    text-align: center !important;
+    font-weight: 700;
+    color: #000;
+}
+.point-sec ul.contest-tab li span,.point-sec ul.event-tab li span {
+    display: block;
+    float: left;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+}
+.point-sec ul.contest-tab li span:last-child, .point-sec ul.event-tab li span:last-child{
+text-align:left;
+}
+.new-join-debate-button {
+text-align: right;
+}
+.new-join-debate-button a.debate-preview__player-info {
+  background: #61dd50 none repeat scroll 0 0;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  margin-right: 65px;
+  padding: 0.3rem;
+  position: relative;
+  top: 1px;
+  text-transform:capitalize;
+}
+.new-join-debate-button a.debate-preview__player-info:hover{color:#fff !important;}
+#category_container > div {
+  text-align: center;
+  overflow:hidden;
+  margin-bottom: 15px;
+}
+#category-ads > img {
+  height: 138px;
+  max-width: 490px;
+  width: 100%;
+}
+.load-more > button:hover {
+  color: #000;
+}
+.debate-preview.u-background-white.debate-preview_follow .debate-preview__header {
+  padding-bottom: 0;
+}
+.debate-preview.u-background-white.debate-preview_follow {
+  padding-bottom: 2rem;
+}
+.debate-arguments__form.blockcomment #commentblock {
+    display: none;
+}
+.follow-overflow {
+  height: 330px;
+  margin-bottom: 40px;
+  overflow-x: hidden;
+}
+#suggest-tab2 .sided-net-content {
+  overflow: auto;
+}
+.debate-arguments__form #commentboxsection {
+    display: none;
+}
+.no-user-let-for-follow.network-tab-content {
+    display: flex;
+    max-width: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+ul.select-agree-btn input[type=checkbox]:checked ~ label{
+ color: #60dd50;
+}
+ul.select-agree-btn li:last-child input[type=checkbox]:checked ~ .check {
+ border: 5px solid #2dcef6;
+}
+ul.select-agree-btn li:last-child input[type=checkbox]:checked ~ label {
+ color: #2dcef6;
+}
+ul.select-agree-btn li:last-child input[type=checkbox]:checked ~ .check::before {
+ background: #2dcef6;
+}
+ul.select-agree-btn input[type=checkbox]:checked ~ .check {
+ border: 5px solid #60dd50;
+}
+ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
+ background: #60dd50;
+}
+.border-head h3 {
+    border-bottom: 1px solid #c9cdd7;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    font-weight: normal;
+    font-size: 18px;
+    display: inline-block;
+    width: 100%;
     font-weight: 600;
 }
-input.resp-text-box {
-    border-radius: 40px;
-    color: #000;
-    display: block;
-    font-size: 15px !important;
-    padding: 12px 23px 12px 23px;
-    width: 100%;
+.custom-bar-chart {
+    height: 290px;
+    margin-top: 20px;
+    margin-left: 10px;
     position: relative;
-    line-height: normal;
+    border-bottom: 1px solid #c9cdd7;
+	margin-bottom: 40px;
+}
+.y-axis {
+    color: #555555;
+    position: absolute;
+    text-align: right;
+    width: 100%;
+    padding: 0;
+    list-style: none;
+}
+.y-axis li {
+    border-top: 1px dashed #dbdce0;
+    display: block;
+    height: 51.4px;
+    width: 100%;
+	font-family:roboto;
+	font-size:13px;
+	color:#8E8E93;
+}
+.y-axis li span {
+    display: block;
+    margin: -10px 0 0 -25px;
+    padding: 0 3px;
+    width: 40px;
+}
+.custom-bar-chart .bar {
+    height: 100%;
+    position: relative;
+    width: 4.3%;
+    margin: 0px 1% 0 3%;
+    float: left;
+    text-align: center;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0x;
+    border-radius: 5px 5px 0 0;
+    z-index: 10;
+}
+.custom-bar-chart .bar .title {
+    position: absolute;
+    bottom: -30px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+}
+.custom-bar-chart .bar .value {
+    position: absolute;
+    bottom: 0;
+    background: #bfc2cd;
+    color: #bfc2cd;
+    width: 100%;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+	animation-name:fadeInUp;
+  -webkit-transition-timing-function: ease-in;
+          transition-timing-function: ease-in;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+}
+.custom-bar-chart .bar .value:nth-child(1){
+	 -webkit-animation-duration: 0.3s;
+     animation-duration: 0.3s;
+}
+.custom-bar-chart .bar .value:nth-child(2){
+	 -webkit-animation-duration: 0.6s;
+     animation-duration: 0.6s;
+}
+
+.custom-bar-chart .bar .value:nth-child(3){
+	 -webkit-animation-duration: 0.9s;
+     animation-duration: 0.9s;
+}
+
+.custom-bar-chart .bar .value:nth-child(4){
+	 -webkit-animation-duration: 0.12s;
+     animation-duration: 0.12s;
+}
+
+.custom-bar-chart .bar .value:nth-child(5){
+	 -webkit-animation-duration: 0.15s;
+     animation-duration: 0.15s;
+}
+
+.custom-bar-chart .bar .value:nth-child(6){
+	 -webkit-animation-duration: 0.18s;
+     animation-duration: 0.18s;
+}
+
+.custom-bar-chart .bar .value:nth-child(7){
+	 -webkit-animation-duration: 0.21s;
+     animation-duration: 0.21s;
+}
+
+.custom-bar-chart .bar .value:nth-child(8){
+	 -webkit-animation-duration: 0.24s;
+     animation-duration: 0.24s;
+}
+
+.custom-bar-chart .bar .value:nth-child(9){
+	 -webkit-animation-duration: 0.27s;
+     animation-duration: 0.27s;
+}
+
+.custom-bar-chart .bar .value:nth-child(10){
+	 -webkit-animation-duration: 0.30s;
+     animation-duration: 0.30s;
+}
+
+.custom-bar-chart .bar .value:hover {
+    background: #e8403f;
+    color: #fff;
+}
+.view-notify{padding:20px 0 50px;}
+.table span {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    border-radius: 50%;
+}
+.table td:first-child {
+    width: 40px;
+    vertical-align: middle;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{vertical-align:middle !important;}
+.table td:nth-child(3), .table td:nth-child(4) {
+    width: 60px;
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
 }

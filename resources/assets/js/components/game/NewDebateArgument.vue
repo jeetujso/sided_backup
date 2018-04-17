@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<div class="debate-argument__form">
+		<div class="debate-argument__form" id="closedargu">
 			<textarea class="form-control resp-text-box" name="comment" placeholder="What do you think?" required autofocus v-model="body"></textarea>
-			<button type="submit" class="hide" @click="addArgument">Post Argument</button>
+			<button type="submit" class="text-submit" @click="addArgument"><i aria-hidden="true" class="fa fa-paper-plane-o"></i></button>
 		</div>
 	</div>
 </template>

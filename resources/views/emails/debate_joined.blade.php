@@ -207,7 +207,7 @@
                                     </tr>
                                     <tr>
                                         <td style="font-family: sans-serif; font-weight: bold; font-size: 21px; mso-height-rule: exactly; line-height: 24px; color: #333333; padding: 10px 10px 10px 0px; text-align: center;" class="center-on-narrow">
-                                          Hello {{ Auth::user()->name }}, You have joined a debate on Sided.<br />
+                                          Hello {{ Auth::user()->name }}. You have joined a debate on Sided.<br />
                                         <br />
                                         </span></td>
                                     </tr>

@@ -14,7 +14,7 @@
 	 		<div class="debate-preview__header text-center">
 	        	<div class="debate-haeder-top">
 	          		<h4 class="debate-preview__category text-center"> Submitted In <strong class="u-text-black"> {{ $question->category->name }}</strong></h4>
-	          		<h4 class="debate-preview__category text-center"> Submitted By <strong class="u-text-black"> <a target="_blank" href="{{ route('publicPlayerShow', $question->getquestionAuther->handle ) }}">{{ $question->getquestionAuther->name }}</a></strong></h4>
+	          		<h5 class="debate-preview__category text-center"> Submitted By <strong class="u-text-black"> <a href="{{ route('publicPlayerShow', $question->getquestionAuther->handle ) }}">{{ $question->getquestionAuther->name }}</a></strong></h5>
 	          	</div>
 	          	<div>       
 					<p class="debate-preview__question-text text-center">{{ $question->text }}</p>

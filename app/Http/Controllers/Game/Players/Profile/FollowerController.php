@@ -103,7 +103,6 @@ class FollowerController extends Controller
 
     // using ajax call 
     public function follow(Request $request){
-
         $followerid = Auth::user()->id;
 
         $follower  = Follower::where('user_id',$request->input('user_id'))->where('followerid', $followerid)->first();

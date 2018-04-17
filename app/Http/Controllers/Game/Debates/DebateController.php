@@ -97,9 +97,15 @@ class DebateController extends Controller
                
                 $userDebate = new DebateUsers();
                 $debate = $debate->load(['arguments', 'users', 'arguments.user', 'comments', 'votes','getDebatequestion.getquestionAuther']);
-               /* echo "<pre>";
-                print_r($debate);
-                exit;*/
+                
+                if($debate['question']['ads_id'] == 0){
+                    $debate = $debate->load(['arguments', 'question.category.ads', 'users', 'arguments.user', 'comments', 'votes','getDebatequestion.getquestionAuther']);
+                }else{
+                    $debate = $debate->load(['arguments', 'question.ads', 'users', 'arguments.user', 'comments', 'votes','getDebatequestion.getquestionAuther']);
+                }
+                // echo "<pre>";
+                // print_r($debate);
+                // exit;
                 $followUsers = User::where('is_admin',0)->where('id', '!=' , Auth::user()->id)->get();
                 
                 $following_user = User::with('followings.followedUser')->where('id', auth()->user()->id )->first();

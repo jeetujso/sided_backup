@@ -217,7 +217,7 @@ class DebateOnboardingController extends Controller
                         ->where('category_id', $request->input('category_id'))
                         ->get();*/
 
-         $questions = Question::with('category.ads')->where('publish_at', '<=', Carbon::now())->where([['expire_at', '>=', Carbon::now()], ['status', '=', 'publish'],])->where('category_id', $request->input('category_id'))->orderby('id', 'desc')->get();
+         $questions = Question::with('category.ads','getquestionAuther')->where('publish_at', '<=', Carbon::now())->where([['expire_at', '>=', Carbon::now()], ['status', '=', 'publish'],])->where('category_id', $request->input('category_id'))->orderby('id', 'desc')->get();
         return response()->json($questions);
     }
 

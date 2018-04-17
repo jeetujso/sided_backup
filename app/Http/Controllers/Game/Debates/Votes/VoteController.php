@@ -218,9 +218,12 @@ class VoteController extends Controller
                 ->increment('votes');
 
                 $this->add_point($voter_id,$fingerprint_string, 'give_vote', $debate_id, '10');
+                Session::flash('message', "You have voted to selected user.");
+                return redirect()->back();
             }
+        }else{
+            return redirect($redirectUrl);
         }
-        return redirect($redirectUrl);
     }
 
 

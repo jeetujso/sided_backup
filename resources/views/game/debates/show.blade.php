@@ -44,7 +44,7 @@
         <div class="new-share-sec-debate">
 
           <div class="share-head">
-            <h4 class="u-white-text">Share this Debatel</h4>
+            <h4 class="u-white-text">Share this Debate</h4>
             <a href="#" class="shareebate-close"><i class="fa fa-times" aria-hidden="true"></i></a>
           </div>
      
@@ -142,7 +142,7 @@
                   
                 <div class="dashboard-item">
                   <div class="debate-preview u-background-white">
-                    <div class="follow-player-sec">
+                    <div class="follow-player-sec mylogic">
 
                        @foreach($my_sided_network as $my_sided)
              <?php
@@ -208,7 +208,7 @@
                   <div class="dashboard-item">
                     <div class="debate-preview u-background-white">
                     
-                        <div class="follow-player-sec">
+                        <div class="follow-player-sec mylogic">
                         <?php $hasFollowers = 0; ?>
                         @foreach($my_sided_network as $my_sided)
                           <?php
@@ -247,6 +247,11 @@
                         @if($hasFollowers == 0)
                         <p>No one is added in your sided network.</p>
                         <button type="button" data-toggle="modal" data-target="#popupFollowUsers" data-backdrop="static" data-keyboard="false" id="show-followers-popup" data-dismiss="modal">Follow Users</button>
+						<script>
+							$(document).ready(function(){
+									$(".mylogic").addClass("network-tab-content");
+							});
+						</script>
                         @endif
                       </div>
                     </div>
@@ -273,7 +278,7 @@
 
                       <div class="dashboard-item">
 
-                        <input type="email" placeholder="Your friends email address…"  name="email[]">
+                        <input type="email" placeholder="Your friends email address…"  name="email[]" required>
                         <input type="email" placeholder="Your friends email address…" name="email[]">
                         <input type="email" placeholder="Your friends email address…" name="email[]">
                       </div>
@@ -368,7 +373,7 @@
                   
                 <div class="dashboard-item">
                   <div class="debate-preview u-background-white">
-                    <div class="follow-player-sec">
+                    <div class="follow-player-sec mylogic">
 
                        @foreach($my_sided_network as $my_sided)
              <?php
@@ -433,7 +438,7 @@
 
                   <div class="dashboard-item">
                     <div class="debate-preview u-background-white">
-                        <div class="follow-player-sec">
+                        <div class="follow-player-sec mylogic">
                         @foreach($my_sided_network as $my_sided)
                           <?php
                             $front_user = DB::table('users')
@@ -488,7 +493,7 @@
 
                       <div class="dashboard-item">
 
-                        <input type="email" placeholder="Your friends email address…"  name="email[]">
+                        <input type="email" placeholder="Your friends email address…"  name="email[]" required>
                         <input type="email" placeholder="Your friends email address…" name="email[]">
                         <input type="email" placeholder="Your friends email address…" name="email[]">
                       </div>
@@ -518,6 +523,7 @@
     <div class="modal-header"><button type="button" data-dismiss="modal" class="btn-default closed-follow-popup"><i aria-hidden="true" class="fa fa-times"></i></button></div>
       <div class="modal-body">
         <h4 class="modal-title">Follow Users</h4>
+		<div class="follow-overflow">
       <div class="user-count" style="display:none;">{{ count($followUsers) }}</div>
       <div class="no-user-let-for-follow"></div>
       @foreach($followUsers as $user)
@@ -532,7 +538,7 @@
           <div class="debate-follow-btn"><button value="{{ $user->id }}" class="follow-btn">Follow</button></div>
         </div>
       @endforeach
-      
+      </div>
       </div>
       <div class="modal-footer">
         <div><a class="follow-user-back" href="/debates/{{ $debate->id }}?r=t">Back</a></div>
@@ -544,17 +550,14 @@
 
   <!-- Modal -->
   <button style="display:none;" id="voteForUsersPopupId" type="button" data-toggle="modal" data-target="#voteForUsersPopup"></button>
-  
   <div id="voteForUsersPopup" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->
     <form method="post" action="{{ route('voteBythirdUsers') }}">
       <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
+        <div class="modal-header"><button type="button" data-dismiss="modal" class="btn-default"><i aria-hidden="true" class="fa fa-times"></i></button></div>
         <div class="modal-body">
-          <p>Please select an option before you leave the page.</p>
+          <p>Please select an option before you leave the page</p>
           <input id="vote_debate_id" type="hidden" name="debate_id" value="">
           <input id="vote_voter_id" type="hidden" name="voter_id" value="">
           <input id="vote_fingerprint_string" type="hidden" name="fingerprint_string" value="">
@@ -563,7 +566,7 @@
             <ul>
               <li><input id="vote_user_id_left" type="radio" name="user_id" value="" required><label class="vote_user_name_left"></label></li>
               <li><input id="vote_user_id_right" type="radio" name="user_id" value="" required><label class="vote_user_name_right"></label></li>
-              <li><input type="radio" name="user_id" value="none" required><label>I dont want to vote right now.</label></li>
+              <li><input type="radio" name="user_id" value="none" required><label>I don't want to vote right now</label></li>
             </ul>
           </div>
         </div>
@@ -574,5 +577,4 @@
     </form>
   </div>
 </div>
-  
 @endsection

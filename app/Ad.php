@@ -37,6 +37,10 @@ class Ad extends Model
     public function scopeDashboardAds($query){
         return $query->select('ads.*')->leftJoin('questions', 'ads.id', '=', 'questions.ads_id')
                     ->where('questions.ads_id', NULL)
+                    ->leftJoin('users', 'ads.id', '=', 'users.ads_id')
+                    ->where('users.ads_id', NULL)
+                    ->leftJoin('debate_category', 'ads.id', '=', 'debate_category.ads_id')
+                    ->where('debate_category.ads_id', NULL)
                     ->where('ads.publish_at', '<=', Carbon::now())->where([['ads.expire_at', '>=', Carbon::now()], ['ads.status', '!=', 'draft'],]);
     }
     

@@ -1,6 +1,5 @@
 @extends('layouts.admin')
 @section('content')
-
 	<div class="admin-content__body u-background-light">
 		<div class="admin-content__table-header">
 			<h2 class="admin-content__table-title">

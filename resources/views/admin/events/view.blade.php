@@ -9,15 +9,6 @@
     <label for="text">Event Creative</label>
     <p class="field-description">This is what users see when scrolling through the main feed</p>
   </div>
-  <div class="dropdown-main2">
-      <select id="filter_days" name="filter_days"  class="dropdown-button">
-          <option value="" <?=(!isset($_GET['filter_days']))?"selected":""?>>All</option>
-          <option value="7" <?=(isset($_GET['filter_days']) && $_GET['filter_days']=='7')?"selected":""?>>Last 7 Days</option>
-          <option value="30" <?=(isset($_GET['filter_days']) && $_GET['filter_days']=='30')?"selected":""?>>Last 30 Days</option>
-          <option value="180" <?=(isset($_GET['filter_days']) && $_GET['filter_days']=='180')?"selected":""?>>Last 180 Days</option>
-      </select>
-
-</div>
 </div>
 <div class="admin-content__form ad-main">
       <div class="field ad-field">

@@ -57177,7 +57177,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             column.active = true;
         },
         showQuestion: function showQuestion(id) {
-            window.location.href = 'debates/' + id;
+            window.location.href = '../debates/' + id;
         }
     }
 });
@@ -57471,7 +57471,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             column.active = true;
         },
         showQuestion: function showQuestion(id) {
-            window.location.href = 'debates/' + id;
+            window.location.href = '../debates/' + id;
         }
     }
 });

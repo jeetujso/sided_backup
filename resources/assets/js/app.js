@@ -57,10 +57,11 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-	
+
 	// Sortable Table Rows
     $("[data-debate]").click(function() {
-        window.location = 'debates/' + $(this).data("debate");
+        window.location = '../debates/' + $(this).data("debate");
     });
-	
+
 });
+

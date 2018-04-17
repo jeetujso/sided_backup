@@ -14,6 +14,9 @@ use App\DebateComment;
 use App\User;
 use App\UserPoint;
 use App\Impression;
+use App\UserServey;
+use App\UserAnswer;
+use App\Answer;
 use App\Ad;
 use Session;
 use Carbon\Carbon;
@@ -132,7 +135,11 @@ class QuestionController extends Controller
             'publish_at' => 'required',
             'expire_at' => 'required'
         ]);
-    
+        if($request->has('question_type')){
+            $questionType = 1;
+        }else{
+            $questionType = 0;
+        }
         try{
         
             Question::create([
@@ -143,7 +150,8 @@ class QuestionController extends Controller
                 'text' => $request->text,
                 'publish_at' => $request->publish_at,
                 'expire_at' => $request->expire_at,
-                'status' => $request->status
+                'status' => $request->status,
+                'question_type' => $questionType
             ]);
 
             //return view('admin.questions.index');
@@ -523,4 +531,50 @@ class QuestionController extends Controller
             Session::flash('message', "Ad successfully removed. ");
             return redirect()->back();
         }
+    /*
+        Multiple choice question settings
+    */
+    public function multiChoiceSetting(Request $request){
+        $id = $request->get('question_id');
+        $answer_type = 0;
+        $instant_result = 0;
+        $allowed_other_answer = 0;
+        if($request->has('answer_type')){
+          $answer_type = 1;  
+        }
+        if($request->has('instant_result')){
+            $instant_result = 1;  
+        }
+        if($request->has('allowed_other_answer')){
+            $allowed_other_answer = 1;  
+        }
+        $question = Question::findOrFail($id);
+        if($question){
+            $question->answer_type = $answer_type;
+            $question->instant_result = $instant_result;
+            $question->allowed_other_answer = $allowed_other_answer;
+            if($question->save()){
+                Session::flash('message', "Multiple choice question setting successfully Updated. ");
+                return redirect()->back();
+            }else{
+                Session::flash('message', "Error while uploading. ");
+                return redirect()->back();
+            }
+        }else{
+            Session::flash('message', "No such qustion is available. ");
+            return redirect()->back();
+        }
+    }
+    public function serveyResult($question_id){
+        $colorArrays = ['#28a745', '#5873fe', '#e7b63a', '#323232', '#004bbc', '#41cac0', '#9972b5', '#ff6c60', '#57c8f2', '#343957', '#82b440', '#dddddd'];
+        
+        $questionDetails = Question::find($question_id);
+        $otherAnswersCount = UserAnswer::where('question_id',$question_id)->where('answer_id',NULL)->count();
+        $answered = UserServey::where('question_id',$question_id)->where('status',1)->count();
+        $skipped = UserServey::where('question_id',$question_id)->where('status',0)->count();
+        $serveyResults = Answer::with('serveyAnswers')->where('question_id',$question_id)->get();
+        $hasServeyAns = UserAnswer::where('question_id',$question_id)->count();
+        return view('admin.questions.servey-result', compact('colorArrays', 'answered', 'skipped', 'serveyResults', 'otherAnswersCount', 'questionDetails', 'hasServeyAns')); 
+       // return view('admin.questions.servey-result', compact('colorArrays', 'answered', 'skipped', 'serveyResults')); 
+    }
 }

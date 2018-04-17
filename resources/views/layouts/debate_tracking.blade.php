@@ -206,14 +206,14 @@
                     $(this).html('');
                 });
             }
-            if( $('.my-debate-disabled').length == '2'  ){
-                $.each( $('.voter-sec').find('a') , function( key, value ) {
-                    $(this).removeClass();
-                    $(this).addClass('gray-in');
-                    $(this).css( 'cursor', 'default' );
-                    $(this).closest( "span" ).css( "color", "red" );
-                });
-            }
+            // if( $('.my-debate-disabled').length == '2'  ){
+            //     $.each( $('.voter-sec').find('a') , function( key, value ) {
+            //         $(this).removeClass();
+            //         $(this).addClass('gray-in');
+            //         $(this).css( 'cursor', 'default' );
+            //         $(this).closest( "span" ).css( "color", "red" );
+            //     });
+            // }
 
             if($('.not-mine-disagree-1').length > 0){
                 $('.not-mine-disagree-1').prev().css('color', '#D8D8D8');

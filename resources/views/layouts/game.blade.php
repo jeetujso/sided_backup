@@ -48,6 +48,7 @@ function myFunction() {
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/flexslider.css') }}" rel="stylesheet" type="text/css">
+  
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -170,8 +171,7 @@ function myFunction() {
 
   <!--end-select-apponnent-modal-->
         @yield('content')
-
-        <div class="js-flash-msg flash-msg" style="display: none">
+        <div class="js-flash-msg flash-msg @if(isset($user)) @if($user->go_online == 'true' && $user->is_admin ==1) flash-msg-on-air @endif @endif" style="display: none">
                 <h4 style="padding: 10px"></h4>
             </div>
 
@@ -226,7 +226,7 @@ function myFunction() {
         </div>
 
     </div>
-
+    <script src="{{ asset('js/jquery.smoothState.min.js') }}"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 
@@ -636,6 +636,81 @@ function myFunction() {
 
         });
     </script>
+            <script type="text/javascript">
+                    $('.switch2 input').click(function(){
+            //alert($(this).val());
+            if($(this).val() == "true"){
+                var jk = "false";
+                $.ajax({
+                    'type': 'POST',
+                    'url': "{{ route('publicnotificationSetting', 'false') }}",
+                    'data': { 'notification_settings': 'false'},
+                    success: function(res){
+                        $(".prosetting").html('<p>'+res.response+'</p>');
+                        $(".prosetting").css('display','block');
+                        $(".prosetting").delay(15000).fadeOut(500);
+                        console.log('false');
+                    }
+                });
+            }else{
+                var jk = "true";
+                $.ajax({
+                    'type': 'POST',
+                    'url': "{{ route('publicnotificationSetting', 'true') }}",
+                    'data': {'notification_settings': 'true'},
+                    success: function(res){
+                        $(".prosetting").html('<p>'+res.response+'</p>');
+                        $(".prosetting").css('display','block');
+                        $(".prosetting").delay(15000).fadeOut(500);
+                        console.log('true');
+                    }
+                });
+            }
+            $(this).val(jk);
+        });
+        </script>
 
+        <script>
+            $(document).ready(function(){
+                $("#option-other").on('click', function(){
+                    $('.servey-form-error').text('');
+                    $('.servey-answers').prop('checked', false);
+                    if ($(this).is (':checked')){
+                        $('.other-answer-text').attr('type','text');
+                    }else{
+                        $('.other-answer-text').attr('type','hidden');
+                    }
+                });
+                $(".servey-answers").on('click', function(){
+                    $('.servey-form-error').text('');
+                    $('#option-other').prop('checked', false);
+                    $('.other-answer-text').attr('type','hidden');
+                });
+            });
+        </script>
+        <script>
+            function checkServeyValidation() {
+                var checkboxLength = $('[class="servey-answers"]:checked').length;
+                var otherAnsLength = $('[name="other_answer"]:checked').length;
+                var otherAns = document.forms["pickaside"]["other_answer_text"].value;
+                if(checkboxLength == 0 && otherAnsLength == 0){
+                    $('.servey-form-error').text('Please choose your answer.');
+                    return false;
+                }else if(checkboxLength == 0 && otherAnsLength == 1){
+                    if(otherAns == ""){
+                        $('.servey-form-error').text('Please write your answer.');
+                        return false;
+                    }
+                }
+            }
+        </script>
+        <script>
+        function resultDetail(ansName, answered, percentage) {
+            $("#answer-details-servey-modal").trigger( "click" );
+            $("#ans-name-servey").text(ansName);
+            $("#total-answered-servey").text(answered+' Respondents');
+            $("#total-percentage-servey").text(percentage+'%');
+        }
+    </script>
     </body>
 </html>

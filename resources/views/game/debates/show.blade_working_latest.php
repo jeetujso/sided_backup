@@ -129,7 +129,7 @@
                   <div class="email-address-form">
                     <form name="invite_email" action="{{ route('inviteFriends') }}" method="post">
                       <input type="hidden" name="redirect_back" value="{{ url('debates/'.$debate->id) }}">
-                      <input type="email" placeholder="Your friends email address…"  name="email[]">
+                      <input type="email" placeholder="Your friends email address…"  name="email[]" required>
                       <input type="email" placeholder="Your friends email address…" name="email[]">
                       <input type="email" placeholder="Your friends email address…" name="email[]">
 

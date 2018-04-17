@@ -12,9 +12,10 @@
 		<h4>{{ $errors->first() }}</h4>
 	</div>	
 @endif
+
 <main class="game-wrapper">
 	<section class="player-profile">
-		<header class="player-profile__header u-text-center @if(!empty($user->background_img)) player-profile-bg @endif" @if(!empty($user->background_img)) style='background-image: url("{{ asset('images/pro_background') }}/{{ $user->background_img }}")' @endif >
+		<header class="player-profile__header u-text-center @if($user->is_admin==1) player-profile-bg @endif" @if(!empty($user->background_img)) style='background-image: url("{{ asset('images/pro_background') }}/{{ $user->background_img }}")' @endif >
 
 			
 
@@ -121,31 +122,32 @@
 						@else
 						<li>
 						<div class="player-profile__header-stat">
-							<p><div class="header-stat__number">{{ count($events) }}</div></p>
-						<h4><div class="header-stat__label">Events</div></h4>
+							<p><div class="header-stat__number">{{ count($contests) }}</div></p>
+						<h4><div class="header-stat__label">Contests</div></h4>
 						</div><!-- /header-stat-->
 						</li>
 						<li>
 						<div class="player-profile__header-stat">
-							<p><div class="header-stat__number">{{ count($contests) }}</div></p>
-						<h4><div class="header-stat__label">Contest</div></h4>
+							<p><div class="header-stat__number">{{ count($events) }}</div></p>
+						<h4><div class="header-stat__label">Events</div></h4>
 						</div><!-- /header-stat-->
 						</li>
+						
 						@endif
 
 					</ul>
 				</div>
 				
 			</div>
-			@if(!empty($proUserAds) && !empty($proUserAds->ads))
+			
+		</header>
+		@if(!empty($proUserAds) && !empty($proUserAds->ads))
 					<div class="pro-ads">
 						<a href="#" target="_blank">
 							<img src="{{ asset('/img-dist/ads/'.$proUserAds->ads->image_url) }}">
 						</a>
 					</div>
 				@endif
-		</header>
-
 		<div class="profile-tab">
  			<ul class="player-profile__tabs nav nav-tabs">
 				<li class="player-profile__tab active">
@@ -327,7 +329,7 @@
 						
 					      @if(count($contests) > 0)
 					      	
-					      	<ul>
+					      	<ul class="contest-tab">
 						        @foreach($contests as $contest)
 						        <li>
 						            <span>
@@ -374,7 +376,7 @@
 
 						 @if(count($events) > 0)
 					      	
-					      	<ul>
+					      	<ul class="event-tab">
 						        @foreach($events as $event)
 						        <li>
 						            <span>
@@ -408,7 +410,7 @@
 						        @endforeach
 					    	</ul>
 					        @else
-					        	<h3 class="h3-title empty-title"><span>There are no Event.</span></h3>
+					        	<h3 class="h3-title empty-title"><span>There are no Events.</span></h3>
 					        @endif
 
 					</div>

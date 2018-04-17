@@ -49,7 +49,7 @@
 		        		<span style="color: red;" class="validation_err">{{ $errors->first('agreement') }}</span>
 		    		@endif
           </div>
-          <div class="field-group">
+          <div class="field-group cta-button-sec">
             <button type="submit" name="status" value="publish" class="btn btn-green">Create an advertiser</button>
           </div>
           <div class="field-group"></div>

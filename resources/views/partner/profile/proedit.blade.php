@@ -144,7 +144,7 @@
                     <a data-modal-id="attachAdsPopUp" href="#" class="js-open-modal white-button">
                         {{ (Auth::user()->ads_id) ? 'Edit Ad' : 'Attach Ad'}}
       		        </a>
-                    @if(isset($user) && isset($user->ads))
+                    @if(isset($user) && isset($user->pro_ads))
                         <a href="{{ route('romoveAdFromProProfile', $user->ads_id) }}" class="js-open-modal white-button">Remove Ad</a>
                     @endif
                 </div>
@@ -154,7 +154,7 @@
                     <div class="admin-content__stat stat-ad-banner" style="background-color:#f5f5f5;"> 
                         <?php
                             if(!empty(Auth::user()->ads_id)){ ?>
-                                <img width="250" height="100" src="{{ asset('img-dist/ads/'.$user->ads->image_url) }}" />
+                                <img width="250" height="100" src="{{ asset('img-dist/ads/'.$user->pro_ads->image_url) }}" />
                             <?php }else{ ?>
                                 <h4>There is no ad attached.</h4>
                             <?php }
@@ -202,16 +202,5 @@
     @endif
 
   </div>
-  <script type="text/javascript">
-    $(function () {
-        var url = $("#add-change").find("option:selected").attr('img-path');
-        var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        $("#add-change").change(function () {
-            var url = $(this).find("option:selected").attr('img-path');
-            var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        });
-    });
-</script>
+  
 @endsection

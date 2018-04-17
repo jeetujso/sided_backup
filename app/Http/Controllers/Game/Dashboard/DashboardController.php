@@ -10,6 +10,7 @@ use App\Follower;
 use App\DebateCategory;
 use App\Ad;
 use App\DebateCategoryUser;
+use App\UserAnswer;
 use Carbon\Carbon;
 use Auth;
 use Exception;
@@ -57,20 +58,24 @@ class DashboardController extends Controller
             exit;*/
            
             $usedQuesIds = Debate::groupBy('question_id')->pluck('question_id')->all();
-            $questions = Question::with('category')->whereIn('category_id', $myCategories)->publicLive()->whereNotIn('id', $usedQuesIds)->take('10')->get();
+            $usedQuesIdsForAns = UserAnswer::where('user_id', Auth::user()->id)->groupBy('question_id')->pluck('question_id')->all();
+            $questions = Question::with('category','getquestionAuther')->whereIn('category_id', $myCategories)->publicLive()->whereNotIn('id', $usedQuesIds)->where('question_type',0)->take('10')->get();
+            $serveyQuestions = Question::with('category','getquestionAuther')->whereIn('category_id', $myCategories)->publicLive()->whereNotIn('id', $usedQuesIdsForAns)->where('question_type',1)->take('10')->get();
             
             //$activities = Activity::all();            
             $obj_user = new User();
             $follow_suggestions = $obj_user->follow_suggestion(auth()->user()->id);
             $prousers = $obj_user->where('is_admin', 1)->get();
             $active_users = $obj_user->where('is_admin', '1')->where('id', '!=', auth()->user()->id)->take(6)->orderBy('go_online', 'true')->get();
+
+            $active_users_online = $obj_user->where('is_admin', '1')->where('go_online','true')->get();
             
             $obj_category = new DebateCategory();
             $categories = $obj_category->where('status','live')->get();
 
             $ads = Ad::dashboardAds()->get();
 
-            return view('game.dashboard.index', compact('questions', 'debates', 'follow_suggestions','categories','active_users','prousers','ads'));
+            return view('game.dashboard.index', compact('questions', 'serveyQuestions', 'debates', 'follow_suggestions','categories','active_users','prousers','ads','active_users_online'));
 
         }catch(Exception $e){
             $msg = $e->getMessage();

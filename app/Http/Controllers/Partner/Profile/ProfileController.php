@@ -69,7 +69,7 @@ class ProfileController extends Controller
     public function edit($id)
     {
        // echo "gfgf"; exit;
-        $user = User::with('ads')->whereId(Auth::user()->id)->first();
+        $user = User::with('pro_ads')->whereId(Auth::user()->id)->first();
         $ads = Ad::where('partner_id', Auth::user()->id)->where('advertisement_type',3)->get();
         return view('partner.profile.proedit', compact('ads', 'user'));
     }
