@@ -18,11 +18,11 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-
+            
             if(Auth::user()->is_admin == 1){
-                return redirect()->route('partnerQuestionActivity');
+                return redirect()->intended('/partners/questions/activities');
             }else{
-                return redirect('/home');
+                 return redirect()->intended('/feed');
             }
         }
 

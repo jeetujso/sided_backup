@@ -111,8 +111,9 @@ else{
 
 function saveChallengeWithArg(Request $request){
     $debateId = $request->input('debate_id');
+	$question_ID = $request->input('question_ID');
     $debate_arguments = $request->input('join_debate_argument');
-   if($this->join_debate_extension($debateId, $debate_arguments)){
+   if($this->join_debate_extension($debateId, $debate_arguments, $question_ID)){
 	   $notoficationStatus = DB::table('users')->where('email',auth()->user()->email)->first();
 					if(!empty($notoficationStatus))
 					{
@@ -142,12 +143,10 @@ function saveChallengeWithArg(Request $request){
 
     // post request from debate show page
     function join_debate(Request $request){
-        // echo "<pre>";
-        // print_r($request->all());
-        // exit;
         $debate_id = $request->input('debate_id');
+		$question_ID = $request->input('question_ID');
         $debate_arguments = $request->input('debate_argument');
-        if($this->join_debate_extension($debate_id, $debate_arguments)){
+        if($this->join_debate_extension($debate_id, $debate_arguments, $question_ID)){
             Session::flash('message', "You joined this debate. Add your opinion and find out who sides with you.");
 
 
@@ -179,7 +178,7 @@ function saveChallengeWithArg(Request $request){
 
 
     // join to debate internal use
-    private function join_debate_extension($debate_id, $debate_arguments){
+    private function join_debate_extension($debate_id, $debate_arguments, $question_ID){
 
         $sql    = DebateUser::where('debate_id', $debate_id);
         if($sql->count() < 2){
@@ -193,6 +192,7 @@ function saveChallengeWithArg(Request $request){
                 DebateUser::insert(array('user_id' => auth()->user()->id,
                         'side'=>$user_side,
                         'debate_id' => $debate_id,
+                        'question_ID' => $question_ID,
                         'votes' => '0')
                     );
                 $debate = Debate::findOrFail($debate_id);

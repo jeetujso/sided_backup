@@ -29,6 +29,7 @@ class CreateDebatesTable extends Migration
             $table->foreign('debate_id')->references('id')->on('debates')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+			$table->integer('question_ID')->nullable();
             $table->integer('votes')->default('0');
             $table->enum('side', array('Agree', 'Disagree'))->default('Agree');
             $table->timestamps();

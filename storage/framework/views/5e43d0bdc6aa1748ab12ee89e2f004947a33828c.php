@@ -1,5 +1,4 @@
 <?php $__env->startSection('content'); ?>
-
 	<div class="admin-content__body u-background-light">
 		<div class="admin-content__table-header">
 			<h2 class="admin-content__table-title">
@@ -14,7 +13,6 @@
 			<form method="POST" action="/partners/questions/updatequestion">
 				<div class="field field-err">
 					<label for="text">QUESTION TEXT</label>
-					<p class="field-description"></p>
 					<input type="text" name="text" class="form-control" value="<?php echo e($questions->text); ?>">
 					<input type="hidden" name="user_id" value="<?php echo e(Auth::user()->id); ?>">
 					<input type="hidden" name="question_id" value="<?php echo e($questions->id); ?>">
@@ -58,6 +56,12 @@
                         <?php endif; ?>
 					</div>
 				</div>
+				<?php if($questions->question_type == 1): ?>
+					<div class="field field-err col-md-12">
+						<label for="text">Multiple Choice?</label>
+						<input type="checkbox" reaadonly disabled checked>
+					</div>
+				<?php endif; ?>
 				<div class="field-group">
 					<button class="btn btn-green" type="submit" name="status" value="publish">Update Question</button>
 				</div>

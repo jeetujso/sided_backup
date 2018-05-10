@@ -1,6 +1,9 @@
 <div class="debate-preview__header">
 	<div class="debate-haeder-top">
 			<h4 class="debate-preview__category">Other Siders to Follow</h4>
+			<div class="loader-bgg" style="display:none">
+        <div class="loader"></div>
+    </div>
 			
 		</div>       
 </div>

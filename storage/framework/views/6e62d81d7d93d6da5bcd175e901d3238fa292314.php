@@ -30,21 +30,16 @@
 			<?php echo $__env->make('game.dashboard.include.prousers', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 		</div>
 		<!-- prousers list end-->
-
-		<!-- suggested questions -->
-	    <?php if($questions->count() > 0 ): ?>
-	    	<?php echo $__env->make('game.dashboard.include.suggested_ques', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-	    <?php endif; ?>
-	    <!-- / suggested questions -->
-
-	    
+   
 	    <div class="game-main debate-single">
 			<?php $num_debates = $debates->count(); ?>
 			<?php if($debates->count() > 0): ?>
 		
-				<?php $i=0; ?>
+				<?php $i=0; 
+
+				?>
+				<?php if(!empty($debates)): ?>
 				<?php $__currentLoopData = $debates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $debate): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-					
 
 					<?php if($debate->status == 'needs_opponent' || $debate->status == 'active'): ?>
 				    <div class="dashboard-item user-detial-bottom" data-debate="<?php echo e($debate->id); ?>">
@@ -74,9 +69,15 @@
 				    <?php $i++; ?>
 				<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 			<?php endif; ?>
+			<?php endif; ?>
 		</div>
 
-
+		<!-- suggested questions -->
+	    <?php if($questions->count() > 0 ): ?>
+	    	<?php echo $__env->make('game.dashboard.include.suggested_ques', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+	    <?php endif; ?>
+	    <!-- / suggested questions -->
+		
 
 		<?php if($num_debates < 3): ?>
 			<?php echo $__env->make('game.dashboard.include.invite', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
@@ -101,7 +102,7 @@
 
 
 		<div class="dashboard-item">
-		      <div class="debate-preview u-background-white">
+		      <div class="debate-preview u-background-white debate-preview_follow">
 		      	<?php echo $__env->make('game.dashboard.include.follow-suggestion-box', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 		    </div>
       	</div>

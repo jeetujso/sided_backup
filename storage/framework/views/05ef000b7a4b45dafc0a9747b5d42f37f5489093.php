@@ -7,20 +7,7 @@
   <p class="field-description">This is what users see when scrolling through the main feed</p>
 
 </div>
-<!--   <a href="<?php echo e('?filter_days=7'); ?>">Last 7 Days</a>
-  <a href="<?php echo e('?filter_days=30'); ?>">Last 30 Days</a>
-  <a href="<?php echo e('?filter_days=180'); ?>">Last 180 Days</a> -->
-<div class="dropdown-main2">
-      <select id="filter_days" name="filter_days" class="dropdown-button">
-            <option value="" <?=(!isset($_GET['filter_days']))?"selected":""?>>All</option>
-          <option value="7" <?=(isset($_GET['filter_days']) && $_GET['filter_days']=='7')?"selected":""?>>Last 7 Days</option>
-          <option value="30" <?=(isset($_GET['filter_days']) && $_GET['filter_days']=='30')?"selected":""?>>Last 30 Days</option>
-          <option value="180" <?=(isset($_GET['filter_days']) && $_GET['filter_days']=='180')?"selected":""?>>Last 180 Days</option>
-      </select>
 
-
-
-</div>
 <div class="admin-content-new">
   <div class="row">
     <div class="col-md-12">
@@ -96,13 +83,13 @@
 
 
 <div class="admin-content__section-header sche-header quest-view1" style="margin-top:15px;">
-  <div>
+  <div class="combine-main">
     <h3 class="admin-content__section-headline">Stat Totals</h3>
     <p class="admin-content__section-desc">Explore data this questions has collected by toggling on and off each data point</p>
   </div>
-  <div>
+  <div class="combine-main">
 
-    <p class="admin-content__section-desc">
+    <p class="admin-content__section-desc combine-button">
       <a data-modal-id="attachAdsPopUp" href="#" class="js-open-modal white-button">
        <?php echo e(($questions) ? ($questions->allAds) ?  'Edit Ad' : 'Attach Ad' : 'Attach Ad'); ?>
 
@@ -196,7 +183,7 @@
         <ul class="activity-list">
           <?php $prew = "";?>
              <?php $__currentLoopData = $recent_arguments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $arguments_user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
-             <?php $__currentLoopData = $arguments_user->arguments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $argument_user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+             <?php $__currentLoopData = $arguments_user->argumentPro; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $argument_user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
              <?php $current = $argument_user->user->handle; ?>
           <h3><?php echo e(\Carbon\Carbon::parse($argument_user->created_at)->format('M d')); ?></h3>
           <li>        
@@ -204,21 +191,13 @@
 
             <span>
             <p>    <?php
-             echo $argument_user->created_at->diffForHumans();
-
-              /*
-                 $created = new Carbon\Carbon($argument_user->created_at);
-                $now = Carbon\Carbon::now();
-                $difference = $created->diff($now)->days;
-
-                echo Carbon\Carbon::now()->subDays($difference)->diffForHumans(); 
-               
-
-               */ ?> 
+             echo $argument_user->created_at; ?> 
+             <?php if($argument_user->status=="deactivate"): ?> <a href="#" class="u-link-red">Deleted</a> <?php endif; ?>
               </p>
 
-
-            </span></span></li>
+			
+            </span></span> 
+			</li>
             <?php $prew = $current; ?>
             
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -226,22 +205,17 @@
         </ul>
          <ul class="activity-list">
              <?php $__currentLoopData = $recent_comments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comments_user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-             <?php $__currentLoopData = $comments_user->comments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comment_user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+             <?php $__currentLoopData = $comments_user->commentPro; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comment_user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <h3><?php echo e(\Carbon\Carbon::parse($comment_user->created_at)->format('M d')); ?></h3>
           <li><span><img src="<?php echo e(asset('images/')); ?>/<?php echo e($comment_user->user->avatar_url); ?>" /></span><span><span><strong><?php echo e($comment_user->user->name); ?></strong> added a comment</span><span>
             <p><?php
 
                 echo $comment_user->created_at->diffForHumans();
                  
-                 /*$created = new Carbon\Carbon($comment_user->created_at);
-                $now = Carbon\Carbon::now();
-                $difference = $created->diff($now)->days;
-
-                echo Carbon\Carbon::now()->subDays($difference)->diffForHumans(); 
-                */
                 ?>
-                  
+                  <?php if($comment_user->status=="deactivate"): ?> <a href="#" class="u-link-red">Deleted</a> <?php endif; ?> 
                 </p>
+                 
             </span></span></li>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -293,7 +267,7 @@
                       <span>
                         <strong><?php echo e($user->name); ?></strong>
                       </span>
-                      <span><p><?php echo e($single_debate->arguments->where('user_id', $user->id)->count()); ?> responses</p></span>
+                      <span><p><?php echo e($single_debate->argumentPro->where('user_id', $user->id)->count()); ?> responses</p></span>
                     </span>
                   </li>
                 </ul>
@@ -305,7 +279,7 @@
                 <td class="admin-table__large-cell">N/A</td>
                 <td class="admin-table__large-cell">0</td>
               <?php endif; ?>
-              <td class="admin-table__large-cell"><?php echo e($single_debate->comments->count()); ?></td>
+              <td class="admin-table__large-cell"><?php echo e($single_debate->commentPro->count()); ?></td>
               <td style="display:none"></td>
             </tr>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -344,7 +318,7 @@
           //$user_enganged[$questions->id] = array_unique($user_enganged[$questions->id]);
           foreach($user_enganged[$questions->id] as $user_id){
            $_obj_categoey  = new App\DebateCategoryUser;
-          $cat_user = $_obj_categoey->with('category')->where('user_id',$user_id)->get();
+          $cat_user = $_obj_categoey->with('category','user')->where('user_id',$user_id)->get();
          /* echo "<pre>";
           print_r($cat_user); 
           die(); */
@@ -362,6 +336,7 @@
             <td class=""> N/A</td>
             <td class="">
 			<?php 
+      $myArray = array();
 			foreach($cat_user as $interest_cat)
 			{
 					$myArray[] = '<span>'.ucfirst($interest_cat->category->name).'</span>';
@@ -401,8 +376,7 @@
   </header>
   <div class="modal-body">
     <?php $__currentLoopData = $recent_arguments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $arguments_user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-     <?php $__currentLoopData = $arguments_user->arguments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $argument_user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-	 <?php if($argument_user->status=="active"): ?>
+     <?php $__currentLoopData = $arguments_user->argumentPro; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $argument_user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
   <div class="debate-main">
    <div class="debate-preview__players follow-players">
    <div class="debate-select-img"><img width="128" height="128" alt="" src="<?php echo e(asset('images/')); ?>/<?php echo e($argument_user->user->avatar_url); ?>"></div> 
@@ -412,10 +386,14 @@
    </h4>
    <small><?php echo e($argument_user->user->name); ?></small>
    </div> 
+   <?php if($argument_user->status=="active"): ?>
    <div class="debate-tick"><form method="POST" action="/partners/questions/destroyargument/<?php echo e($argument_user->id); ?>">
                         <input type="hidden" name="comment_id" value="<?php echo e($argument_user->id); ?>">
                         <button type="submit"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
                     </form></div>
+					<?php else: ?>
+						<a href="#" class="u-link-red">Deleted</a>
+					<?php endif; ?>
   </div>
      <div class="debate-bottom-content">
       <?php $__currentLoopData = $side; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $debate_side): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -426,11 +404,11 @@
    <p><?php echo e($argument_user->argument); ?></p>
    </div>
    </div>
-   <?php endif; ?>
+   
    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     <?php $__currentLoopData = $recent_comments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $recentscomment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-    <?php $__currentLoopData = $recentscomment->comments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $recentcomment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <?php $__currentLoopData = $recentscomment->commentPro; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $recentcomment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
   <div class="debate-main">
    <div class="debate-preview__players follow-players">
    <div class="debate-select-img"><img width="128" height="128" alt="" src="<?php echo e(asset('images/')); ?>/<?php echo e($recentcomment->user->avatar_url); ?>"></div> 
@@ -440,11 +418,15 @@
    </h4>
    <small><?php echo e($recentcomment->user->name); ?></small>
    </div> 
+   <?php if($recentcomment->status=="active"): ?>
    <div class="debate-tick">
  <form method="POST" action="/partners/questions/destroycomment/<?php echo e($recentcomment->id); ?>">
                         <input type="hidden" name="argument_id" value="<?php echo e($recentcomment->id); ?>">
                         <button type="submit"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
                     </form></div>
+                    <?php else: ?>
+            <a href="#" class="u-link-red">Deleted</a>
+          <?php endif; ?>
   </div>
      <div class="debate-bottom-content">
    <p><a href="#" class="comment-btn">COMMENT</a></p>
@@ -495,22 +477,7 @@
       </form>
     <?php endif; ?>
   </div>
-
-
 </div>
-
-<script type="text/javascript">
-    $(function () {
-        var url = $("#add-change").find("option:selected").attr('img-path');
-        var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        $("#add-change").change(function () {
-            var url = $(this).find("option:selected").attr('img-path');
-            var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        });
-    });
-</script>
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

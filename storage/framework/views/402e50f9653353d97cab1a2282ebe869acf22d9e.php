@@ -102,7 +102,8 @@ $votes          = $debate->votes()->select('voter_id','user_id')->where('voter_i
                         <?php else: ?>
 
                             <?php if($i==1): ?>
-                                <?php if(count($votes)>0): ?>
+                               
+                                <?php if(isset($votes)): ?>
                                     <?php if($votes->user_id == $user->id): ?>
                                         <span  class="<?php echo e($side); ?>-<?php echo e($i); ?>"><?php echo e($user->pivot->votes); ?></span>
                                         <img src="/img/<?php echo e($side); ?>-<?php echo e($i); ?>-vote-btn.svg">
@@ -121,7 +122,8 @@ $votes          = $debate->votes()->select('voter_id','user_id')->where('voter_i
                                 <!-- <img src="/img/right-vote-btn.svg">
                                 <span><?php echo e($user->pivot->votes); ?></span> -->
 
-                                <?php if(count($votes)>0): ?>
+                                
+                                <?php if(isset($votes)): ?>
                                     <?php if($votes->user_id == $user->id): ?>
                                         <img src="/img/<?php echo e($side); ?>-<?php echo e($i); ?>-vote-btn.svg">
                                         <span class="<?php echo e($side); ?>-<?php echo e($i); ?>"><?php echo e($user->pivot->votes); ?></span>

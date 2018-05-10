@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Partner\Answers;
 use Auth;
 use Session;
 use App\Answer;
+use App\Question;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 class AnswerController extends Controller
@@ -16,8 +17,13 @@ class AnswerController extends Controller
      */
     public function index($id)
     {
-        $answers = Answer::where('question_id',$id)->orderBy('id','DESC')->get();
-        return view('admin.answers.index', compact('answers'));
+        $hasQuesAuthorCount = Question::whereId($id)->where('user_id', Auth::user()->id)->count();
+        if($hasQuesAuthorCount == 1){
+            $answers = Answer::where('question_id',$id)->orderBy('id','DESC')->get();
+            return view('admin.answers.index', compact('answers'));
+        }else{
+            return view('errors.pro-404');
+        }
     }
     public function create(){
         //
@@ -28,7 +34,8 @@ class AnswerController extends Controller
             'answer' => $request->get('answer')
         ]);
         if($ans){
-            Session::flash('message', "Answer successfully created.");
+            Question::where('id', $request->get('question_id'))->update(['has_multiple_ans' => 0]);
+            Session::flash('message', "Answer created successfully.");
         }else{
             Session::flash('message', "Error!. Please try again.");
         }
@@ -40,7 +47,7 @@ class AnswerController extends Controller
     public function update(Request $request){
         $updateAns = Answer::where('id', $request->get('ans_id'))->update(['answer' => $request->get('answer')]);
         if($updateAns){
-            Session::flash('message', "Answer successfully updated.");
+            Session::flash('message', "Answer updated successfully.");
         }else{
             Session::flash('message', "Error!. Please try again.");
         }
@@ -50,7 +57,11 @@ class AnswerController extends Controller
         if($request->get('submit') == 'yes'){
             $deletedAns = Answer::where('id', $request->get('ans_id'))->delete();
             if($deletedAns){
-                Session::flash('message', "Answer successfully updated.");
+                $ansCount = Answer::where('question_id', $request->get('question_id'))->count();
+                if($ansCount == 0){
+                    Question::where('id', $request->get('question_id'))->update(['has_multiple_ans' => 1]);
+                }
+                Session::flash('message', "Answer deleted successfully.");
             }else{
                 Session::flash('message', "Error!. Please try again.");
             }

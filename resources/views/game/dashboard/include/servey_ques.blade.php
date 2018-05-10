@@ -20,7 +20,7 @@
 	          		<strong class="u-text-black">{{ $question->source }}</strong>
 				  </small>
                   <div class="debate-btn-box">
-						<a class="debate-btn" href="{{ route('pickServeyAnswer').'?question_id='.$question->id }}">Start Servey</a>
+						<a class="debate-btn" href="{{ route('pickServeyAnswer').'?question_id='.$question->id }}">Submit Answer</a>
 					</div>
 				<!-- @if($question->question_type == 1)
 					<div class="debate-btn-box">

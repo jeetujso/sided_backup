@@ -137,8 +137,10 @@ class QuestionController extends Controller
         ]);
         if($request->has('question_type')){
             $questionType = 1;
+            $has_multiple_ans = 1;
         }else{
             $questionType = 0;
+            $has_multiple_ans = 0;
         }
         try{
         
@@ -151,7 +153,8 @@ class QuestionController extends Controller
                 'publish_at' => $request->publish_at,
                 'expire_at' => $request->expire_at,
                 'status' => $request->status,
-                'question_type' => $questionType
+                'question_type' => $questionType,
+                'has_multiple_ans' => $has_multiple_ans
             ]);
 
             //return view('admin.questions.index');
@@ -183,11 +186,15 @@ class QuestionController extends Controller
      */
     public function edit($id)
     {
+        $hasQuesAuthorCount = Question::whereId($id)->where('user_id', Auth::user()->id)->count();
         $debate_category = DB::table('debate_category')->where([['status', '=', 'live'], ['partner_id', '=', Auth::user()->id],])->get();
 
         $questions = Question::with('category')->where('questions.id', '=', $id)->orderby('id', 'desc')->first();
-       
-        return view('admin.questions.edit', compact('debate_category','questions'));
+        if($hasQuesAuthorCount == 1){
+            return view('admin.questions.edit', compact('debate_category','questions'));
+        }else{
+            return view('errors.pro-404');
+        }
     }
 
     /**
@@ -310,7 +317,7 @@ class QuestionController extends Controller
     public function preview($id)
     {
         //die('here');
-
+        $hasQuesAuthorCount = Question::whereId($id)->where('user_id', Auth::user()->id)->count();
         $questions = Question::with('category','allAds')->where('questions.id', '=', $id)->orderby('id', 'desc')->first();
         $ads = Ad::where('partner_id', Auth::user()->id)->where('advertisement_type',1)->get();
         /*echo "<pre>";
@@ -402,15 +409,23 @@ class QuestionController extends Controller
         ->find($dbt_id);
     
         */
-
-
-        if(!empty($dbt_id))
-        {
-           return view('admin.questions.preview', compact('questions', 'ads', 'recent_arguments','recent_comments','side','user_enganged','debates'));
-        }
-        else
-        {
-            return view('admin.questions.nodebateassigned', compact('questions', 'ads', 'user_enganged'));
+        if($hasQuesAuthorCount == 1){
+            if($questions->question_type == 1){
+                $user_enganged = UserAnswer::with('user.categories')->where('question_id',$id)->distinct()->get(['user_id']);
+                $engagementCount = UserServey::where('question_id',$id)->where('status',1)->count();
+                return view('admin.questions.multi-choice-question', compact('questions', 'ads', 'user_enganged', 'engagementCount'));
+            }else{
+                if(!empty($dbt_id))
+                {
+                return view('admin.questions.preview', compact('questions', 'ads', 'recent_arguments','recent_comments','side','user_enganged','debates'));
+                }
+                else
+                {
+                    return view('admin.questions.nodebateassigned', compact('questions', 'ads', 'user_enganged'));
+                }
+            }
+        }else{
+            return view('errors.pro-404');
         }
     }
 
@@ -566,15 +581,26 @@ class QuestionController extends Controller
         }
     }
     public function serveyResult($question_id){
-        $colorArrays = ['#28a745', '#5873fe', '#e7b63a', '#323232', '#004bbc', '#41cac0', '#9972b5', '#ff6c60', '#57c8f2', '#343957', '#82b440', '#dddddd'];
-        
+        //$colorArrays = ['#28a745', '#5873fe', '#e7b63a', '#323232', '#004bbc', '#41cac0', '#9972b5', '#ff6c60', '#57c8f2', '#343957', '#82b440', '#dddddd'];
+        $colorArrays = ['#28a745', '#5873fe', '#e7b63a', '#323232', '#004bbc', '#41cac0', '#9972b5', '#ff6c60', '#57c8f2', '#343957', '#82b440', '#dddddd', '#00bfff', '#804000'];
         $questionDetails = Question::find($question_id);
+        $hasQuesAuthorCount = Question::whereId($question_id)->where('user_id', Auth::user()->id)->count();
         $otherAnswersCount = UserAnswer::where('question_id',$question_id)->where('answer_id',NULL)->count();
         $answered = UserServey::where('question_id',$question_id)->where('status',1)->count();
         $skipped = UserServey::where('question_id',$question_id)->where('status',0)->count();
         $serveyResults = Answer::with('serveyAnswers')->where('question_id',$question_id)->get();
         $hasServeyAns = UserAnswer::where('question_id',$question_id)->count();
-        return view('admin.questions.servey-result', compact('colorArrays', 'answered', 'skipped', 'serveyResults', 'otherAnswersCount', 'questionDetails', 'hasServeyAns')); 
-       // return view('admin.questions.servey-result', compact('colorArrays', 'answered', 'skipped', 'serveyResults')); 
+        $overFlowCount = 0;
+        foreach($serveyResults as $barCount){
+            if(count($barCount->serveyAnswers) >=1){
+                $overFlowCount++;
+            }
+        }
+        if($hasQuesAuthorCount == 1){
+            return view('admin.questions.servey-result', compact('colorArrays', 'answered', 'skipped', 'serveyResults', 'otherAnswersCount', 'questionDetails', 'hasServeyAns', 'overFlowCount')); 
+        }else{
+            return view('errors.pro-404');
+        }
+            // return view('admin.questions.servey-result', compact('colorArrays', 'answered', 'skipped', 'serveyResults')); 
     }
 }

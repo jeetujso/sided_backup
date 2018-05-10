@@ -14,7 +14,7 @@
 Route::get('/', function () {
     return Redirect::to('/login');
 });
-
+Route::get('/jk-message', 'TwilioController@index');
 
 Auth::routes();
 
@@ -39,9 +39,9 @@ Route::group(['namespace' => 'Socialite'], function () {
 
 Route::group(['namespace' => 'Game'], function () {
 
-    Route::get('/home', function () {
-        return redirect()->route('publicDashboardIndex');
-    });
+    // Route::get('/home', function () {
+    //     return redirect()->route('publicDashboardIndex');
+    // });
 
     // Categories
     Route::group(['namespace' => 'Onboarding', 'prefix' => 'onboarding','middleware' => ['frontuser']], function () {
@@ -50,6 +50,17 @@ Route::group(['namespace' => 'Game'], function () {
         ]);
         Route::post('/account', [
             'as' => 'onboardingAccountStore', 'uses' => 'AccountController@store'
+        ]);
+        
+        Route::get('/otp', [
+            'as' => 'onboardingMobileOtp', 'uses' => 'AccountController@otp'
+        ]);
+        Route::get('/resend-otp', [
+            'as' => 'onboardingResendOtp', 'uses' => 'AccountController@resentOtp'
+        ]);
+        
+        Route::post('/validate-otp', [
+            'as' => 'onboardingOtpStore', 'uses' => 'AccountController@validateOtp'
         ]);
 
         Route::get('/categories', [
@@ -74,6 +85,13 @@ Route::group(['namespace' => 'Game'], function () {
         'as' => 'publicDashboardIndex', 'uses' => 'Dashboard\DashboardController@index'
     , 'middleware' => ['frontuser'] ]);
 
+    Route::post('/feed', [
+        'as' => 'publicDashboardIndex', 'uses' => 'Dashboard\DashboardController@index'
+    , 'middleware' => ['frontuser'] ]);
+
+    Route::post('/loaddata', [
+        'as' => 'publicDashboardLoadData', 'uses' => 'Dashboard\DashboardController@loadDataAjax'
+    , 'middleware' => ['frontuser'] ]);
 
     Route::post('/share_box', [
         'as' => 'hideDashboardSharebox', 'uses' => 'Dashboard\DashboardController@share_box'
@@ -157,7 +175,7 @@ Route::group(['namespace' => 'Game'], function () {
         Route::get('/instant/{id}/result', [
             'as' => 'serVeyInstantResult', 'uses' => 'ServeyController@getInstantResult'
         ]);
-        Route::get('/thankyou', [
+        Route::get('/{id}/thankyou', [
             'as' => 'serveyAnsSubmitThankyou', 'uses' => 'ServeyController@thankyou'
         ]);
     });
@@ -308,7 +326,8 @@ Route::group(['namespace' => 'Game'], function () {
         Route::get('/my-category', ['as'=> 'my-category', 'uses' => 'PlayerController@myCategory',
                 'middleware' => ['auth']]);
          Route::post('/update-my-category', ['as'=> 'update-my-category', 'uses' => 'PlayerController@updateMyCategory']);
-        // player profiles for public
+        
+         // player profiles for public
         /*
         Route::get('/{handle}', [
             'as' => 'publicPlayerShow', 'uses' => 'PlayerController@show'
@@ -328,7 +347,15 @@ Route::group(['namespace' => 'Game'], function () {
 
             // profile
             Route::resource('profile', 'ProfileController');
-            
+            Route::get('/verify-otp', [
+                'as' => 'frontMobileOtp', 'uses' => 'ProfileController@otp'
+            ]);
+            Route::post('/front-verify-otp', [
+                'as' => 'frontMobileOtpVerify', 'uses' => 'ProfileController@validateOtp'
+            ]);
+            Route::get('/verify-otp-resend', [
+                'as' => 'frontMobileOtpResend', 'uses' => 'ProfileController@editProfileResentOtp'
+            ]);
             // follower
             Route::post('/follow', [
                 'as' => 'publicAjaxFollow', 'uses' => 'FollowerController@follow'

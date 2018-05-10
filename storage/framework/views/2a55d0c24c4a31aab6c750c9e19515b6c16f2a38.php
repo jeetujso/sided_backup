@@ -48,6 +48,7 @@ function myFunction() {
     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet" type="text/css">
     <link href="<?php echo e(asset('css/bootstrap.min.css')); ?>" rel="stylesheet" type="text/css">
     <link href="<?php echo e(asset('css/flexslider.css')); ?>" rel="stylesheet" type="text/css">
+  
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -127,7 +128,7 @@ function myFunction() {
                                 </a>
                                 
   
-                                <a href="<?php echo e(url('/logout')); ?>"
+                                 <a href="<?php echo e(url('/logout')); ?>"
                                     onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();"
                                      class="primary-nav__dropdown-link u-link-black">
@@ -171,8 +172,7 @@ function myFunction() {
 
   <!--end-select-apponnent-modal-->
         <?php echo $__env->yieldContent('content'); ?>
-
-        <div class="js-flash-msg flash-msg" style="display: none">
+        <div class="js-flash-msg flash-msg <?php if(isset($user)): ?> <?php if($user->go_online == 'true' && $user->is_admin ==1): ?> flash-msg-on-air <?php endif; ?> <?php endif; ?>" style="display: none">
                 <h4 style="padding: 10px"></h4>
             </div>
 
@@ -227,7 +227,7 @@ function myFunction() {
         </div>
 
     </div>
-
+    <script src="<?php echo e(asset('js/jquery.smoothState.min.js')); ?>"></script>
     <!-- Scripts -->
     <script src="<?php echo e(asset('js/app.js')); ?>"></script>
 
@@ -267,69 +267,51 @@ function myFunction() {
                 var ele = $(this);
                 var ele_count = $(this).parent().parent().parent().children().length;
                 var user_id = $(this).val();
+				$(".loader-bgg").show(); 
                 $.ajax({
                     type: "POST",
                     url: "<?php echo e(route('publicAjaxFollow')); ?>",
                     data: {
                         "user_id": user_id
                     },
-                    success: function(msg) {
-                        //console.log(msg);
-                        if (ele_count == '1') {
-                            ele.parent().parent().parent().append('<div class="load-more"><button onclick="load_more_suggestions()">Load more</button></div>');
-                        }
+                                success: function(response) {
+									$(".loader-bgg").hide();
+                //console.log(response);
 
+                if(response.response_code == '0'){
+                    $(".follow-player-sec").html('');
+                            var resp_htmll = '<h4 class="text-center">There are no more users to follow.</h4>'+
+                                '<div class="debate-preview__players follow-players">'+
+                                '<a href="#" class="primary-nav__dropdown-link u-link-black" data-toggle="modal" data-target="#inviteFriends">Invite Friends</a></div>';
+                            $(".follow-player-sec").append(resp_htmll);
+                }else{
 
-                        ele.parent().parent().remove('div');
-                        
+					$(".follow-player-sec").html('');
+                    $.each(response.response, function( index, value ) {
+                            var resp_html = '<div class="debate-preview__players follow-players">'+
+                            '<div class="debate-follow-img"><img src="<?php echo e(asset('images')); ?>/'+value.avatar_url+'" width="128" height="128" alt=""></div>'+
+                            '<div class="debate-follow-name">'+
+                                '<h4 class="debate-preview__player-name">'+
+                                '<a href="players/'+value.handle+'" class="u-link-black">'+
+                                value.name+
+                                '</a></h4>'+
 
-                    },
+                                '<small>'+value.handle+'</small>'+
+                            '</div>'+
+                            '<div class="debate-follow-btn">'+
+                                '<button class="follow-btn" value="'+value.id+'">Follow</button>'+
+                            '</div>'+
+                        '</div>';
+                            $(".follow-player-sec").append(resp_html);
+                        });
+                }
+            },
                     error: function(msg) {
                         console.log('error');
                         // alert(msg.status);
                     }
                 });
             });
-
-
-            // on category click
-            /*$('.onboarding-category').click(function(){
-                $("#category-listing").hide();
-                $('.onboarding-category').removeClass('is-selected');
-                $(this).addClass('is-selected');
-                var cat_name = $(this).children( ".onboarding-category__name").text();
-                var cat_id = $(this).children( ".onboarding-category__name").attr("data-cat-id");
-
-                $.ajax({
-                   type: "POST",
-                   //url: "./debates/get_questions",
-                   url: "<?php echo e(route('getQuestions')); ?>",
-                   data: { "category_id": cat_id, "_token": "<?php echo e(csrf_token()); ?>"} ,
-                   success: function (resp) {
-                        //var resp = $.parseJSON(msg);
-                        if(resp.length == 0){
-                            alert('No question in this category');
-                            $("#category-listing").show();
-                            return false;
-                        }
-
-                        $("#category-wise-questions").html("<div class='close-sec'>View all questions in  <span>"+cat_name+ "</span> <a id='close-btn' href='#' onclick='show_categories(); '><i class='fa fa-times'></i></a></div>");    
-
-                        $.each(resp, function( index, value ) {
-                            var resp_html = '<div class="dashboard-item questions">'+
-                            '<div ques-id="'+ value.id +'" class="question_id"></div>'+
-
-                            '<div class="debate-preview u-background-white"><div class="debate-preview__header"><div class="debate-haeder-top"><h4 class="debate-preview__category"> Submitted In <strong class="u-text-black">'+ value.category.name +'</strong></h4> <span>'+
-                                '<img alt="" src="../img-dist/dot.svg"></span></div> <p class="debate-preview__question-text">'+ value.name +'</p> <small class="debate-preview__question-source">Source from <strong class="u-text-black"><a href="'+ value.source_url +'" target="_blank">'+ value.source +'</a></strong></small></div></div></div>';
-                            $("#category-wise-questions").append(resp_html);
-                        });
-                   },
-                   error: function (msg) {
-                       //alert(msg.status + ' ' + msg.statusText);
-                   }
-               });    
-            });*/
-
 
             
             $('#cat-tab').click(function(){
@@ -637,6 +619,120 @@ function myFunction() {
 
         });
     </script>
+            <script type="text/javascript">
+                    $('.switch2 input').click(function(){
+            //alert($(this).val());
+            if($(this).val() == "true"){
+                var jk = "false";
+                $.ajax({
+                    'type': 'POST',
+                    'url': "<?php echo e(route('publicnotificationSetting', 'false')); ?>",
+                    'data': { 'notification_settings': 'false'},
+                    success: function(res){
+                        $(".prosetting").html('<p>'+res.response+'</p>');
+                        $(".prosetting").css('display','block');
+                        $(".prosetting").delay(15000).fadeOut(500);
+                        console.log('false');
+                    }
+                });
+            }else{
+                var jk = "true";
+                $.ajax({
+                    'type': 'POST',
+                    'url': "<?php echo e(route('publicnotificationSetting', 'true')); ?>",
+                    'data': {'notification_settings': 'true'},
+                    success: function(res){
+                        $(".prosetting").html('<p>'+res.response+'</p>');
+                        $(".prosetting").css('display','block');
+                        $(".prosetting").delay(15000).fadeOut(500);
+                        console.log('true');
+                    }
+                });
+            }
+            $(this).val(jk);
+        });
+        </script>
 
+        <script>
+            $(document).ready(function(){
+                $("#option-other").on('click', function(){
+                    $('.servey-form-error').text('');
+                    $('.servey-answers').prop('checked', false);
+                    if ($(this).is (':checked')){
+                        $('.other-answer-text').attr('type','text');
+                    }else{
+                        $('.other-answer-text').attr('type','hidden');
+                    }
+                });
+                $(".servey-answers").on('click', function(){
+                    $('.servey-form-error').text('');
+                    $('#option-other').prop('checked', false);
+                    $('.other-answer-text').attr('type','hidden');
+                });
+            });
+        </script>
+        
+        <script>
+            function checkServeyValidation() {
+                var checkboxLength = $('[class="servey-answers"]:checked').length;
+                var otherAnsLength = $('[name="other_answer"]:checked').length;
+                if(otherAnsLength == 1){
+                    var otherAns = document.forms["pickaside"]["other_answer_text"].value;
+                }
+                if(checkboxLength == 0 && otherAnsLength == 0){
+                    $('.servey-form-error').text('Please choose your answer.');
+                    return false;
+                }else if(checkboxLength == 0 && otherAnsLength == 1){
+                    if(otherAns == ""){
+                        $('.servey-form-error').text('Please write your answer.');
+                        return false;
+                    }
+                }
+            }
+        </script>
+
+        <script>
+        function resultDetail(ansName, answered, percentage) {
+            $("#answer-details-servey-modal").trigger( "click" );
+            $("#ans-name-servey").text(ansName);
+            if(answered == 1){
+                $("#total-answered-servey").text(answered+' Respondent');
+            }else{
+                $("#total-answered-servey").text(answered+' Respondents');
+            }
+            $("#total-percentage-servey").text(percentage+'%');
+        }
+    </script>
+    <script>
+$(document).ready(function(){
+   $(document).on('click','#btn-more',function(){
+       var id = $(this).data('id');
+       $("#btn-more").html("Loading....");
+       $.ajax({
+           url : '<?php echo e(route('publicDashboardLoadData')); ?>',
+           method : "POST",
+           data : {id:id},
+           dataType : "text",
+           success : function (data)
+           {
+            //alert(data);
+              if(data != '') 
+              {
+                  $('#remove-row').remove();
+				  $('#no-more').hide();
+                  $('#load-data').append(data);
+              }
+              else
+              {
+				  $('#btn-more').hide();
+				  $('#no-more').show();
+                  $('#no-more').html("There are no more questions to display.");
+				  $('#no-more').addClass("no-question-suggestions");
+              }
+           }
+       });
+   });  
+}); 
+</script>
     </body>
 </html>

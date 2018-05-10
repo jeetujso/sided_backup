@@ -616,7 +616,7 @@ button i.fa.fa-caret-right {
   border: 1px solid #ccc;
   padding: 0.8rem 0rem;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.875rem;
   width: 135px;
   line-height: 18px;
   display: inline-block;
@@ -1177,7 +1177,8 @@ textarea#join-debate-argument {
 
 .radio-vote-section {
   text-align: center;
-  display: block;
+  display: table;
+  width: 100%;
 }
 
 .radio-vote-section ul {
@@ -1190,22 +1191,27 @@ textarea#join-debate-argument {
 }
 
 .radio-vote-section ul li {
-  width: auto;
+  width: 100%;
   text-align: left;
   margin: 0 0 16px;
   padding: 0;
+  display: table;
+}
+
+.debate-comment__form button i.fa {
+  color: #61dd50;
 }
 
 .radio-vote-section ul li input {
-  display: inline-block;
-  width: auto;
+  display: table-cell;
+  width: 20px;
   vertical-align: middle;
   margin: 0;
   height: auto;
 }
 
 .radio-vote-section ul li label {
-  display: inline-block;
+  display: table-cell;
   max-width: none;
   vertical-align: baseline;
   position: relative;
@@ -1214,6 +1220,8 @@ textarea#join-debate-argument {
   font-size: 13px;
   margin: 0;
   text-transform: capitalize;
+  width: 100%;
+  max-width: 100%;
 }
 
 ::-moz-selection {
@@ -1794,7 +1802,6 @@ p.login-form-desc {
 
 html, body {
   -webkit-overflow-scrolling: touch !important;
-  overflow: auto !important;
   height: 100% !important;
   position: relative;
   z-index: -1;
@@ -2551,37 +2558,6 @@ small {
   }
 }
 
-@media screen and (max-width: 767px) {
-  .u-col-four {
-    display: block;
-    float: left;
-    margin-right: 2.35765%;
-    width: 100%;
-  }
-  .u-col-four:last-child {
-    margin-right: 0;
-  }
-  .debate-argument__form {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    z-index: 999;
-    left: 0;
-    border: 1px solid #ccc;
-  }
-  .view-comment {
-    padding: 15px 22px 70px;
-  }
-  .debate-comment__form {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    left: 0;
-    border: 1px solid #ccc;
-    z-index: 999;
-  }
-}
-
 @media screen and (min-width: 767px) {
   .u-col-six {
     display: block;
@@ -3095,7 +3071,7 @@ h4.debate-preview__player-name {
 
 .debate-argument__author {
   font-size: 14px;
-  margin-bottom: 0.125rem;
+  margin-bottom: 0.3rem;
   padding: 0 2rem;
   font-weight: 400;
 }
@@ -3114,7 +3090,7 @@ h4.debate-preview__player-name {
 
 .debate-argument__first::before {
   left: 0.625rem;
-  top: 0.670rem;
+  top: 0.685rem;
   content: url("../img-dist/argument_left.svg");
   position: absolute;
   z-index: 9;
@@ -3131,7 +3107,7 @@ h4.debate-preview__player-name {
 
 .debate-argument__second::before {
   right: 0.625rem;
-  top: 0.670rem;
+  top: 0.685rem;
   content: url("../img-dist/argument_right.svg");
   position: absolute;
 }
@@ -3144,12 +3120,6 @@ h4.debate-preview__player-name {
 .debate-argument__stream {
   height: 50vh;
   overflow-y: auto;
-}
-
-.debate-argument__form {
-  background-color: #F6F6F6;
-  padding: 0.625rem;
-  border-top: 1px solid #cccccc;
 }
 
 .debate-comment {
@@ -3287,7 +3257,19 @@ li.pro_online a::before {
   content: "";
 }
 
-li.pro_offline a::before {
+/*li.pro_offline a::before {
+    background: rgba(255,255,255,0.75);
+    height: 100%;
+    position: absolute;
+    left: 0;
+    text-align: center;
+    top: 0;
+    vertical-align: middle;
+    width: 100%;
+    content: "";
+    z-index: 1;
+}*/
+li.deactivate_proprofile::before {
   background: rgba(255, 255, 255, 0.75);
   height: 100%;
   position: absolute;
@@ -3298,6 +3280,10 @@ li.pro_offline a::before {
   width: 100%;
   content: "";
   z-index: 1;
+}
+
+li.deactivate_proprofile {
+  position: relative;
 }
 
 .debate-haeder-top {
@@ -3424,7 +3410,7 @@ a.show-more-text:hover span:last-child {
 .debate-haeder-top > span {
   display: table-cell;
   text-align: right;
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 .debate-preview__question-source i {
@@ -4944,7 +4930,15 @@ li.player-profile__tab.active path#changecolor {
   content: url(../img/argument_right.svg);
   left: 0.625rem;
   position: absolute;
-  top: 0.670rem;
+  top: 0.7rem;
+  z-index: 9;
+}
+
+.debate-argument__first::before {
+  left: 0.625rem;
+  top: 0.7rem;
+  content: url("../img-dist/argument_left.svg");
+  position: absolute;
   z-index: 9;
 }
 
@@ -4952,7 +4946,7 @@ li.player-profile__tab.active path#changecolor {
   content: url(../img/argument_right.svg);
   right: 0.625rem;
   position: absolute;
-  top: 0.670rem;
+  top: 0.7rem;
   z-index: 9;
   transform: scaleX(-1);
   -moz-transform: scaleX(-1);
@@ -4963,7 +4957,7 @@ li.player-profile__tab.active path#changecolor {
   content: url(../img/argument_left2.svg);
   right: 0.625rem;
   position: absolute;
-  top: 0.70rem;
+  top: 0.7rem;
   z-index: 9;
   transform: scaleX(1);
   -moz-transform: scaleX(1);
@@ -5736,6 +5730,11 @@ ul.select-agree-btn li label {
   -webkit-transition: all 0.25s linear;
 }
 
+/*ul.select-agree-btn.survey-select-sec li:hover label{color:#aaaaaa;}*/
+ul.select-agree-btn li.survey-select-sec .check {
+  top: 0;
+}
+
 ul.select-agree-btn li:hover label {
   color: #60dd50;
 }
@@ -5804,6 +5803,37 @@ ul.select-agree-btn li:last-child input[type=radio]:checked ~ .check::before {
   background: #2dcef6;
 }
 
+ul.select-agree-btn.survey-select-sec li .check::before {
+  border-radius: 0;
+  content: "\F00C";
+  font-family: fontawesome;
+  color: #61dd50;
+  opacity: 0;
+  display: inline-block;
+  top: -1px;
+  width: 20px;
+  height: 20px;
+}
+
+ul.select-agree-btn.survey-select-sec .check {
+  top: 0;
+  border-radius: 0;
+  left: 0;
+}
+
+ul.select-agree-btn li input[type=checkbox] {
+  position: absolute;
+  visibility: hidden;
+}
+
+ul.select-agree-btn input[type=checkbox]:checked ~ .check {
+  border: 5px solid #60dd50;
+}
+
+ul.select-agree-btn.survey-select-sec input[type=checkbox]:checked ~ .check::before {
+  opacity: 1;
+}
+
 ul.select-agree-btn input[type=checkbox]:checked ~ label {
   color: #60dd50;
 }
@@ -5820,12 +5850,8 @@ ul.select-agree-btn li:last-child input[type=checkbox]:checked ~ .check::before 
   background: #2dcef6;
 }
 
-ul.select-agree-btn input[type=checkbox]:checked ~ .check {
-  border: 5px solid #60dd50;
-}
-
-ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
-  background: #60dd50;
+ul.select-agree-btn.survey-select-sec li, ul.select-agree-btn.survey-select-sec2 li {
+  margin-left: 8%;
 }
 
 .select-agree-box textarea {
@@ -6393,7 +6419,7 @@ div#mychallengeModal .modal-body {
   border-radius: 40px;
   color: #000;
   font-size: 1.5rem;
-  padding: 13px 23px 0;
+  padding: 13px 58px 0 28px;
   height: 46px;
   line-height: normal;
   display: inline-block;
@@ -7249,7 +7275,6 @@ span.help-block {
 }
 
 li.deactivate_proprofile {
-  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -7289,8 +7314,8 @@ li.deactivate_proprofile {
 }
 
 #tab1, #tab2, #tab3, #tab4 {
-  padding-bottom: 30px;
-  background: #fff;
+  /*padding-bottom: 30px;
+	background: #fff;*/
 }
 
 input.my-category {
@@ -7767,7 +7792,7 @@ a.follow-user-back {
 }
 
 #suggest-tab2 .sided-net-content {
-  overflow: auto;
+  overflow-x: auto;
 }
 
 .debate-arguments__form #commentboxsection {
@@ -7786,49 +7811,150 @@ a.follow-user-back {
   height: 100%;
 }
 
-ul.select-agree-btn input[type=checkbox]:checked ~ label {
-  color: #60dd50;
+ul.select-agree-btn li label {
+  color: #aaaaaa;
 }
 
-ul.select-agree-btn li:last-child input[type=checkbox]:checked ~ .check {
-  border: 5px solid #2dcef6;
+ul.select-agree-btn li input[type="checkbox"] {
+  display: inline-block;
+  animation-name: none;
 }
 
-ul.select-agree-btn li:last-child input[type=checkbox]:checked ~ label {
-  color: #2dcef6;
+ul.select-agree-btn.survey-select-sec li input[type="checkbox"] {
+  display: table-cell;
+  animation-name: none;
+  width: 20px;
+  vertical-align: middle;
+  height: 20px;
+  padding: 0;
+  margin: 0;
 }
 
-ul.select-agree-btn li:last-child input[type=checkbox]:checked ~ .check::before {
-  background: #2dcef6;
+ul.select-agree-btn.survey-select-sec li label {
+  display: table-cell;
+  vertical-align: middle;
+  width: 100%;
+  position: relative;
+  padding: 0 25px 0 43px;
 }
 
-ul.select-agree-btn input[type=checkbox]:checked ~ .check {
-  border: 5px solid #60dd50;
+ul.select-agree-btn.survey-select-sec li {
+  text-align: left;
+  display: table;
+  width: 100%;
 }
 
-ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
-  background: #60dd50;
+ul.select-agree-btn.survey-select-sec input[type="text"] {
+  width: 100%;
+  max-width: 495px;
+}
+
+ul.select-agree-btn.survey-select-sec2 li label {
+  display: table-cell;
+  vertical-align: middle;
+  width: 100%;
+  position: relative;
+  top: 0;
+  padding: 0 25px 25px 32px;
+}
+
+ul.select-agree-btn.survey-select-sec2 li .check {
+  top: 0;
+  left: 0;
+}
+
+ul.select-agree-btn.survey-select-sec2 input[type="text"] {
+  width: 100%;
+  max-width: 495px;
+}
+
+ul.select-agree-btn.survey-select-sec2 li {
+  text-align: left;
+  display: table;
+  width: 100%;
+}
+
+ul.select-agree-btn.survey-select-sec2 li input[type="radio"] {
+  display: table-cell;
+  animation-name: none;
+  width: 20px;
+  vertical-align: middle;
+  height: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+.border-head {
+  display: table;
+  width: 100%;
+  border: 1px solid #cccccc;
+  padding: 15px;
+  vertical-align: middle;
+  background: #ffffff;
+  margin-bottom: 50px;
+}
+
+.border-head.thx-link {
+  padding: 0 15px 36px;
+  margin-bottom: 0px;
+}
+
+.border-head a {
+  display: table-cell;
+  width: 125px;
+  border-radius: 5px;
+  color: #ffffff;
+  background: #61dd50;
+  text-align: center;
+  vertical-align: middle;
+  height: 36px;
+  font-size: 16px;
+  font-weight: 400;
+  border: 3px solid #aceda1;
+}
+
+.border-head a:hover {
+  color: #fff !important;
 }
 
 .border-head h3 {
-  border-bottom: 1px solid #c9cdd7;
   margin-top: 0;
   margin-bottom: 20px;
-  padding-bottom: 10px;
+  padding-bottom: 0;
   font-weight: normal;
   font-size: 18px;
   display: inline-block;
-  width: 100%;
+  display: table-cell;
+  width: auto;
   font-weight: 600;
+  color: #000000 !important;
+  vertical-align: middle;
 }
 
 .custom-bar-chart {
-  height: 290px;
+  height: 320px;
   margin-top: 20px;
-  margin-left: 10px;
+  margin-left: 0;
   position: relative;
-  border-bottom: 1px solid #c9cdd7;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.custom-inner.overflow-bar {
+  overflow-y: hidden;
+  width: 2000px;
+}
+
+.custom-bar-chart.overflow-bar {
+  overflow-x: scroll;
+}
+
+.custom-bar-chart.overflow-bar .bar {
+  margin: 0 2% 0 0;
+}
+
+.custom-inner.overflow-bar .y-axis {
+  width: 2000px;
 }
 
 .y-axis {
@@ -7838,6 +7964,8 @@ ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
   width: 100%;
   padding: 0;
   list-style: none;
+  bottom: 0;
+  left: 0;
 }
 
 .y-axis li {
@@ -7846,26 +7974,44 @@ ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
   height: 51.4px;
   width: 100%;
   font-family: roboto;
-  font-size: 13px;
+  font-size: 14px;
   color: #8E8E93;
+}
+
+.y-axis li:last-child {
+  height: auto;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .y-axis li span {
   display: block;
-  margin: -10px 0 0 -25px;
+  margin: -10px 0 0 -16px;
   padding: 0 3px;
-  width: 40px;
+  width: 39px;
+  background-color: #f4f4f4;
 }
 
 .custom-bar-chart .bar {
   height: 100%;
   position: relative;
-  width: 4.3%;
-  margin: 0px 1% 0 3%;
-  float: left;
+  width: 38px;
+  top: -20px;
+  margin: 0px 1% 0 5%;
   text-align: center;
   border-radius: 5px 5px 0 0;
   z-index: 10;
+  display: inline-block;
+  float: left;
+}
+
+.custom-bar-chart .overflow-bar {
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+
+.custom-bar-chart .bar:nth-child(1n) {
+  padding-left: 2%;
 }
 
 .custom-bar-chart .bar .title {
@@ -7938,15 +8084,19 @@ ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
   padding: 20px 0 50px;
 }
 
+.table {
+  border: 1px solid #cccccc;
+}
+
 .table span {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   display: inline-block;
   border-radius: 50%;
 }
 
 .table td:first-child {
-  width: 40px;
+  width: 30px;
   vertical-align: middle;
 }
 
@@ -7969,6 +8119,271 @@ ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
   }
 }
 
+.text-submit {
+  color: #61dd50;
+  position: absolute;
+  right: 11px;
+  top: 15px;
+}
+
+button i.fa {
+  color: #d8d8d8;
+  font-size: 23px;
+}
+
+.debate-argument__form, .debate-comment__form {
+  text-align: center;
+  position: relative;
+}
+
+#closedargu.debate-argument__form {
+  background: #f6f6f6 none repeat scroll 0 0;
+  border-top: 1px solid #ccc;
+  padding: 0;
+}
+
+#closedargu.debate-argument__form textarea {
+  margin: 10px 0;
+}
+
+ul.select-agree-btn.survey-select-sec li {
+  width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.col-md-6 label span {
+  font-size: 14px;
+}
+
+#serveyResultDetailPopup .modal-dialog {
+  padding-top: 15%;
+}
+
+#serveyResultDetailPopup .modal-body {
+  text-align: left;
+  height: auto;
+}
+
+#serveyResultDetailPopup .modal-dialog {
+  border-radius: 6px;
+  margin-top: 30px;
+  max-width: 300px;
+  width: 100%;
+}
+
+#serveyResultDetailPopup .modal-footer {
+  text-align: right;
+}
+
+#serveyResultDetailPopup .modal-footer button.btn.btn-default {
+  background-color: #61dd50;
+  height: 36px;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 0;
+  width: 125px;
+}
+
+#serveyResultDetailPopup .modal-footer button.btn.btn-default {
+  border-color: #aceda1;
+  color: #fff;
+}
+
+#serveyResultDetailPopup h2 {
+  font-size: 2rem;
+  margin: 0 0 3rem;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+#serveyResultDetailPopup .modal-content {
+  padding-bottom: 0;
+}
+
+#serveyResultDetailPopup .modal-body p {
+  font-weight: 300;
+  color: #000000;
+}
+
+.debate-preview.u-background-white.thx-content {
+  display: -ms-flexbox;
+  display: flex;
+  text-align: center;
+  width: 100%;
+  height: 41%;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 19% auto;
+}
+
+.thx-content .dashboard-item {
+  margin: 0;
+  display: block;
+  width: 100%;
+}
+
+.border-head.thx-link {
+  text-align: center;
+  border: none;
+}
+
+.border-head.thx-link a {
+  display: inline-block;
+  padding-top: 4px;
+}
+
+.table tr {
+  background-color: #f4f4f4;
+}
+
+.table tr:nth-child(2n+1) {
+  background-color: #ffffff;
+}
+
+span.servey-form-error {
+  width: 100%;
+  float: left;
+  font-weight: 400;
+}
+
+.dashboard-item {
+  position: relative;
+}
+
+.loader-bgg {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  z-index: 99;
+}
+
+.loader-bgg .loader {
+  width: 60px;
+  height: 60px;
+  top: 39%;
+}
+
+#remove-row button#btn-more {
+  width: auto;
+  display: inline-block;
+  margin: 15px 0 30px;
+}
+
+div#remove-row {
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+span.debate-btn.nounderline.btn-block.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent.no-question-suggestions {
+  background: none;
+  border: none;
+  color: #828282 !important;
+  line-height: normal;
+  cursor: default;
+  margin-bottom: 14px;
+}
+
+.multi-question-ads {
+  text-align: center;
+}
+
+.multi-question-ads a {
+  display: inline-block;
+  width: 100%;
+}
+
+.multi-question-ads img {
+  max-width: 490px;
+  height: 138px;
+  width: 100%;
+}
+
+section.onboarding-categories.u-container {
+  width: 640px;
+}
+
+.overflow-bar .y-axis li {
+  margin-bottom: 0;
+  height: 54.4px;
+}
+
+.overflow-bar .y-axis li:last-child {
+  height: auto;
+}
+
+.resend-otp {
+  width: 100%;
+}
+
+.resend-otp a:hover {
+  color: #61dd50 !important;
+}
+
+span.mobile-format-example {
+  text-align: left;
+  display: block;
+  font-size: 14px;
+  color: #828282;
+  margin-top: 5px;
+}
+
+.field.resend-otp-sec {
+  margin-bottom: 0;
+}
+
+strong#demo {
+  font-weight: 400;
+}
+
+.game-header.view-comment {
+  border: medium none;
+}
+
+.game-wrapper.otp-sec {
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: 13%;
+  text-align: center;
+  overflow: auto;
+}
+
+.game-wrapper.otp-sec .game-header {
+  margin-top: 0;
+}
+
+.otp-sec input#otp {
+  display: inline-block;
+  margin-top: 30px;
+  margin-bottom: 0;
+}
+
+.resend-otp a {
+  float: right;
+  width: auto;
+  font-size: 12px;
+  margin-top: 0;
+  color: #61dd50;
+  margin-right: 15px;
+}
+
+.debate-argument__content pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  color: #333;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+}
+
 @media screen and (min-width: 1025px) and (max-width: 1200px) {
   .topnav {
     padding-left: 0;
@@ -7988,6 +8403,21 @@ ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
   }
   .category-list > ul {
     width: 600px;
+  }
+  .modal.modal-box {
+    overflow: auto;
+  }
+  #settingMultipleChoiceModal.modal.modal-box.fade.in {
+    margin-top: -20px !important;
+  }
+  .combine-button .white-button {
+    font-size: 0.675rem;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .combine-button .white-button {
+    font-size: 0.875rem;
   }
 }
 
@@ -8162,6 +8592,34 @@ ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
     overflow-y: auto;
     height: auto;
   }
+  .u-col-four {
+    display: block;
+    float: left;
+    margin-right: 2.35765%;
+    width: 100%;
+  }
+  .u-col-four:last-child {
+    margin-right: 0;
+  }
+  .debate-argument__form {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 999;
+    left: 0;
+    border: 1px solid #ccc;
+  }
+  .view-comment {
+    padding: 15px 22px 0 6px;
+  }
+  .debate-comment__form {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    border: 1px solid #ccc;
+    z-index: 999;
+  }
 }
 
 @media screen and (max-width: 665px) {
@@ -8169,11 +8627,23 @@ ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
     overflow-x: auto;
     overflow-y: hidden;
   }
+  .custom-bar-chart .bar {
+    padding: 0 0 0 5%;
+  }
+  .border-head h3 {
+    font-size: 16px;
+  }
+  section.onboarding-categories.u-container {
+    width: 100%;
+  }
+  ul.select-agree-btn.survey-select-sec li, ul.select-agree-btn.survey-select-sec2 li {
+    margin-left: 0;
+  }
 }
 
 @media screen and (max-width: 640px) {
   .on_air {
-    top: 52px;
+    top: 50px;
   }
   .player-profile-bg .following-btn {
     right: 3px;
@@ -8261,7 +8731,7 @@ ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
     vertical-align: middle;
   }
   .btn-set {
-    padding: 0;
+    padding: 0 0 3rem;
   }
   .top-head {
     padding-left: 0;
@@ -8269,6 +8739,9 @@ ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
   }
   .game-footer.u-text-center {
     padding-bottom: 35px;
+  }
+  .marg-top.seperate-page-voter .marginb.game-wrapper {
+    padding-top: 0;
   }
   .marginb.game-wrapper {
     padding-top: 4rem;
@@ -8670,15 +9143,15 @@ ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
     font-size: 1.5rem;
   }
   .challenge-btn {
-    font-size: 1.3rem;
+    font-size: 1rem;
     width: 30%;
   }
   .following-btn {
-    font-size: 1.3rem;
+    font-size: 1rem;
     width: 30%;
   }
   .contest-sec a {
-    font-size: 1.3rem;
+    font-size: 1rem;
     width: 30%;
   }
   .debate-preview__player-info {
@@ -8719,9 +9192,24 @@ ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
   .user-detial-bottom h3 a {
     display: block;
   }
+  .debate-preview-closed .u-flex-center:first-child {
+    width: 56%;
+  }
+  .debate-preview-closed .u-flex-center:last-child {
+    width: 44%;
+  }
+  .debate-preview-closed .debate-preview__player-info {
+    padding: 10px 10px 0 10px;
+  }
+  span.debate-btn.nounderline.btn-block.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent.no-question-suggestions {
+    font-size: 14px;
+  }
 }
 
 @media screen and (max-width: 468px) {
+  .radio-vote-section ul {
+    width: 100%;
+  }
   .voter-sec {
     max-width: 80px;
   }
@@ -8737,6 +9225,9 @@ ul.select-agree-btn input[type=checkbox]:checked ~ .check::before {
   }
   .voter-sec li span {
     margin: 0 !important;
+  }
+  .new-join-debate-button a.debate-preview__player-info {
+    top: -5px;
   }
 }
 

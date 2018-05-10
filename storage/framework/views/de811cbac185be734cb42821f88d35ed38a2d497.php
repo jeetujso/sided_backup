@@ -27,6 +27,7 @@
 
                   <div class="debate-haeder-top">
                     <h4 class="debate-preview__category"> Submitted In <strong class="u-text-black"><?php echo e($question->category->name); ?></strong></h4>
+					<h5 class="debate-preview__category"> Submitted By <strong class="u-text-black"><a href="<?php echo e(route('publicPlayerShow', $question->getquestionAuther->handle)); ?>"><?php echo e($question->getquestionAuther->name); ?></a></strong></h5>
                   </div>
 
                   <p class="debate-preview__question-text">

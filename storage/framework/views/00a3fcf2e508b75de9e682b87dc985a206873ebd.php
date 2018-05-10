@@ -146,7 +146,7 @@
                         <?php echo e((Auth::user()->ads_id) ? 'Edit Ad' : 'Attach Ad'); ?>
 
       		        </a>
-                    <?php if(isset($user) && isset($user->ads)): ?>
+                    <?php if(isset($user) && isset($user->pro_ads)): ?>
                         <a href="<?php echo e(route('romoveAdFromProProfile', $user->ads_id)); ?>" class="js-open-modal white-button">Remove Ad</a>
                     <?php endif; ?>
                 </div>
@@ -156,7 +156,7 @@
                     <div class="admin-content__stat stat-ad-banner" style="background-color:#f5f5f5;"> 
                         <?php
                             if(!empty(Auth::user()->ads_id)){ ?>
-                                <img width="250" height="100" src="<?php echo e(asset('img-dist/ads/'.$user->ads->image_url)); ?>" />
+                                <img width="250" height="100" src="<?php echo e(asset('img-dist/ads/'.$user->pro_ads->image_url)); ?>" />
                             <?php }else{ ?>
                                 <h4>There is no ad attached.</h4>
                             <?php }
@@ -204,18 +204,7 @@
     <?php endif; ?>
 
   </div>
-  <script type="text/javascript">
-    $(function () {
-        var url = $("#add-change").find("option:selected").attr('img-path');
-        var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        $("#add-change").change(function () {
-            var url = $(this).find("option:selected").attr('img-path');
-            var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        });
-    });
-</script>
+  
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

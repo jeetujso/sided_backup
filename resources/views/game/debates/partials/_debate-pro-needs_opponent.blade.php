@@ -1,4 +1,4 @@
-
+<?php $side=""; ?>
             <div class="debate-preview u-background-white">
 
                 <div class="debate-preview__header">
@@ -19,10 +19,11 @@
 
 
                     @foreach ($debate->users()->get() as $user)
-                        <?php $side = strtolower((new \App\Helpers\Debates)->getDebateUserSide($debate->id, $user->id)->side); ?>
-
+                        <?php $side = strtolower((new \App\Helpers\Debates)->getDebateUserSide($debate->id, $user->id)->side); 
+                        ?>
+                        <?php if(!isset($side)){ $side= ''; }?>
                         <div class="debate-preview__player u-flex-center">
-                            <div class="debate-preview__player-img  {{ $side }}">
+                            <div class="debate-preview__player-img  <?php echo $side; ?>">
                                     
                                     <a href="{{ route('publicPlayerShow', $user->handle) }}"><img class="debate-preview__player-avatar" src="{{ asset('images') }}/{{ $user->avatar_url }}" alt="{{ $user->name }}"></a>
                             </div>
@@ -39,7 +40,6 @@
 
                         </div>
                     @endforeach
-
                     @if($side =='agree')
                         <?php $opponent_side = 'disagree'; ?>
                     @else

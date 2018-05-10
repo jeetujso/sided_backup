@@ -4,10 +4,11 @@
 			<div class="debate-haeder-top">
 				<h4 class="debate-preview__category">
 					Submitted In <strong class="u-text-black">{{ debate.question_category }}</strong>
-					<span v-if="debate.status!='closed'">{{ debate.starts_at | timeago }}</span>
+					<span class="debate-closed" v-if="debate.status!='closed'"><strong id="demo"></strong></span>
 					<span class="debate-closed" v-else>Closed</span>
 				</h4>
-				<h5 class="debate-preview__category">
+
+				<h5 class="debate-preview__category restricted-for-vote">
 					Submitted By <strong class="u-text-black"><a :href="'/players/' + debate.get_debatequestion.getquestion_auther.handle">{{ debate.get_debatequestion.getquestion_auther.name }}</a></strong>
 
 				</h5>

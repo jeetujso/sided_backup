@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Game\Players\Profile;
-
+use Twilio;
 
 use App\User;
 
@@ -66,7 +66,7 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        //
+        //die('kk');
         // profile edit page
         return view('game.players.profile.edit');
         
@@ -81,6 +81,9 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // echo "<pre>";
+        // print_r($request->all());
+        // exit;
         $id = auth()->id();
         $User = User::findOrFail($id);
         $this->validate($request, [
@@ -89,6 +92,7 @@ class ProfileController extends Controller
                 'required',
                 Rule::unique('users')->ignore($id),
             ],
+            'phone_number' => 'required',
             'handle' => [
                 'required',
                 Rule::unique('users')->ignore($id),
@@ -108,11 +112,58 @@ class ProfileController extends Controller
             $destinationPath = public_path('/images');
             $image->move($destinationPath, $input['avatar_url']);
         }
-        $User->fill($input)->save();
-        return \Redirect::back()->withSuccess( 'Details Successfully updated' );
+       
+        if($User->phone_number == $request->get('phone_number')){
+            $User->fill($input)->save();
+            return \Redirect::back()->withSuccess( 'Details Successfully updated' );
+        }else{
+            $otp = rand(1000,9999);
+            $input['otp'] = $otp;
+            $User->fill($input)->save();
+
+            $accountId = 'AC3933d1348280d77b0a52ff390f37ec51'; 
+            $token = '4a92784fca737d65787620b833e732c0'; 
+            $fromNumber = '+17246095092';
+            $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
+            $twilio->message($request->get('phone_number'), $otp);
+
+            //return \Redirect::back()->withSuccess( 'Details Successfully updated' );
+            return redirect()->route('frontMobileOtp');
+        }
+        
     }
 
-
+    public function otp(){
+        return view('game.players.profile.otp-verification');
+    }
+    public function editProfileResentOtp()
+    {
+        $user = Auth::user();
+        $otp = rand(1000,9999);
+        $user->update([
+            'otp' => $otp
+        ]);
+        $accountId = 'AC3933d1348280d77b0a52ff390f37ec51'; 
+        $token = '4a92784fca737d65787620b833e732c0'; 
+        $fromNumber = '+17246095092';
+        $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
+        $twilio->message($user->phone_number, $otp);
+        return redirect()->route('frontMobileOtp');
+    }
+    public function validateOtp(Request $request)
+    {
+        $user = Auth::user();
+        if($user->otp == $request->get('otp')){
+            $user->update([
+                'otp' => 1
+            ]);
+            return redirect('/players/profile/'.$user->id.'/edit')->withSuccess( 'Details Successfully updated' );;
+        }else{
+            return redirect()->back()->withErrors(['msg', 'Otp not matched']);
+        }
+        //return view('game.onboarding.phone-otp', ['user' => Auth::user()]);
+        //return redirect()->route('onboardingCategoryCreate');
+    }
 
     /**
      * Remove the specified resource from storage.

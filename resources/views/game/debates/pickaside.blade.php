@@ -54,7 +54,7 @@
 						<div class="form-group{{ $errors->has('argument') ? ' has-error' : '' }}">
 
 							
-							<textarea id="debate-arg-textbox" name="argument" rows="8" placeholder="What do you think?">{{ old('argument') }}</textarea>
+							<textarea id="debate-arg-textbox" name="argument" rows="8" wrap="hard" placeholder="What do you think?">{{ old('argument') }}</textarea>
 							
 							@if ($errors->has('argument'))
                             <span class="help-block">

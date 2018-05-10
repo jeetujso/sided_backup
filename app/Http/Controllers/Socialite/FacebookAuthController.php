@@ -31,6 +31,6 @@ class FacebookAuthController extends Controller
     {
         $user = $service->getFaceBookUser(Socialite::driver('facebook')->user());
         auth()->login($user);
-        return redirect()->to('/dashboard');
+        return redirect()->to('/feed');
     }
 }

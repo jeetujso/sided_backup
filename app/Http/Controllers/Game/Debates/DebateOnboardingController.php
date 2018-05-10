@@ -48,7 +48,7 @@ class DebateOnboardingController extends Controller
     public function create()
     {
         //echo "jk"; exit;
-        $questions = Question::with('category')->where('publish_at', '<=', Carbon::now())->where([['expire_at', '>=', Carbon::now()], ['status', '=', 'publish'],])->orderby('id', 'desc')->get();
+        $questions = Question::with('category')->where('question_type', 0)->where('publish_at', '<=', Carbon::now())->where([['expire_at', '>=', Carbon::now()], ['status', '=', 'publish'],])->orderby('id', 'desc')->get();
         $categories = DebateCategory::where('status', '=', 'live')->get();
         return view('game.debates.create', compact('questions','categories'));
 
@@ -92,6 +92,7 @@ class DebateOnboardingController extends Controller
                     DebateUser::insert(array('user_id' => auth()->user()->id,
                         'side'=>$request->input('side'),
                         'debate_id' => $debate->id,
+                        'question_ID' => $request->input('question_id'),
                         'votes' => '0')
                     );
 
@@ -217,7 +218,7 @@ class DebateOnboardingController extends Controller
                         ->where('category_id', $request->input('category_id'))
                         ->get();*/
 
-         $questions = Question::with('category.ads','getquestionAuther')->where('publish_at', '<=', Carbon::now())->where([['expire_at', '>=', Carbon::now()], ['status', '=', 'publish'],])->where('category_id', $request->input('category_id'))->orderby('id', 'desc')->get();
+         $questions = Question::with('category.ads','getquestionAuther')->where('question_type', 0)->where('publish_at', '<=', Carbon::now())->where([['expire_at', '>=', Carbon::now()], ['status', '=', 'publish'],])->where('category_id', $request->input('category_id'))->orderby('id', 'desc')->get();
         return response()->json($questions);
     }
 

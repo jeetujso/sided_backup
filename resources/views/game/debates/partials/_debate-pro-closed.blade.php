@@ -4,18 +4,21 @@ if (Auth::check()) {
 } else {
     $login_user_id = "0";
 }
-
+$users_array = array();
 $users          = $debate->users()->get();
-$users_array    = [$users[0]->id , $users[1]->id ];
-$total_votes    = ($users[0]->pivot->votes + $users[1]->pivot->votes);
-
+if(count($users) >= 2){
+    $users_array    = [$users[0]->id , $users[1]->id ];
+    $total_votes    = ($users[0]->pivot->votes + $users[1]->pivot->votes);
+}
 $my_debate      = false;
 $votes          = $debate->votes()->select('voter_id','user_id')->where('voter_id', $login_user_id)->first();
+
 ?>
 
 @if(in_array($login_user_id, $users_array))
     <?php $my_debate = true; ?>
 @endif
+
 <div class="debate-preview u-background-white user-detial-bottom">
     <div class="debate-preview__header">
         <h4 class="debate-preview__category">

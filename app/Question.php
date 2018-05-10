@@ -39,7 +39,8 @@ class Question extends Model
         'question_type',
         'answer_type',
         'allowed_other_answer',
-        'instant_result'
+        'instant_result',
+        'has_multiple_ans',
     ];
 
     /**
@@ -211,5 +212,15 @@ class Question extends Model
 
         return $this->hasMany(\App\Answer::class, 'question_id', 'id');
     }
+    public function userAnswer()
+    {
+
+        return $this->hasMany(\App\UserAnswer::class, 'question_ID', 'id');
+    }
+    public function quesEngagedUsersurvey()
+    {
+        return $this->hasMany(\App\UserServey::class, 'question_id', 'id')->where('status',1);
+    }
+    
 
 }

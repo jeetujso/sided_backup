@@ -48,7 +48,7 @@
 						   <div>
 						   	<a class="challenge-btn" href="{{ route('profile.edit', auth()->user()->id ) }}">Update Profile</a>
 						   </div>
-						   <a class="challenge-btn" href="{{ route('my-category') }}">Update Category</a>
+						   <a class="challenge-btn" href="{{ route('my-category') }}">Update Categories</a>
 						<!-- </div> -->
 
 					@endif
@@ -242,7 +242,9 @@
 				</div>
 				@else
 				<div id="tab1" class="tab-pane fade in active player-profile__tab-content">
+
 						<?php $i=0; ?>
+						
 					@if(!empty($prodebates))
 						@foreach($prodebates as $debate)
 							@if($debate->status=="active" && $user->id==$debate->getDebatequestion->getquestionAuther->id)
@@ -254,7 +256,7 @@
 
 						@endforeach
 					@endif
-
+					
 					@if($i=='0')
 						<h3 class="h3-title empty-title"><span>There are no Live Debates.<span></h3>
 					@endif
@@ -263,6 +265,7 @@
 				@endif
 				@if($user->is_admin != 1)
 				<div id="tab2" class="tab-pane fade in player-profile__tab-content">
+
 					<?php $i=0;?>
 					@if(is_object($debates) && !empty($debates))
 						@foreach($debates as $debate)
@@ -294,7 +297,7 @@
 							
 
 						@endif	
-
+						
 					</div>
 				</div>
 				@else
@@ -324,8 +327,6 @@
 				</div>
 				<div id="tab3" class="tab-pane fade in player-profile__tab-content new-cat-tab">
 					<div class="point-sec">
-						
-
 						
 					      @if(count($contests) > 0)
 					      	
@@ -365,6 +366,7 @@
 					        @else
 					        	<h3 class="h3-title empty-title"><span>There are no Contests.</span></h3>
 					        @endif
+
 					</div>
 				</div>
 				@endif
@@ -532,8 +534,9 @@
 	          			<p>Choose a Debate and Challenge.</p>
 	          			<div>
 	          				<?php $debates = (new \App\Helpers\Points)->get_debates(); ?>
-	          				
+
 	          				@if(count($debates) > 0)
+
 		          			<select name="debate_id" class="dropdown">
 		          				@foreach($debates as $debate)
 		          					<option value="{{ $debate->debate_id }}">{{ (new \App\Helpers\Points)->get_question($debate->question_id)->text }}</option>
@@ -550,6 +553,7 @@
 	        			<input type="hidden" name="invite[]" value="{{ $user->id }}">
 						<input type="hidden" name="challenger_name" value="{{ Auth::user()->name }}">
 				  <input type="hidden" name="take_a_dare_name_{{ $user->id }}" value="{{ $user->name }}">
+				 
 	        			@if(count($debates) > 0)
 	        			<input type="submit" value="Challenge" class="debate-btn">
 	        			@endif

@@ -8,6 +8,7 @@ use App\Question;
 use App\UserPoint;
 use App\Impression;
 use Carbon\Carbon;
+use App\UserServey;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\Questions\QuestionStore;
@@ -49,8 +50,9 @@ class LiveQuestionController extends Controller
             
 
         }else{
-            $questions = Question::Published()->with('author', 'category', 'debates', 'debates.users', 'debates.arguments','debates.comments', 'debates.votes')->orderby('id', 'desc')->get();
+            $questions = Question::Published()->with('author', 'category', 'debates', 'debates.users', 'debates.arguments','debates.comments', 'debates.votes', 'quesEngagedUsersurvey')->orderby('id', 'desc')->get();
         }
+        
         //echo "<pre>";
         //print_r(json_decode(json_encode($questions)));
 
@@ -76,30 +78,37 @@ class LiveQuestionController extends Controller
 
             $user_enganged[$question->id] = array();
             //$impressions[$question->id] = array();
-            foreach($question->debates as $debate){
-                //$particepent_users = json_decode(json_encode($debate->users));
-
-                foreach($debate->users as $user){
-                    $user_enganged[$question->id][] = $user->id;
+            if($question->question_type == 1){
+                foreach($question->quesEngagedUsersurvey as $serveyUser){
+                    $user_enganged[$question->id][] = $serveyUser->user_id;
                 }
-
-                if(is_object($debate->comments)){
-                    foreach($debate->comments as $user){
-                        $user_enganged[$question->id][] = $user->user_id;
-                    }
-                }
-
-                if(is_object($debate->votes)){
-                    foreach($debate->votes as $vote){
-                        //print_r($vote);
-
-                        $user_enganged[$question->id][] = $vote->voter_id;
-                    }
-                }
-
                 
+            }else{
+                foreach($question->debates as $debate){
+                    //$particepent_users = json_decode(json_encode($debate->users));
 
-                //$impressions[$question->id][] = UserPoint::where('event_id', $debate->id)->where('event_type','debate_view')->count();
+                    foreach($debate->users as $user){
+                        $user_enganged[$question->id][] = $user->id;
+                    }
+
+                    if(is_object($debate->comments)){
+                        foreach($debate->comments as $user){
+                            $user_enganged[$question->id][] = $user->user_id;
+                        }
+                    }
+
+                    if(is_object($debate->votes)){
+                        foreach($debate->votes as $vote){
+                            //print_r($vote);
+
+                            $user_enganged[$question->id][] = $vote->voter_id;
+                        }
+                    }
+
+                    
+
+                    //$impressions[$question->id][] = UserPoint::where('event_id', $debate->id)->where('event_type','debate_view')->count();
+                }
             }
             $impressions[$question->id] = Impression::where('question_id',$question->id)->count();
 

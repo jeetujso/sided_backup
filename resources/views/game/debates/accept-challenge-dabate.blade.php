@@ -15,6 +15,7 @@
                         <h4 class="modal-title">Join Debate</h4>
                         <p>{{ $debate->question->name }}.</p>
                         <input type="hidden" name="debate_id" value="{{ $debate->id }}">
+						<input type="hidden" name="question_ID" value="{{ $debate->question->id }}">
                         <textarea name="join_debate_argument" rows="8" id="join-debate-argument" required placeholder="What do you think?"></textarea>
                     </div>
 

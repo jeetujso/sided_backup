@@ -14,4 +14,7 @@ class UserAnswer extends Model
     public function answer(){
         return $this->belongsTo(\App\Answer::class, 'answer_id');
     }
+    public function user(){
+        return $this->belongsTo(\App\User::class, 'user_id');
+    }
 }

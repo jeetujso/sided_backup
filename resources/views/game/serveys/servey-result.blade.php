@@ -8,42 +8,69 @@
         <div class="col-lg-12">
             <!--custom chart start-->
             <div class="border-head">
-                <h3>Thank you for your answer.</h3>
+                <h3>Thank you for submitting  your choice.</h3>
+                <a href="{{ url('feed') }}">Back to Feed</a>
             </div>
-            <div class="custom-bar-chart">
+			<?php if(isset($serveyResults)){
+				if($overFlowCount >= 13){
+					$newClass="overflow-bar";
+				}else{
+					$newClass="";
+				}
+			}?>
+            <div class="custom-bar-chart {{$newClass}}">
+			<div class="custom-inner {{$newClass}}">
                 <ul class="y-axis">
-                    <li>
-                        <span>100</span>
-                    </li>
-                    <li>
-                        <span>80</span>
-                    </li>
-                    <li>
-                        <span>60</span>
-                    </li>
-                    <li>
-                        <span>40</span>
-                    </li>
-                    <li>
-                        <span>20</span>
-                    </li>
-                    <li>
-                        <span>0</span>
-                    </li>
+                    <?php
+                        $interval = 5;
+                        $range = 25;
+						$heightMultipliyer = 3.6;
+                        if($answered > 25){
+                            $rangeMultiply = floor($answered/25);
+                            $newRange = $range*$rangeMultiply;
+                            $range = $range+$newRange;
+                            $interval = $range/$interval;
+							$heightMultipliyer = $heightMultipliyer/($rangeMultiply+1);
+                        }
+						
+						
+                        $barHeight = $range;
+                        $newBarArray = array();
+                        for($h = 0; $h<=$barHeight; $h+=$interval){
+                            array_push($newBarArray, $h);
+                        }
+                        $size = sizeof($newBarArray);
+
+                        for($hb=$size-1; $hb>=0; $hb--){
+                        
+                    ?>
+                        <li>
+                        <span>{{ $newBarArray[$hb] }}</span>
+                        </li>
+                    <?php } ?>
                 </ul>
                 <?php $i = 0; ?>
                 @foreach($serveyResults as $result)
+                    @if(count($result->serveyAnswers) >=1 )
                     <div class="bar">
-                        <div class="value tooltips" data-original-title="{{ (count($result->serveyAnswers) / $answered)*100 }}%" data-toggle="tooltip" data-placement="top" style="height: {{ (count($result->serveyAnswers) / $answered)*100 }}%; background-color:{{ $colorArrays[$i] }};" onclick='resultDetail("{{$result->answer}}", {{ $answered}}, {{ (count($result->serveyAnswers) / $answered)*100 }})'></div>
+                        <div class="value tooltips" data-original-title="{{ count($result->serveyAnswers) }}%" data-toggle="tooltip" data-placement="top" style="height: {{ count($result->serveyAnswers)*$heightMultipliyer }}%; background-color:{{ $colorArrays[$i] }};" onclick='resultDetail("{{$result->answer}}", {{ count($result->serveyAnswers) }}, {{ round((count($result->serveyAnswers) / $answered)*100, 2) }})'></div>
                      </div>
-                    <?php $i++; ?>
+                    @endif
+                    <?php 
+                    $i++;
+                        if($i % 12 == 0){
+                            $i = 0;
+                        }
+                        
+                    ?>
                 @endforeach
                 @if($questionDetails->allowed_other_answer == 1)
                     <div class="bar">
-                        <div class="value tooltips" data-original-title="{{ ($otherAnswersCount / $answered)*100 }}%" data-toggle="tooltip" data-placement="top" style="height: {{ ($otherAnswersCount / $answered)*100 }}%; background-color:#ff00bf;" onclick='resultDetail("Other Answer", {{ $answered}}, {{ ($otherAnswersCount / $answered)*100 }})'></div>
+                        <div class="value tooltips" data-original-title="{{ $otherAnswersCount }}%" data-toggle="tooltip" data-placement="top" style="height: {{ $otherAnswersCount*$heightMultipliyer }}%; background-color:#ff00bf;" onclick='resultDetail("Other Answer", {{ $otherAnswersCount }}, {{ round(($otherAnswersCount / $answered)*100, 2) }})'></div>
                     </div>
                 @endif
             </div>
+			</div>
             <!--custom chart end-->
             <div class="view-notify">
                 <div class="col-md-6">
@@ -67,20 +94,28 @@
                     <tr>
                         <td><span style="background-color:{{ $colorArrays[$j] }};"></span></td>
                         <td>{{ $result->answer }}</td>
-                        <td>{{ (count($result->serveyAnswers) / $answered)*100 }}%</td>
+                        <td>{{ round((count($result->serveyAnswers) / $answered)*100, 2) }}%</td>
                         <td>{{ count($result->serveyAnswers) }}</td>
                     </tr>
-                    <?php $j++; ?>
+                    <?php
+                     $j++;
+                        if($j % 12 == 0){
+                            $j = 0;
+                        }
+                       
+                    ?>
                 @endforeach
+                @if($questionDetails->allowed_other_answer == 1)
                 <tr>
                     <td><span style="background-color:#ff00bf;"></span></td>
                     <td>Other Answer</td>
-                    <td>{{ ($otherAnswersCount / $answered)*100 }}%</td>
+                    <td>{{ round(($otherAnswersCount / $answered)*100, 2) }}%</td>
                     <td>{{ $otherAnswersCount }}</td>
                 </tr>
+                @endif
                 <tr>
                     <td></td>
-                    <td>Total Respondents</td>
+                    <td>Total @if($answered == 1) Respondent @else Respondents @endif</td>
                     <td></td>
                     <td>{{ $answered }}</td>
                 </tr>

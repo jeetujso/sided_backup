@@ -11,6 +11,7 @@ class DebateUser extends Model
     protected $fillable = [
         'debate_id',
         'user_id',
+        'question_ID',
         'votes',
         'side'
     ];

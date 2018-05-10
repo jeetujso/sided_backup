@@ -1,4 +1,4 @@
-
+<?php $side=""; ?>
             <div class="debate-preview u-background-white">
 
                 <div class="debate-preview__header">

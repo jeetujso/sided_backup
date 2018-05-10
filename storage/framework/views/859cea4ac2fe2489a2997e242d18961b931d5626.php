@@ -14,6 +14,7 @@
 	 		<div class="debate-preview__header text-center">
 	        	<div class="debate-haeder-top">
 	          		<h4 class="debate-preview__category text-center"> Submitted In <strong class="u-text-black"> <?php echo e($question->category->name); ?></strong></h4>
+	          		<h5 class="debate-preview__category text-center"> Submitted By <strong class="u-text-black"> <a href="<?php echo e(route('publicPlayerShow', $question->getquestionAuther->handle )); ?>"><?php echo e($question->getquestionAuther->name); ?></a></strong></h5>
 	          	</div>
 	          	<div>       
 					<p class="debate-preview__question-text text-center"><?php echo e($question->text); ?></p>
@@ -53,7 +54,7 @@
 						<div class="form-group<?php echo e($errors->has('argument') ? ' has-error' : ''); ?>">
 
 							
-							<textarea name="argument" rows="8" placeholder="What do you think?"><?php echo e(old('argument')); ?></textarea>
+							<textarea id="debate-arg-textbox" name="argument" rows="8" wrap="hard" placeholder="What do you think?"><?php echo e(old('argument')); ?></textarea>
 							
 							<?php if($errors->has('argument')): ?>
                             <span class="help-block">

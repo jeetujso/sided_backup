@@ -6,16 +6,6 @@
             </h2>
             <div class="admin-content__header-actions">
                 <div class="admin-content__date-group sch-group">
-                <div class="dropdown-main2">
-
-                        <input type="text" name="search_text" placeholder="Search in scheduled questions..." id="search_text">
-                        <a href="#" id="search-question-scheduled">Search</a>
-
-                        <?php $url=strtok($_SERVER["REQUEST_URI"],'?'); ?>
-                        <a href="<?php echo e($url); ?>"> Reset</a>
-
-
-                </div>
                 <a href="<?php echo e(route('partnerQuestionCreate')); ?>" class="btn btn-green">Create a Question</a>
                 </div>
             </div>
@@ -104,7 +94,7 @@
             $curr = \Carbon\Carbon::parse($latest->publish_at)->format('l, M d, Y');
             ?>
             <?php if($curr != $prev): ?>
-            <table class="admin-content__table sche-header-main">
+            <div class="table-main-scroll"><table class="admin-content__table sche-header-main">
                 <div class="admin-content__section-header sche-header scheduled-head-sec">
                     <div><h3 class="admin-content__section-headline"> <?php echo e(\Carbon\Carbon::parse($latest->publish_at)->format('l, M d, Y')); ?></h3> </div>
                     <!-- <div>

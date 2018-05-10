@@ -43,16 +43,18 @@
     <tbody>
     <?php /*echo "<pre>"; print_r($questions[0]->category->name); die();*/   ?>
     @foreach($questions as $latestquestions)
-    <tr class="clickable-row">
-      <td><span>{{$latestquestions->text}}</span>
-        <p>Created by {{ Auth::user()->name }} on {{ \Carbon\Carbon::parse($latestquestions->created_at)->format('M d') }} in {{$latestquestions->category->name}}</p></td>
-      <td><span>{{ $latestquestions->debates()->count() }}</span>
-        <p>Debates</p></td>
-      <td><span>{{ $latestquestions->clicks()->count() }}</span>
-        <p>Clicks</p></td>
-      <td><span>42</span>
-        <p>Ad Clicks</p></td>
-    </tr>
+      @if($latestquestions->question_type == 0)
+        <tr class="clickable-row">
+          <td><span>{{$latestquestions->text}}</span>
+            <p>Created by {{ Auth::user()->name }} on {{ \Carbon\Carbon::parse($latestquestions->created_at)->format('M d') }} in {{$latestquestions->category->name}}</p></td>
+          <td><span>{{ $latestquestions->debates()->count() }}</span>
+            <p>Debates</p></td>
+          <td><span>{{ $latestquestions->clicks()->count() }}</span>
+            <p>Clicks</p></td>
+          <td><span>42</span>
+            <p>Ad Clicks</p></td>
+        </tr>
+      @endif
     @endforeach
       </tbody>
     

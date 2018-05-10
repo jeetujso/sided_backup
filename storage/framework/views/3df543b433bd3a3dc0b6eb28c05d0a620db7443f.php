@@ -76,13 +76,13 @@
 </div>
 
 <div class="admin-content__section-header sche-header quest-view1" style="margin-top:15px;">
-  <div>
+  <div class="combine-main">
     <h3 class="admin-content__section-headline">Stat Totals</h3>
     <p class="admin-content__section-desc">Explore data this questions has collected by toggling on and off each data point</p>
   </div>
-  <div>
+  <div class="combine-main">
 
-    <p class="admin-content__section-desc">
+    <p class="admin-content__section-desc  combine-button">
       <a data-modal-id="attachAdsPopUp" href="#" class="js-open-modal white-button">
        <?php echo e(($questions) ? ($questions->allAds) ?  'Edit Ad' : 'Attach Ad' : 'Attach Ad'); ?>
 
@@ -116,9 +116,9 @@
   <div class="admin-content__stat stat-ad-banner" style="background-color:#f5f5f5;"> 
     <?php
         if(!empty($questions) && !empty($questions->allAds)){ ?>
-             <img width="250" height="100" src="<?php echo e(($questions) ? ($questions->allAds) ? asset('img-dist/ads/'.$questions->allAds->image_url) : asset('img/ad-banner.jpg') : asset('img/ad-banner.jpg')); ?>" />
+             <img  class="placeholder_banner" src="<?php echo e(($questions) ? ($questions->allAds) ? asset('img-dist/ads/'.$questions->allAds->image_url) : asset('img/ad-banner.jpg') : asset('img/ad-banner.jpg')); ?>" />
         <?php }else{ ?>
-             <img src="<?php echo e(($questions) ? ($questions->allAds) ? asset('img-dist/ads/'.$questions->allAds->image_url) : asset('img/ad-banner.jpg') : asset('img/ad-banner.jpg')); ?>" />
+             <img class="placeholder_banner" src="<?php echo e(($questions) ? ($questions->allAds) ? asset('img-dist/ads/'.$questions->allAds->image_url) : asset('img/ad-banner.jpg') : asset('img/ad-banner.jpg')); ?>" />
         <?php }
     ?>
    
@@ -202,19 +202,6 @@
 
 
 </div>
-
-<script type="text/javascript">
-    $(function () {
-        var url = $("#add-change").find("option:selected").attr('img-path');
-        var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        $("#add-change").change(function () {
-            var url = $(this).find("option:selected").attr('img-path');
-            var image_url = '/img-dist/ads/'+url;
-            $('.add-img-preview').find('img').attr('src',image_url);
-        });
-    });
-</script>
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

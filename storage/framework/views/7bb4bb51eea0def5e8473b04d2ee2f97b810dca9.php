@@ -1,3 +1,6 @@
+<div class="header2">
+
+</div>
 <?php $__env->startSection('content'); ?>
 <div class="reset-bg">
 <div class="game-wrapper reset-sec">

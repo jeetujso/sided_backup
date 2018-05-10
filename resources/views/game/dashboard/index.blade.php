@@ -30,16 +30,7 @@
 			@include('game.dashboard.include.prousers')
 		</div>
 		<!-- prousers list end-->
-
-		<!-- suggested questions -->
-	    @if($questions->count() > 0 )
-	    	@include('game.dashboard.include.suggested_ques')
-	    @endif
-	    <!-- / suggested questions -->
-		@if($serveyQuestions->count() > 0 )
-	    	@include('game.dashboard.include.servey_ques')
-	    @endif
-	    
+   
 	    <div class="game-main debate-single">
 			<?php $num_debates = $debates->count(); ?>
 			@if($debates->count() > 0)
@@ -81,7 +72,12 @@
 			@endif
 		</div>
 
-
+		<!-- suggested questions -->
+	    @if($questions->count() > 0 )
+	    	@include('game.dashboard.include.suggested_ques')
+	    @endif
+	    <!-- / suggested questions -->
+		
 
 		@if($num_debates < 3)
 			@include('game.dashboard.include.invite')

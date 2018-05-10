@@ -75,7 +75,7 @@
                     <label for="phone_number" class="col-md-4 control-label">Mobile Phone</label>
 
                     <div class="col-md-6">
-                        <input id="phone_number" type="tel" class="form-control" name="phone_number" value="{{ Auth::user()->phone_number }}">
+                        <input id="phone_number" type="tel" class="form-control" name="phone_number" value="@if( Auth::user()->otp == 1) {{ Auth::user()->phone_number }} @endif" placeholder="Ex. +17256267914">
 
                         @if ($errors->has('phone_number'))
                             <span class="help-block">
@@ -131,4 +131,25 @@
         </aside-->
 
     </main>
+
+    <!-- Modal -->
+  <button style="display:none;" id="otpPopup" type="button" data-toggle="modal" data-target="#mibileOtpModal"></button>
+  <div id="mibileOtpModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <form method="post" action="#">
+      <div class="modal-content">
+        <div class="modal-header"><button type="button" data-dismiss="modal" class="btn-default"><i aria-hidden="true" class="fa fa-times"></i></button></div>
+        <div class="modal-body">
+          <p>Please Enter Otp.</p>
+          <input type="text" name="otp">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="submit" class="green-btn" value="Submit">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 @endsection

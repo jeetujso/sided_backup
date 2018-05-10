@@ -110,7 +110,7 @@ function myFunction() {
                                     Change Password
                                 </a>
   
-                                <a href="<?php echo e(url('/logout')); ?>"
+                                 <a href="<?php echo e(url('/logout')); ?>"
                                     onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();"
                                      class="primary-nav__dropdown-link u-link-black">
@@ -411,11 +411,13 @@ function myFunction() {
                             return false;
                         }
 
-                        if(resp.length > 0){
+                         if(resp.length > 0){
                             if(resp[0].category.ads_id > 0){
-                                var img = resp[0].category.ads.image_url;
-                                //alert(img);
-                                $("#category-ads").html('<img src="<?php echo e(asset('/img-dist/ads/')); ?>/'+img+'">');
+                                //var img = resp[0].category.ads.image_url;
+                                if(resp[0].category.ads != null){
+                                    var img = resp[0].category.ads.image_url;
+                                    $("#category-ads").html('<img src="<?php echo e(asset('/img-dist/ads/')); ?>/'+img+'">');
+                                }
                             }
                         } 
                         
@@ -424,13 +426,13 @@ function myFunction() {
                        
 
                         $.each(resp, function(index, value) {
-                          //alert('--'+value.source+'--');
+                          
                            var source_hidden = (value.source == "" || value.source == null)?"source-hidden":"";
-
+							//alert(JSON.stringify(value.getquestion_auther.handle));
                             var resp_html = '<div class="dashboard-item questions">' +
                                 '<div ques-id="' + value.id + '" class="question_id"></div>' +
 
-                                '<div class="debate-preview u-background-white"><div class="debate-preview__header"><div class="debate-haeder-top"><h4 class="debate-preview__category"> Submitted In <strong class="u-text-black">' + value.category.name + '</strong></h4> <span>' +
+                                '<div class="debate-preview u-background-white"><div class="debate-preview__header"><div class="debate-haeder-top"><h4 class="debate-preview__category"> Submitted In <strong class="u-text-black">' + value.category.name + '</strong></h4> <h5 class="debate-preview__category"> Submitted By <strong class="u-text-black"> <a href="../players/'+value.getquestion_auther.handle+'">' + value.getquestion_auther.name + '</a></strong></h5><span>' +
                                 '<img alt="" src="../img-dist/dot.svg"></span></div> <p class="debate-preview__question-text">' + value.text + '</p> <small class="debate-preview__question-source '+source_hidden+'">Source from <strong class="u-text-black"><a href="' + value.source_url + '" target="_blank">' + value.source + '</a></strong></small></div>' +
                                 '<div class="debate-btn-box"></div></div></div>';
                             $("#category-wise-questions").append(resp_html);
@@ -539,11 +541,14 @@ function myFunction() {
                     }
                     if(resp.length > 0){
                             if(resp[0].category.ads_id > 0){
-                                var img = resp[0].category.ads.image_url;
-                                //alert(img);
-                                $("#category-ads").html('<img src="<?php echo e(asset('/img-dist/ads/')); ?>/'+img+'">');
+                                //var img = resp[0].category.ads.image_url;
+                                if(resp[0].category.ads != null){
+                                    var img = resp[0].category.ads.image_url;
+                                    console.log(resp[0].category.ads);
+                                    $("#category-ads").html('<img src="<?php echo e(asset('/img-dist/ads/')); ?>/'+img+'">');
+                                }
                             }
-                        } 
+                        }
                     $("#category-wise-questions").html("<div class='close-sec'>View all questions in  <span>" + cat_name + "</span> <a id='close-btn' href='#' onclick='show_categories(); '><i class='fa fa-times'></i></a></div>");
 
                     $.each(resp, function(index, value) {

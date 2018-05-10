@@ -84,21 +84,16 @@
 
 
 <div class="admin-content__section-header sche-header quest-view1" style="margin-top:15px;">
-  <div>
+  <div class="combine-main">
     <h3 class="admin-content__section-headline">Stat Totals</h3>
     <p class="admin-content__section-desc">Explore data this questions has collected by toggling on and off each data point</p>
   </div>
-  <div>
+  <div class="combine-main">
 
-    <p class="admin-content__section-desc">
+    <p class="admin-content__section-desc combine-button">
       <a data-modal-id="attachAdsPopUp" href="#" class="js-open-modal white-button">
        {{ ($questions) ? ($questions->allAds) ?  'Edit Ad' : 'Attach Ad' : 'Attach Ad'}}
       </a>
-      @if($questions->question_type == 1)
-        <a href="{{ route('manageAnswers',$questions->id) }}" class="white-button">Manage Answers</a>
-        <a href="{{ route('questionServeyResult', $questions->id) }}" class="white-button">View Report</a>
-        <a href="javascrip:void(0)" data-toggle="modal" data-target="#settingMultipleChoiceModal" class="white-button">Setting</a>
-      @endif
       @if(isset($questions) && isset($questions->allAds))
       <a href="{{ route('partnerQuestionUnattach',$questions->allAds->id) }}" class="js-open-modal white-button">
       Remove Ad
@@ -196,7 +191,7 @@
 
             <span>
             <p>    <?php
-             echo $argument_user->created_at->diffForHumans(); ?> 
+             echo $argument_user->created_at; ?> 
              @if($argument_user->status=="deactivate") <a href="#" class="u-link-red">Deleted</a> @endif
               </p>
 
@@ -296,7 +291,7 @@
 
 
 
-  <div class="col-md-12">
+  <div class="col-md-12 user-pad">
     <section class="admin-content__section">
       <div class="admin-content__section-header">
         <div>
@@ -480,39 +475,6 @@
           <div class="attach-submit"><input type="submit" value="Attach Ad"></div>
       </form>
     @endif
-  </div>
-
-
-</div>
-
-<!-- setting Modal -->
-<div id="settingMultipleChoiceModal" class="modal modal-box fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <form method="post" action="{{ route('questionSetting') }}">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Setting</h4>
-        </div>
-        <div class="modal-body">
-        <input type="hidden" name="question_id" value="{{Request::segment(4)}}" />
-        <div class="form-group">
-          <label for="answer_type">Allow Multiple Answers:</label>
-          <input <?php if($questions->answer_type == 1){ echo "checked"; }?> type="checkbox" name="answer_type" id="answer_type" value="1">
-        </div>
-        <div class="form-group">
-          <label for="instant_result">Instant Result To User:</label>
-          <input <?php if($questions->instant_result == 1){ echo "checked"; }?> type="checkbox" name="instant_result" id="instant_result" value="1">
-        </div>
-        <div class="form-group">
-          <label for="allowed_other_answer">Allow Other Answers:</label>
-          <input <?php if($questions->allowed_other_answer == 1){ echo "checked"; }?> type="checkbox" name="allowed_other_answer" id="allowed_other_answer" value="1">
-        </div>
-        <button style="color:green;" type="submit" class="btn btn-default">Submit</button>
-        </div>
-      </div>
-    </form>
   </div>
 </div>
 

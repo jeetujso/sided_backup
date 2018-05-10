@@ -230,6 +230,8 @@
             </th><th class="">
                     Category
             </th><th class="">
+                    Multiple Choice
+            </th><th class="">
                     Impressions
             </th><th class="">
                     Engagement
@@ -264,7 +266,13 @@
                 <?php echo e($latest->category->name); ?>
 
             </a>
-            </td> <td class="admin-table__large-cell">
+            </td> 
+            <td>
+                <a href="/partners/questions/view/<?php echo e($latest->id); ?>" alt="view question">
+                    <?php if($latest->question_type == 1): ?> YES <?php else: ?> NO <?php endif; ?>
+            </a>
+            </td> 
+            <td class="admin-table__large-cell">
 <a href="/partners/questions/view/<?php echo e($latest->id); ?>" alt="view question">
                 <?php //echo $impressions[$latest->id];?>
                 

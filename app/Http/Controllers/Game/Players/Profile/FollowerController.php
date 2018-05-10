@@ -4,9 +4,22 @@ namespace App\Http\Controllers\Game\Players\Profile;
 
 use App\Follower;
 
+use App\Activity;
+use App\Debate;
+use App\Question;
+use App\User;
+use App\DebateCategory;
+use App\Ad;
+use App\DebateCategoryUser;
+use App\UserAnswer;
+use Carbon\Carbon;
+use Auth;
+use Exception;
+use Session;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+//use Illuminate\Support\Facades\Auth;
 
 class FollowerController extends Controller
 {
@@ -125,7 +138,19 @@ class FollowerController extends Controller
                 'status' => 'follow');
             
             Follower::create($filling_array);
-            return response()->json(['response'=>'Follow successfully!!', 'status'=>'success']);
+			
+			$user = new User();
+			$follow_suggestions = $user->follow_suggestion(auth()->user()->id);
+			if(count($follow_suggestions) > 0)
+			{
+				return response()->json(['response_code'=>'1', 'response'=>$follow_suggestions, 'status'=>'success']);  
+			}
+			else
+			{
+				return response()->json(['response_code'=>'0', 'response'=>'No more suggesstion.', 'status'=>'success']);    
+			}
+		
+            //return response()->json(['response'=>'Follow successfully!!', 'status'=>'success']);
 
         }
         return response()->json(['response'=>'Something wrong', 'status'=>'error']);

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Game\Onboarding;
-
+use Twilio;
 use App\User;
 
 use Auth;
@@ -53,15 +53,58 @@ class AccountController extends Controller
      */
     public function store(AccountCreate $request)
     {
+       
         $user = Auth::user();
+        $otp = rand(1000,9999);
         $user->update([
             'email' => $request->email,
             'handle' => $request->handle,
-            'phone_number' => $request->pn
+            'phone_number' => $request->pn,
+            'otp' => $otp
         ]);
-        return redirect()->route('onboardingCategoryCreate');
+        $accountId = 'AC3933d1348280d77b0a52ff390f37ec51'; 
+        $token = '4a92784fca737d65787620b833e732c0'; 
+        $fromNumber = '+17246095092';
+        $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
+        $twilio->message($request->pn, $otp);
+       // return redirect()->route('onboardingCategoryCreate');
+       return redirect()->route('onboardingMobileOtp');
+       
     }
-
+    public function otp()
+    {
+        $user = Auth::user();
+        return view('game.onboarding.phone-otp', ['user' => Auth::user()]);
+        //return redirect()->route('onboardingCategoryCreate');
+    }
+    public function resentOtp()
+    {
+        $user = Auth::user();
+        $otp = rand(1000,9999);
+        $user->update([
+            'otp' => $otp
+        ]);
+        $accountId = 'AC3933d1348280d77b0a52ff390f37ec51'; 
+        $token = '4a92784fca737d65787620b833e732c0'; 
+        $fromNumber = '+17246095092';
+        $twilio = new \Aloha\Twilio\Twilio($accountId, $token, $fromNumber);
+        $twilio->message($user->phone_number, $otp);
+        return redirect()->route('onboardingMobileOtp');
+    }
+    public function validateOtp(Request $request)
+    {
+        $user = Auth::user();
+        if($user->otp == $request->otp){
+            $user->update([
+                'otp' => 1
+            ]);
+            return redirect()->route('onboardingCategoryCreate');
+        }else{
+            return redirect()->back()->withErrors(['msg', 'Otp not matched']);
+        }
+        //return view('game.onboarding.phone-otp', ['user' => Auth::user()]);
+        //return redirect()->route('onboardingCategoryCreate');
+    }
     /**
      * Display the specified resource.
      *

@@ -227,6 +227,8 @@
             </th><th class="">
                     Category
             </th><th class="">
+                    Multiple Choice
+            </th><th class="">
                     Impressions
             </th><th class="">
                     Engagement
@@ -259,7 +261,13 @@
                 <a href="/partners/questions/view/{{$latest->id}}" alt="view question">
                 {{$latest->category->name}}
             </a>
-            </td> <td class="admin-table__large-cell">
+            </td> 
+            <td>
+                <a href="/partners/questions/view/{{$latest->id}}" alt="view question">
+                    @if($latest->question_type == 1) YES @else NO @endif
+            </a>
+            </td> 
+            <td class="admin-table__large-cell">
 <a href="/partners/questions/view/{{$latest->id}}" alt="view question">
                 <?php //echo $impressions[$latest->id];?>
                 

@@ -57,6 +57,12 @@
                         @endif
 					</div>
 				</div>
+				@if($questions->question_type == 1)
+					<div class="field field-err col-md-12">
+						<label for="text">Multiple Choice?</label>
+						<input type="checkbox" reaadonly disabled checked>
+					</div>
+				@endif
 				<div class="field-group">
 					<button class="btn btn-green" type="submit" name="status" value="publish">Update Question</button>
 				</div>

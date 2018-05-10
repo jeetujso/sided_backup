@@ -5,9 +5,12 @@ if (Auth::check()) {
     $login_user_id = "0";
 }
 
+$users_array = array();
 $users          = $debate->users()->get();
-$users_array    = [$users[0]->id , $users[1]->id ];
-$total_votes    = ($users[0]->pivot->votes + $users[1]->pivot->votes);
+if(count($users) >= 2){
+    $users_array    = [$users[0]->id , $users[1]->id ];
+    $total_votes    = ($users[0]->pivot->votes + $users[1]->pivot->votes);
+}
 
 $my_debate      = false;
 $votes          = $debate->votes()->select('voter_id','user_id')->where('voter_id', $login_user_id)->first();

@@ -14,15 +14,15 @@
                     </div>
                 
                     <div class="modal-body">
-                        <h4 class="modal-title"></h4>
-                        <p>You are about to join debate, please confirm.</p>
+                        <h4 class="modal-title">Join Debate</h4>
+                        <p>Question text : <?php echo e($debate->question->name); ?>.</p>
                         <input type="hidden" name="debate_id" value="<?php echo e($debate->id); ?>">
-                        <textarea name="join_debate_argument" id="join-debate-argument" required></textarea>
+                        <textarea name="join_debate_argument" id="join-debate-argument" required placeholder="What do you think?"></textarea>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="challenge-submit-btn">Yes</button>
-                        <p data-dismiss="modal">No</p>
+                        <button type="submit" class="challenge-submit-btn">Join</button>
+                        <a class="challenge-cancel" href="/debates/<?php echo e($debate->id); ?>">Cancel</a>
                     </div>
                 </div>
             </form>

@@ -27,7 +27,8 @@
     </div>
 
     <div class="field">
-		<input type="tel" class="form-control" name="pn" placeholder="Add your mobile phone (Optional)" value="<?php echo e(old('pn', $user->phone_number)); ?>" data-format="phone">
+		<input type="text" class="form-control" name="pn" placeholder="Add your mobile phone" value="<?php echo e(old('pn', $user->phone_number)); ?>" required>
+        <span class="mobile-format-example">Ex. +17256267914</span>
         <?php if($errors->has('pn')): ?>
             <span class="help-block">
                 <strong><?php echo e($errors->first('pn')); ?></strong>

@@ -27,7 +27,7 @@
           </div>
         </div>
         
-          <table class="admin-content__table ad-table3 ad-table2 no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+          <div class="table-main-scroll"><table class="admin-content__table ad-table3 ad-table2 no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
             <thead>
               <tr role="row">
                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label=": activate to sort column ascending"></th>

@@ -17,8 +17,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Sided') }}</title>
-   
-    <!-- Scripts -->
+
+    <!-- Scripts -->	
     <script>
     
         function myFunction() {
@@ -64,9 +64,12 @@
 
 <body>
     <?php
+    $enddebatetime = date_format($debate->ends_at,"M d, Y H:i:s");
+	
        /* echo "<pre>";
         print_r($debate->users[0]->id);
         exit;*/
+        //exit;
     ?>
     <!-- loader -->
     <div class="loader-bg">
@@ -433,7 +436,7 @@
 
         
 
-        $(document).on('click', '.topnav > a, .primary-nav__logo, .u-display-block > a , .u-link-black', function(e) {
+        $(document).on('click', '.topnav > a, .primary-nav__logo, .debate-preview__player-img, .restricted-for-vote, .u-display-block > a , .u-link-black', function(e) {
            
             var is_modal = $(this).attr('data-toggle');
             if(is_modal=='modal'){
@@ -692,7 +695,42 @@ if(debateStatus=="closed")
 //console.log('abc',window.Laravel);
 });
     </script>
+<script>
+    $(document).ready(function(){
+        var simple = '<?php echo $enddebatetime; ?>';
+        //alert(simple);
+// Set the date we're counting down to
+var countDownDate = new Date(simple).getTime();
 
+// Update the count down every 1 second
+
+var x = setInterval(function() {
+
+    // Get todays date and time
+    var now = new Date().getTime();
+    
+    // Find the distance between now an the count down date
+    var distance = countDownDate - now;
+    
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    // Output the result in an element with id="demo"
+    document.getElementById("demo").innerHTML = days + " days " + hours + ":"
+    + minutes + ":" + seconds + " ";
+    
+    // If the count down is over, write some text 
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("demo").innerHTML = "Closed";
+    }
+}, 1000);
+
+});
+</script>
 
 </body>
 </html>

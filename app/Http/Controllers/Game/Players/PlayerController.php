@@ -11,7 +11,7 @@ use App\UserPoint;
 use App\Fingerprint;
 use App\Contest;
 use App\Event;
-
+use App\Question;
 use App\DebateCategoryUser;
 use App\ContestStats;
 use App\EventStats;
@@ -98,6 +98,7 @@ class PlayerController extends Controller
 
 			$obj = new Fingerprint;
 			$sql_points = $obj->with('user_points')->where('user_id', $user->id);
+
 			$total_points = "0";
 			if($sql_points->count() > 0){
 				$user_points = $sql_points->get();
@@ -172,6 +173,7 @@ class PlayerController extends Controller
 					$status = "follow";
 
 				}
+               
 				return view('game.players.show', compact('user', 'proUserAds', 'method','action', 'btn_text', 'status','follower_count','debates', 'is_fav_view', 'is_favourite','total_points','categories','prousers','userpoints','contests','prodebates','events'));
 			}else{
 
@@ -327,6 +329,7 @@ class PlayerController extends Controller
 
 	
     public function myCategory(){
+        
         $catId = array();
         $myCategories = DebateCategoryUser::where('user_id',Auth::user()->id)->get();
         if(count($myCategories)){
@@ -338,6 +341,7 @@ class PlayerController extends Controller
         return view('game.players.my-category', compact('categories','catId'));
     }
     public function updateMyCategory(Request $request){
+       
         $myCategoryArray = array();
         $formCategoryArray = array();
         $actionResultArray = array(); 

@@ -1,3 +1,4 @@
+<div id="load-data">
 @foreach($questions as $question)
 @if($question->category->status=="live")
     <div class="dashboard-item">
@@ -19,20 +20,25 @@
 	          		{{ $question->medium }} from 
 	          		<strong class="u-text-black">{{ $question->source }}</strong>
 				  </small>
-				  <div class="debate-btn-box">
+				 <!--  <div class="debate-btn-box">
 						<a class="debate-btn" href="{{ url('debates/pickaside') }}?question_id={{$question->id}}">Start Debate</a>
-					</div>
-				<!-- @if($question->question_type == 1)
+					</div> -->
+				@if($question->question_type == 1)
 					<div class="debate-btn-box">
-						<a class="debate-btn" href="{{ route('pickServeyAnswer').'?question_id='.$question->id }}">Start Servey</a>
+						<a class="debate-btn" href="{{ route('pickServeyAnswer').'?question_id='.$question->id }}">Submit Answer</a>
 					</div>
 				@else
 					<div class="debate-btn-box">
 						<a class="debate-btn" href="{{ url('debates/pickaside') }}?question_id={{$question->id}}">Start Debate</a>
 					</div>
-				@endif      -->
+				@endif     
 	        </div>
 	    </div>
 	</div>
 	@endif
 @endforeach
+ <div id="remove-row">
+                <button id="btn-more" data-id="{{ $question->id }}" class="debate-btn nounderline btn-block mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" > Load More </button>
+				
+            </div>
+</div>

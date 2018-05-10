@@ -16,33 +16,7 @@
                           <option value="7" <?=(isset($_GET['filter_days']) && $_GET['filter_days']=='7')?"selected":""?>>Last 7 Days</option>
                           <option value="30" <?=(isset($_GET['filter_days']) && $_GET['filter_days']=='30')?"selected":""?>>Last 30 Days</option>
                           <option value="180" <?=(isset($_GET['filter_days']) && $_GET['filter_days']=='180')?"selected":""?>>Last 180 Days</option>
-                      </select>
-
-
-                     <?php elseif($view == "expired"): ?>
-                     <div class="dropdown-main2">
-                        <input type="text" name="search_text" placeholder="Search contests..." id="search_text">
-                        <a href="<?php echo e(url('/partners/contests/')); ?>" id="search-ads-expired">Search</a>
-
-                        <?php $url=strtok($_SERVER["REQUEST_URI"],'?'); ?>
-                        <a href="<?php echo e($url); ?>"> Reset</a>
-</div>
-                    <?php elseif($view == "scheduled"): ?>
-                    <div class="dropdown-main2">
-                        <input type="text" name="search_text" placeholder="Search contests..." id="search_text">
-                        <a href="<?php echo e(url('/partners/contests/')); ?>" id="search-ads-expired">Search</a>
-
-                        <?php $url=strtok($_SERVER["REQUEST_URI"],'?'); ?>
-                        <a href="<?php echo e($url); ?>"> Reset</a>
-                        </div>     
-					<?php elseif($view == "deactivated"): ?>
-                    <div class="dropdown-main2">
-                        <input type="text" name="search_text" placeholder="Search contests..." id="search_text">
-                        <a href="<?php echo e(url('/partners/contests/')); ?>" id="search-ads-expired">Search</a>
-
-                        <?php $url=strtok($_SERVER["REQUEST_URI"],'?'); ?>
-                        <a href="<?php echo e($url); ?>"> Reset</a>
-                        </div>   
+                      </select> 
                             
 
                     <?php endif; ?>               
@@ -144,22 +118,10 @@
                 <?php endif; ?>
 
 
-            </div>
-            
-                <div class="dropdown-main2">
-                    <?php if($view=="live"): ?>
-                        <input type="text" name="search_text" placeholder="Search..." id="search_text">
-                        <input type="hidden" name="search_days" value="<?=isset($_GET['filter_days'])?$_GET['filter_days']:'7'?>" id="search_days">
-                        <a href="<?php echo e(url('/partners/contests/')); ?>" id="search-filter-ads">Search</a>
-
-                        <?php $url=strtok($_SERVER["REQUEST_URI"],'?'); ?>
-                        <a href="<?php echo e($url); ?>"> Reset</a>
-                    
-                    <?php endif; ?>
-                </div>           
+            </div>          
             
         </div>
-        <table class="admin-content__table ad-table3 ad-table2"><thead><tr>
+        <div class="table-main-scroll"><table class="admin-content__table ad-table3 ad-table2"><thead><tr>
             <th></th>
             <th class="">
                     CREATIVE
@@ -212,7 +174,7 @@
                 <tr><td colspan="8">No record found.</td></tr>
 
                 <?php endif; ?>
-            </tbody></table></section>
+            </table></div></section>
     </main>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

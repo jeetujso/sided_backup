@@ -18,8 +18,9 @@
 
     <title><?php echo e(config('app.name', 'Sided')); ?></title>
 
-    <!-- Scripts -->
+    <!-- Scripts -->	
     <script>
+    
         function myFunction() {
             var x = document.getElementById("myTopnav");
             if (x.className === "topnav") {
@@ -28,19 +29,26 @@
                 x.className = "topnav";
             }
         }
+        function showAllComment(){
+                    $('.debate-comment').css('display','block')
+            }
         //var debateId = <?php echo e(Request::segment(2)); ?>
 
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
             'user' => Auth::user(),
-            'is_debate_user' => App\DebateUser::where('user_id', Auth::user()->id)->count(),
+            'debate' => App\Debate::where('id', Request::segment(2))->first(),
+            'is_debate_user' => App\DebateUser::where('user_id', Auth::user()->id)->where('debate_id', Request::segment(2))->count(),
             'debate_users_count' => App\DebateUser::where('debate_id', Request::segment(2))->count(),
             'debate_users' => App\DebateUser::with('users')->where('debate_id', Request::segment(2))->get(),
             'signedIn' => Auth::check(),
-            'is_voted' => App\Vote::where('voter_id', Auth::user()->id)->count(),
+            'is_voted' => App\Vote::where('voter_id', Auth::user()->id)->where('debate_id', Request::segment(2))->count(),
             'voted'=>'0',
             'voterSide'=>'0',
         ]); ?>;
+        //console.log('jk',window.Laravel);
+
+      
     </script>
 
 
@@ -52,9 +60,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-59edd23175103073"></script>
+
 </head>
 
 <body>
+    <?php
+    $enddebatetime = date_format($debate->ends_at,"M d, Y H:i:s");
+	
+       /* echo "<pre>";
+        print_r($debate->users[0]->id);
+        exit;*/
+        //exit;
+    ?>
     <!-- loader -->
     <div class="loader-bg">
         <div class="loader"></div>
@@ -62,7 +79,6 @@
 
     <button id="restictUser" type="button" data-toggle="modal" data-target="#restictionModel" style="display:none"></button>
     <!-- /.loader -->
-
     <!-- #app -->
     <div id="app">
         <!-- primary-nav -->
@@ -74,7 +90,7 @@
                     </a>
                     <div class="topnav" id="myTopnav">
                     <?php if(!empty(auth()->user()->name)): ?>
-                        <a href="<?php echo e(route('publicDashboardIndex')); ?>" class="primary-nav__dropdown-link u-link-black">
+                        <a  href="<?php echo e(route('publicDashboardIndex')); ?>" class="primary-nav__dropdown-link u-link-black">
                           Feed
                       </a>
                       <a href="<?php echo e(route('publicDebateCreate')); ?>" class="primary-nav__dropdown-link u-link-black">
@@ -131,7 +147,10 @@
                                 </a>
                                 
   
-                                <a href="#" class="primary-nav__dropdown-link u-link-black" id="signout">
+                                 <a href="<?php echo e(url('/logout')); ?>"
+                                    onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();"
+                                     class="primary-nav__dropdown-link u-link-black">
                                     Sign Out
                                 </a>
                                 <form id="logout-form" action="<?php echo e(url('/logout')); ?>" method="POST" style="display: none;">
@@ -249,9 +268,8 @@
         <!-- end model #inviteFriends -->
 
     </div>
-    
-
-    <!-- Scripts -->
+  
+   <!-- Scripts -->
     <script src="<?php echo e(asset('js/app.js')); ?>"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
@@ -262,6 +280,11 @@
     <script>
         $(document).ready(function(){
             
+            var query =  window.location.search.substring(1);
+            if(query == "r=t"){
+                $("#challengeRefreshPopup").trigger("click");
+            }
+
             if($("#home .follow-player-sec").children().length < 1){
                 $("#home .follow-player-sec").html("<h3>No one is in my favorite list </h3>");
             }
@@ -312,14 +335,14 @@
                     $(this).html('');
                 });
             }
-            if( $('.my-debate-disabled').length == '2'  ){
-                $.each( $('.voter-sec').find('a') , function( key, value ) {
-                    $(this).removeClass();
-                    $(this).addClass('gray-in');
-                    $(this).css( 'cursor', 'default' );
-                    $(this).closest( "span" ).css( "color", "red" );
-                });
-            }
+            // if( $('.my-debate-disabled').length == '2'  ){
+            //     $.each( $('.voter-sec').find('a') , function( key, value ) {
+            //         $(this).removeClass();
+            //         $(this).addClass('gray-in');
+            //         $(this).css( 'cursor', 'default' );
+            //         $(this).closest( "span" ).css( "color", "red" );
+            //     });
+            // }
 
             if($('.not-mine-disagree-1').length > 0){
                 $('.not-mine-disagree-1').prev().css('color', '#D8D8D8');
@@ -366,6 +389,7 @@
 
 
              $('a#vote_for_debate').click(function(){
+               // console.log('jk2',window.Laravel);
                 var fingerprint_string = fp.get();
                 var debate_id = $(this).attr('data-debate-id');
                 var user_id = $(this).attr('data-user-id');
@@ -414,8 +438,8 @@
 
         
 
-        $(document).on('click', '.topnav > a, .primary-nav__logo, .u-display-block > a , .u-link-black', function(e) {
-
+        $(document).on('click', '.topnav > a, .primary-nav__logo, .debate-preview__player-img, .restricted-for-vote, .u-display-block > a , .u-link-black', function(e) {
+           
             var is_modal = $(this).attr('data-toggle');
             if(is_modal=='modal'){
                 return true;
@@ -428,75 +452,90 @@
                 href = $("#logout-form").attr('action');
             }
             //alert(href);
-            console.log(window.Laravel);
+            //console.log(window.Laravel);
+           
             var fingerprint_string = fp.get();
+            console.log('jk3',window.Laravel.is_debate_user, window.Laravel.debate_users_count,window.Laravel.is_voted);
+          //alert('kjkjkjk');
             var voteForA = window.Laravel.debate_users[0].users.handle;
             var voteForB = window.Laravel.debate_users[1].users.handle;
-            //console.log(voteForA, voteForB);
-            if(window.Laravel.is_debate_user == 0 && window.Laravel.debate_users_count == 2 && window.Laravel.is_voted == 0){
-                $.confirm({
-                    title: 'You have not taken a side! Press ok to take a side.',
-                    content: ' ',
-                    buttons: {
-                        // Ok: function () {
-                        //     e.preventDefault();
-                        // }
+            
+            if(window.Laravel.is_debate_user == 0 && window.Laravel.debate_users_count == 2 && window.Laravel.is_voted == 0 && window.Laravel.debate.status !='closed'){
+                e.preventDefault();
+                var voteDebateId= <?php echo e(Request::segment(2)); ?>;
+                $("#vote_debate_id").val(voteDebateId);
+                $("#vote_voter_id").val(window.Laravel.user.id);
+                $("#vote_user_id_left").val(window.Laravel.debate_users[0].users.id);
+                $(".vote_user_name_left").text('Vote For '+voteForA);
+                $("#vote_user_id_right").val(window.Laravel.debate_users[1].users.id);
+                $(".vote_user_name_right").text('Vote For '+voteForB);
+                $("#vote_fingerprint_string").val(fingerprint_string);
+                $("#vote_redirect_url").val(href);
+                $("#voteForUsersPopupId").trigger( "click" );
 
-                        VoteForA: {
-                            text: 'Vote for '+voteForA,
-                            btnClass: 'btn-green',
-                            action: function(){
-                                $.ajax({
-                                    'type': 'POST',
-                                    'url': "<?php echo e(route('voteBythirdUsers')); ?>",
-                                    'data': {'debate_id': <?php echo e(Request::segment(2)); ?>, 'voter_id': window.Laravel.user.id, 'user_id': window.Laravel.debate_users[0].users.id, 'fingerprint_string': fingerprint_string },
-                                    success: function(res){
-                                        if(res.status == 'success'){
-                                            location.href = href;
-                                        }else{
-                                            alert('Error!');
-                                        }
-                                    }
-                                });
-                            }
-                        },
-                        VoteForB: {
-                            text: 'Vote for '+voteForB,
-                            btnClass: 'btn-blue',
-                            action: function(){
-                                $.ajax({
-                                    'type': 'POST',
-                                    'url': "<?php echo e(route('voteBythirdUsers')); ?>",
-                                    'data': {'debate_id': <?php echo e(Request::segment(2)); ?>, 'voter_id': window.Laravel.user.id, 'user_id': window.Laravel.debate_users[1].users.id, 'fingerprint_string': fingerprint_string },
-                                    success: function(res){
-                                        if(res.status == 'success'){
-                                            location.href = href;
-                                        }else{
-                                            alert('Error!');
-                                        }
-                                    }
-                                });
-                            }
-                        },
-                        VoteForNone: {
-                            text: 'Vote For None',
-                            btnClass: 'btn-red',
-                            action: function(){
-                                location.href = href;
-                            }
-                        }
+                // $.confirm({
+                //     title: 'You have not taken a side! Press ok to take a side.',
+                //     content: ' ',
+                //     buttons: {
+                //         // Ok: function () {
+                //         //     e.preventDefault();
+                //         // }
 
-                        /*,
-                        Later: function () {
-                            // return true;
-                            // $.alert(href);
-                            window.location = href;
-                            //$.alert('I will Give later !');
-                        }
-                        */
-                    }
-                });
-                return false;
+                //         VoteForA: {
+                //             text: 'Vote for '+voteForA,
+                //             btnClass: 'btn-green',
+                //             action: function(){
+                //                 $.ajax({
+                //                     'type': 'POST',
+                //                     'url': "<?php echo e(route('voteBythirdUsers')); ?>",
+                //                     'data': {'debate_id': <?php echo e(Request::segment(2)); ?>, 'voter_id': window.Laravel.user.id, 'user_id': window.Laravel.debate_users[0].users.id, 'fingerprint_string': fingerprint_string },
+                //                     success: function(res){
+                //                         if(res.status == 'success'){
+                //                             location.href = href;
+                //                         }else{
+                //                             alert('Error!');
+                //                         }
+                //                     }
+                //                 });
+                //             }
+                //         },
+                //         VoteForB: {
+                //             text: 'Vote for '+voteForB,
+                //             btnClass: 'btn-blue',
+                //             action: function(){
+                //                 $.ajax({
+                //                     'type': 'POST',
+                //                     'url': "<?php echo e(route('voteBythirdUsers')); ?>",
+                //                     'data': {'debate_id': <?php echo e(Request::segment(2)); ?>, 'voter_id': window.Laravel.user.id, 'user_id': window.Laravel.debate_users[1].users.id, 'fingerprint_string': fingerprint_string },
+                //                     success: function(res){
+                //                         if(res.status == 'success'){
+                //                             location.href = href;
+                //                         }else{
+                //                             alert('Error!');
+                //                         }
+                //                     }
+                //                 });
+                //             }
+                //         },
+                //         VoteForNone: {
+                //             text: 'Vote For None',
+                //             btnClass: 'btn-red',
+                //             action: function(){
+                //                 location.href = href;
+                //             }
+                //         }
+
+                //         /*,
+                //         Later: function () {
+                //             // return true;
+                //             // $.alert(href);
+                //             window.location = href;
+                //             //$.alert('I will Give later !');
+                //         }
+                //         */
+                //     }
+                // });
+                // return false;
 
             }else{
                 if($(this).attr('id') =='signout'){
@@ -576,6 +615,7 @@
             // ajax follow request from dashboard
             $('body').on('click', '.debate-follow-btn > .follow-btn', function() {
                 var ele = $(this);
+                var usersCount = $('.user-count').text();
                 var ele_count = $(this).parent().parent().parent().children().length;
                 var user_id = $(this).val();
                 $.ajax({
@@ -585,14 +625,20 @@
                         "user_id": user_id
                     },
                     success: function(msg) {
+                        usersCount = usersCount-1;
+                        $('.user-count').text(usersCount);
                         ele.parent().parent().remove('div');
+                        if(usersCount == 0){
+                            $('.no-user-let-for-follow').text('There are no more users to follow.');
+							$('.no-user-let-for-follow').addClass("network-tab-content");
+                        }
                     },
                     error: function(msg) {
                         console.log('error');
                     }
                 });
             });
-            $("body").on('click', '.close.closed-follow-popup', function(){
+            $("body").on('click', '.closed-follow-popup', function(){
                 location.reload();
             });
 
@@ -624,9 +670,69 @@
                 effect: "fadeIn"
             });
 
+  $(document).ready(function(){
+    var currentuser = <?php echo(json_encode($debate->users[0]->id)); ?>;
+    var debateStatus = <?php echo(json_encode($debate->status)); ?>;
 
+if(currentuser == window.Laravel.user.id)
+{
+    $('#hideForFirstUser').css('display','none');
+}
+if(debateStatus=="needs_opponent")
+{
+    $('#commentblock').css('display','none');
+    $('#commentboxsection').css('display','none');
+    $('.debate-comments').css('display','none');
+}
+if(debateStatus=="closed")
+{
+    $('#commentblock').css('display','none');
+    $('#closedargu').css('display','none');
+    $('#commentboxsection').css('display','none');
+    $('.debate-comments').css('display','none');
+    
+       
+}
+//alert(myVariable);
+//console.log('abc',window.Laravel);
+});
     </script>
+<script>
+    $(document).ready(function(){
+        var simple = '<?php echo $enddebatetime; ?>';
+        //alert(simple);
+// Set the date we're counting down to
+var countDownDate = new Date(simple).getTime();
 
+// Update the count down every 1 second
+
+var x = setInterval(function() {
+
+    // Get todays date and time
+    var now = new Date().getTime();
+    
+    // Find the distance between now an the count down date
+    var distance = countDownDate - now;
+    
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    // Output the result in an element with id="demo"
+    document.getElementById("demo").innerHTML = days + " days " + hours + ":"
+    + minutes + ":" + seconds + " ";
+    
+    // If the count down is over, write some text 
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("demo").innerHTML = "Closed";
+    }
+}, 1000);
+
+});
+</script>
 
 </body>
 </html>

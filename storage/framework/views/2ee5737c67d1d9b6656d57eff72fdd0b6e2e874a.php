@@ -42,16 +42,18 @@
     <tbody>
     <?php /*echo "<pre>"; print_r($questions[0]->category->name); die();*/   ?>
     <?php $__currentLoopData = $questions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $latestquestions): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-    <tr class="clickable-row">
-      <td><span><?php echo e($latestquestions->text); ?></span>
-        <p>Created by <?php echo e(Auth::user()->name); ?> on <?php echo e(\Carbon\Carbon::parse($latestquestions->created_at)->format('M d')); ?> in <?php echo e($latestquestions->category->name); ?></p></td>
-      <td><span><?php echo e($latestquestions->debates()->count()); ?></span>
-        <p>Debates</p></td>
-      <td><span><?php echo e($latestquestions->clicks()->count()); ?></span>
-        <p>Clicks</p></td>
-      <td><span>42</span>
-        <p>Ad Clicks</p></td>
-    </tr>
+      <?php if($latestquestions->question_type == 0): ?>
+        <tr class="clickable-row">
+          <td><span><?php echo e($latestquestions->text); ?></span>
+            <p>Created by <?php echo e(Auth::user()->name); ?> on <?php echo e(\Carbon\Carbon::parse($latestquestions->created_at)->format('M d')); ?> in <?php echo e($latestquestions->category->name); ?></p></td>
+          <td><span><?php echo e($latestquestions->debates()->count()); ?></span>
+            <p>Debates</p></td>
+          <td><span><?php echo e($latestquestions->clicks()->count()); ?></span>
+            <p>Clicks</p></td>
+          <td><span>42</span>
+            <p>Ad Clicks</p></td>
+        </tr>
+      <?php endif; ?>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
       </tbody>
     

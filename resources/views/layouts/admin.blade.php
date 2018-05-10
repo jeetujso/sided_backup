@@ -57,7 +57,7 @@
 <a class="admin-nav__link {{ Request::is('partners/questions/activities') ? 'admin-nav__link--active' : '' }}" href="{{ route('partnerQuestionActivity') }}">Activity</a>
 <a class="admin-nav__link {{ Request::is('partners/questions/live*') ? 'admin-nav__link--active' : '' }}" href="{{ route('partnerLiveQuestionIndex') }}">Questions</a>
 <a class="admin-nav__link {{ Request::is('*partners/ads*') ? 'admin-nav__link--active' : '' }}" href="{{ route('partnerAdIndex') }}">Ad & Promotions</a>
-<a class="admin-nav__link {{ Request::is('*partners/advertiser*') ? 'admin-nav__link--active' : '' }}" href="{{ route('partnerAdvertiserIndex') }}">Advertiser</a>
+<a class="admin-nav__link {{ Request::is('*partners/advertiser*') ? 'admin-nav__link--active' : '' }}" href="{{ route('partnerAdvertiserIndex') }}">Advertisers</a>
                 <a class="admin-nav__link {{ Request::is('*partners/categories*') ? 'admin-nav__link--active' : '' }}" href="{{ route('partnerCategoryIndex') }}">
                     Categories
                 </a>
@@ -524,14 +524,19 @@ $(function() {
            $("#answer-id").val(id);
            $("#answer-text").val(ans);
         }
-        function deleteAns(id) {
+        function deleteAns(id, qId) {
             $("#delete-answer-modal").trigger( "click" );
            $("#answer-id-delete").val(id);
+           $("#question-id-delete").val(qId);
         }
         function resultDetail(ansName, answered, percentage) {
             $("#answer-details-servey-modal").trigger( "click" );
             $("#ans-name-servey").text(ansName);
-            $("#total-answered-servey").text(answered+' Respondents');
+            if(answered == 1){
+                $("#total-answered-servey").text(answered+' Respondent');
+            }else{
+                $("#total-answered-servey").text(answered+' Respondents');
+            }
             $("#total-percentage-servey").text(percentage+'%');
         }
     </script>

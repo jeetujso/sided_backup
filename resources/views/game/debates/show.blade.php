@@ -12,6 +12,7 @@
       <form method="POST" action="{{ route('joinDebate') }}" id="joinDebate">
         <input type="hidden" name="debate_id" value="{{ $debate->id }}">
         <input type="hidden" id="dbt-arguments" name="debate_argument" value="">
+		<input type="hidden" id="question_ID" name="question_ID" value="{{ $debate->question->id }}">
         @if($debate_user->user_id == auth()->user()->id)
           <button id="challengeRefreshPopup" type="button" data-toggle="modal" data-target="#mychallengeModal">Challenge</button>
         @else
@@ -315,6 +316,7 @@
               <h4 class="modal-title">Join Debate</h4>
               <p>You are about to join this debate.please submit your argument.</p>
               <textarea rows="8" name="join_debate_argument" id="join-debate-argument" placeholder="What do you think?"></textarea>
+			  <input type="hidden" name="question_ID" value="{{ $debate->question->id }}">
             </div>
             <div class="modal-footer">
               <button type="button" class="join-submit-btn" disabled>Join</button>

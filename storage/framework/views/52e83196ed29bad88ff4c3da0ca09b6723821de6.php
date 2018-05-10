@@ -16,63 +16,7 @@
     <link href="<?php echo e(mix('css/admin.css')); ?>" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <style>
-.switch, .switch2 {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input, .switch2 input {display:none;}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-</style>
+ 
 </head>
 <body>
 
@@ -107,22 +51,13 @@ input:checked + .slider:before {
 <?php endif; ?>
   <span class="slider round"></span>
 </label>
-<p>Notification Settings</p>
-  <label class="switch2">
-  <?php if(Auth::user()->notification_settings == 'false'): ?>
-    <input type="checkbox" value="false">
-<?php else: ?>
-<input type="checkbox" value="true" checked>
-<?php endif; ?>
-  <span class="slider round"></span>
-</label>
 </div>
             </div>
             <div class="admin-nav__section">
 <a class="admin-nav__link <?php echo e(Request::is('partners/questions/activities') ? 'admin-nav__link--active' : ''); ?>" href="<?php echo e(route('partnerQuestionActivity')); ?>">Activity</a>
 <a class="admin-nav__link <?php echo e(Request::is('partners/questions/live*') ? 'admin-nav__link--active' : ''); ?>" href="<?php echo e(route('partnerLiveQuestionIndex')); ?>">Questions</a>
 <a class="admin-nav__link <?php echo e(Request::is('*partners/ads*') ? 'admin-nav__link--active' : ''); ?>" href="<?php echo e(route('partnerAdIndex')); ?>">Ad & Promotions</a>
-<a class="admin-nav__link <?php echo e(Request::is('*partners/advertiser*') ? 'admin-nav__link--active' : ''); ?>" href="<?php echo e(route('partnerAdvertiserIndex')); ?>">Advertiser</a>
+<a class="admin-nav__link <?php echo e(Request::is('*partners/advertiser*') ? 'admin-nav__link--active' : ''); ?>" href="<?php echo e(route('partnerAdvertiserIndex')); ?>">Advertisers</a>
                 <a class="admin-nav__link <?php echo e(Request::is('*partners/categories*') ? 'admin-nav__link--active' : ''); ?>" href="<?php echo e(route('partnerCategoryIndex')); ?>">
                     Categories
                 </a>
@@ -172,6 +107,7 @@ input:checked + .slider:before {
      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <!-- Scripts -->
+    <script src="<?php echo e(asset('js/jquery.smoothState.min.js')); ?>"></script>
     <script src="<?php echo e(mix('js/admin.js')); ?>"></script>
 
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
@@ -569,37 +505,41 @@ $(function() {
             $(this).val(jk);
         });
 
-        $('.switch2 input').click(function(){
-            //alert($(this).val());
-            if($(this).val() == "true"){
-                var jk = "false";
-                $.ajax({
-                    'type': 'POST',
-                    'url': "<?php echo e(route('publicnotificationSetting', 'false')); ?>",
-                    'data': { 'notification_settings': 'false'},
-                    success: function(res){
-                        $(".prosetting").html('<p>'+res.response+'</p>');
-                        $(".prosetting").css('display','block');
-                        $(".prosetting").delay(15000).fadeOut(500);
-                        console.log('false');
-                    }
-                });
-            }else{
-                var jk = "true";
-                $.ajax({
-                    'type': 'POST',
-                    'url': "<?php echo e(route('publicnotificationSetting', 'true')); ?>",
-                    'data': {'notification_settings': 'true'},
-                    success: function(res){
-                        $(".prosetting").html('<p>'+res.response+'</p>');
-                        $(".prosetting").css('display','block');
-                        $(".prosetting").delay(15000).fadeOut(500);
-                        console.log('true');
-                    }
-                });
-            }
-            $(this).val(jk);
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            var url = $("#add-change").find("option:selected").attr('img-path');
+            var image_url = '/img-dist/ads/'+url;
+                $('.add-img-preview').find('img').attr('src',image_url);
+            $("#add-change").change(function () {
+                var url = $(this).find("option:selected").attr('img-path');
+                var image_url = '/img-dist/ads/'+url;
+                $('.add-img-preview').find('img').attr('src',image_url);
+            });
         });
+    </script>
+    <script>
+        function editAns(id, ans) {
+            $("#edit-answer-modal").trigger( "click" );
+           $("#answer-id").val(id);
+           $("#answer-text").val(ans);
+        }
+        function deleteAns(id, qId) {
+            $("#delete-answer-modal").trigger( "click" );
+           $("#answer-id-delete").val(id);
+           $("#question-id-delete").val(qId);
+        }
+        function resultDetail(ansName, answered, percentage) {
+            $("#answer-details-servey-modal").trigger( "click" );
+            $("#ans-name-servey").text(ansName);
+            if(answered == 1){
+                $("#total-answered-servey").text(answered+' Respondent');
+            }else{
+                $("#total-answered-servey").text(answered+' Respondents');
+            }
+            $("#total-percentage-servey").text(percentage+'%');
+        }
     </script>
 </body>
 </html>

@@ -7,6 +7,10 @@
 }
 }
 @media screen and (max-width: 1024px) {
+#settingMultipleChoiceModal.modal.modal-box.fade.in {
+  margin-top: -20px;
+}
+.modal.modal-box{overflow:auto;}
 h4.admin-content__stat-label {
 	font-size: 0.75rem;
 }
@@ -64,7 +68,7 @@ padding:1.25rem;
     overflow: auto;
 }
 .admin-content__table tr td, .admin-content__table tr th {
-    min-width: 190px !important;
+    min-width: 190px;
 }
 .update-profile .form-group{
 	width:100%;
@@ -141,8 +145,20 @@ input:checked + .slider {
 .admin-content__section-header p.admin-content__section-desc {
   width: auto;
 }
+.bottom-pop-btn button.btn.btn-green{width:100px;}
+.combine-button .white-button {
+  font-size: 0.675rem;
+}
+.admin-content__table.ad-table3.ad-table2.no-footer.dataTable tr.ans-box td{min-width:auto;}
+.ans-box td:first-child, .ans-box td:last-child{width:50%;}
+.ans-box td:last-child{text-align:center;}
+.col-md-12.activity{padding:0;}
+.col-md-12.activity .col-md-12{padding:0;}
 }
 @media screen and (max-width: 980px) {
+.combine-button .white-button {
+  font-size: 0.875rem;
+}
 .admin-content__table tr th::before {display:none;}
 .sorting {
   background-position: -2px center !important;
@@ -161,6 +177,12 @@ margin:20px 0 0;
 .col-md-12.activity .col-md-4 {width: 100%; padding:0;}
 .col-md-12.exp-table-left {padding: 0;}
 .category-list ul{width:584px !important;}
+.admin-content__section-header.sche-header div.combine-main {
+  display: block;
+  text-align: left;
+  width: 100%;
+}
+.admin-content__section-header.sche-header div.combine-main:last-child p {text-align:left;}
 }
 @media screen and (min-width: 768px) and (max-width: 1024px){
 .admin-content__section-header { width: 100%;}
@@ -170,6 +192,7 @@ div#DataTables_Table_1_wrapper label {top: 0;}
 .field p.field-description.first-line{min-height:auto;}
 }
 @media screen and (max-width: 768px) {
+.modal-title{font-size:24px;}
 h4.admin-content__stat-label {font-size: 0.7rem;    min-height: 22px;}
 .category-sec { overflow-x: scroll;}
 main.game-wrapper { display: block;}
@@ -190,6 +213,8 @@ ul.admin-content-inner li {
 }
 }
 @media screen and (max-width: 767px) {
+#addAnswerModal .modal-body, #editAnswerModal .modal-body, #settingMultipleChoiceModal .modal-body{height:auto;}
+.ans-bottom-btn {margin-top: 22px;}
 .admin-nav__user .wrapper > p { max-width: 78px;}
 .switch {margin: 8px 0;}
 .admin-content__section-header {
@@ -297,7 +322,7 @@ ul.admin-content-inner li {
     max-width: 300px;
     min-width: auto;
 }
-.message_editprofile {top: 72px;}
+.message_editprofile {top: 61px;}
 .primary-nav__dropdown-link.u-link-black {margin-bottom: 0;}
 aside.game-sidebar.game-sidebar__right.profile-content {width: 100%;}
 .game-main.debate-single.update-profile { width: 100%; margin-left:0; margin-top:20px;}
@@ -330,6 +355,12 @@ section#first-tab-group div#DataTables_Table_0_wrapper{margin-top:8px;display: b
 .admin-content__section-header.sche-header div p {text-align: left;}
 .admin-content__section-header.sche-header div{display:block;}
 .field.field-err.col-md-6{padding:0; width:100%;}
+.combine-button .white-button {
+  display: inline-block;
+  margin-bottom: 10px;
+  width: 19%;
+}
+.custom-bar-chart .bar{margin:0 1% 0 5%;}
 }
 @media screen and (max-width: 640px) {
 ul.admin-content-inner li { width: 100%;}
@@ -355,6 +386,9 @@ div#DataTables_Table_0_wrapper.no-footer{margin-top:0;}
 div#DataTables_Table_1_wrapper.no-footer{margin-top:0;}
 div#DataTables_Table_1_wrapper label{top:0;}
 .on_air{top:52px;}
+#editAnswerModal.modal.modal-box .modal-content{width:95%;}
+#deleteAnswerModal.modal.modal-box .modal-content{width:95%;}
+#addAnswerModal.modal.modal-box .modal-content{width:95%;}
 }
 @media screen and (max-width: 639px) {
 .col-md-10 { width: 100%;}
@@ -389,8 +423,13 @@ label.col-md-4.control-label {
 	width:100%;
 }
 .admin-content__stat.stat-ad-banner {padding-top: 19px;}
+.edit-ans-btn { margin-right: 0;}
+.edit-ans-btn { margin-bottom: 8%;}
 }
 @media screen and (max-width: 480px) {
+.admin-content {
+  margin-top: 62px;
+}
 .u-flex-center {display: block;}
 .dropdown-main {display: inline-block;  text-align: right;  width: 48%;  margin-top:15px;}
 .admin-content__header-actions {  display: inline-block;  margin-top:15px;}
@@ -406,6 +445,15 @@ button.btn.btn-green {padding: 0.625rem 0.8rem;}
 label { font-size: 11px;}
 .field.field-err.col-md-12 input[type="checkbox"] {margin-top: 2px;}
 h3.admin-content__section-headline { font-size: 12px;}
+.game-wrapper.graph-wrapper .border-head h3{font-size:15px;}
+.form-group.ans-check-sec > label { width: 75%;}
+.answer-tick { width: 22%;}
+.modal-content .form-group.ans-check-sec label {font-size: 14px;}
+input[type="checkbox"]:checked + label span { background-size:30px; height:30px; width:30px;}
+input[type="checkbox"] + label span {background-size:30px; height:30px; width:30px;}
+.form-group.ans-check-sec > label { width: 87%;}
+.answer-tick { width: 10%;}
+.answer-tick input[type="checkbox"] {height: 30px; width: 30px;}
 }
 @media screen and (max-width: 459px) {
 .dataTables_filter {margin:0 0 20px !important; float: left !important;width:100%; position: static;}
@@ -414,8 +462,11 @@ div#DataTables_Table_0_wrapper.no-footer{margin-top:0;}
 div#DataTables_Table_1_wrapper.no-footer{margin-top:0;}
 div#DataTables_Table_1_wrapper label{top:0;}
 }
-@media screen and (max-width: 375px) {
-.dropdown-button {
-    width: 79px;
+@media screen and (max-width: 410px) {
+.combine-button .white-button {width: 49%;}
 }
+@media screen and (max-width: 375px) {
+.dropdown-button {width: 79px;
+}
+.white-button{width:120px;}
 }

@@ -9,7 +9,7 @@
 			</small>
 		</div>
 		<div class="debate-argument__content">
-    		{{ argument.argument }}
+    		<pre>{{ argument.argument }}</pre>
 		</div>
 	</div>
 </template>

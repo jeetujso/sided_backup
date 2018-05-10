@@ -31,6 +31,6 @@ class GoogleAuthController extends Controller
     {
         $user = $service->getGoogleUser(Socialite::driver('google')->user());
         auth()->login($user);
-        return redirect()->to('/dashboard');
+        return redirect()->to('/feed');
     }
 }

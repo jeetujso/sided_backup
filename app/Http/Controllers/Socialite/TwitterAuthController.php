@@ -31,6 +31,6 @@ class TwitterAuthController extends Controller
     {
         $user = $service->getTwitterUser(Socialite::driver('twitter')->user());
         auth()->login($user);
-        return redirect()->to('/dashboard');
+        return redirect()->to('/feed');
     }
 }

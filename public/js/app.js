@@ -59833,7 +59833,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	methods: {
 		add: function add(reply) {
 			document.getElementById('comment-stream').scrollTop = 0;
-			this.item.comments.unshift(reply);
+			this.item.comments.push(reply);
 		},
 		addArgument: function addArgument(argument) {
 			this.item.arguments.push(argument);
@@ -59941,6 +59941,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -60691,7 +60692,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "debate-argument__author"
   }, [_c('strong', [_vm._v("\n\t\t\t\t" + _vm._s(_vm.argument.user.handle) + "\n\t\t\t")]), _vm._v(" "), _c('small', [_vm._v("\n\t\t\t\tposted " + _vm._s(_vm._f("dateAgo")(_vm.argument.created_at)) + "\n\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "debate-argument__content"
-  }, [_vm._v("\n    \t\t" + _vm._s(_vm.argument.argument) + "\n\t\t")])])
+  }, [_c('pre', [_vm._v(_vm._s(_vm.argument.argument))])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -60961,10 +60962,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "debate-preview__category"
   }, [_vm._v("\n\t\t\t\t\tSubmitted In "), _c('strong', {
     staticClass: "u-text-black"
-  }, [_vm._v(_vm._s(_vm.debate.question_category))]), _vm._v(" "), (_vm.debate.status != 'closed') ? _c('span', [_vm._v(_vm._s(_vm._f("timeago")(_vm.debate.starts_at)))]) : _c('span', {
+  }, [_vm._v(_vm._s(_vm.debate.question_category))]), _vm._v(" "), (_vm.debate.status != 'closed') ? _c('span', {
+    staticClass: "debate-closed"
+  }, [_c('strong', {
+    attrs: {
+      "id": "demo"
+    }
+  })]) : _c('span', {
     staticClass: "debate-closed"
   }, [_vm._v("Closed")])]), _vm._v(" "), _c('h5', {
-    staticClass: "debate-preview__category"
+    staticClass: "debate-preview__category restricted-for-vote"
   }, [_vm._v("\n\t\t\t\t\tSubmitted By "), _c('strong', {
     staticClass: "u-text-black"
   }, [_c('a', {

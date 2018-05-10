@@ -32,6 +32,7 @@ class CreateQuestionsTable extends Migration
             $table->integer('answer_type')->unsigned()->default('0');
             $table->integer('allowed_other_answer')->unsigned()->default('0');
             $table->integer('instant_result')->unsigned()->default('0');
+            $table->integer('has_multiple_ans')->unsigned()->default('0');
             $table->timestamps();
             $table->softDeletes();
         });
